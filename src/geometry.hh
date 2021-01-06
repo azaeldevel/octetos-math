@@ -11,160 +11,86 @@
 #define OCTETOS_MATH_BASEPOINT double
 #define OCTETOS_MATH_DECIMAL double
 #define OCTETOS_MATH_EPSILON 0.0001
-#define OCTETOS_MATH_UNIT 100
+#define OCTETOS_MATH_DIMENSION 2
 
 namespace geometry
 {
-	namespace core
+
+	class Point : public std::vector<OCTETOS_MATH_BASEPOINT>
 	{
-		//static char RECTANGULAR = 'R';
-		//static char CIRCULAR = 'C';
-		 
-		class Point : public std::vector<OCTETOS_MATH_BASEPOINT>
-		{
-		public:
-			//contructor
-			Point(const Point& obj);
-			Point(int dimension,char type);
-
-			//getter
-			char getType()const;
-			const char* getTypeDescribe()const;
-
-			//operators
-			const Point& operator= (const Point&);
-		private:
-			int dimension;
-			/**
-			* R:Rectangular, C:Circular
-			*/
-			char type;
-		};
-		class Plane : protected std::list<Point*>
-		{
-		public:
-			//contructor
-			Plane(int dimension,char type);
-
-			//getter
-			char getType()const;
-			const char* getTypeDescribe()const;
-
-			//funtions
-			
-		private:
-			int dimension;
-			/**
-			* R:Rectangular, C:Circular
-			*/
-			char type;	
-		};
+	public:
+		//contructor
+		Point();
+		Point(const Point& obj);
+		Point(OCTETOS_MATH_BASEPOINT x, OCTETOS_MATH_BASEPOINT y);
+#if OCTETOS_MATH_DIMENSION >= 3
+		Point(OCTETOS_MATH_BASEPOINT x, OCTETOS_MATH_BASEPOINT y,OCTETOS_MATH_BASEPOINT z);
+#endif
 		
-	}
+		//getter
+		OCTETOS_MATH_BASEPOINT getX() const;
+		OCTETOS_MATH_BASEPOINT getY() const;
+#if OCTETOS_MATH_DIMENSION >= 3
+		OCTETOS_MATH_BASEPOINT getZ() const;
+#endif
+		char getType()const;
+		const char* getTypeDescribe()const;
+		//operators
+		operator std::string() const;
+		const Point& operator= (const Point&);
 
-
+		//funtion
+		OCTETOS_MATH_DECIMAL distance(const Point& p0)const;
+		//bool rotate(const Point& eje);
+		//bool rotate(OCTETOS_MATH_BASEPOINT theta);
+		//bool normalize();
+		
+	private:
+		int dimension;
+		/**
+		* R:Rectangular, C:Circular
+		*/
+		char type;
+	};
 	
-	namespace D2
+#if OCTETOS_MATH_DIMENSION == 2
+	static const Point O(0.0,0.0);
+#elif OCTETOS_MATH_DIMENSION == 3
+	static const Point O(0.0,0.0,0.0);
+#endif
+	
+
+			
+	class Vector
 	{
-		class Point : public core::Point
-		{
-		public:
-			//contructor
-			Point();
-			Point(const Point& obj);
-			Point(OCTETOS_MATH_BASEPOINT x, OCTETOS_MATH_BASEPOINT y);
-
-			//operators
-			operator std::string() const;
-
-
-			//getter
-			OCTETOS_MATH_BASEPOINT getX() const;
-			OCTETOS_MATH_BASEPOINT getY() const;
-
-			//funtions
-			virtual OCTETOS_MATH_DECIMAL distance(const Point& p0)const;
-			virtual bool rotate(const Point& eje);
-			virtual bool normalize();
-
-		protected:
-			Point(int dimension,char type);
-		};
-		
-		static const Point O(0.0,0.0);
-
-		class Plane : public core::Plane
-		{
-		public:
-			//contructor
-			Plane();
+	public:
+		//contructor
+		Vector();
+		Vector(const Vector&);
+		Vector(const Point& end);
+		Vector(const Point& begin,const Point& end);
 			
-			//funtions
+		//getter
+		const Point& getBegin()const;
+		const Point& getEnd()const;
 			
-		protected:
-			Plane(int dimension,char type);
-		};
-		
-		class Vector
-		{
-		public:
-			//contructor
-			Vector();
-			Vector(const Point& end);
-			Vector(const Point& begin,const Point& end);
-			
-			//getter
-			const Point& getBegin()const;
-			const Point& getEnd()const;
-			
-			//operator
-			operator std::string() const;
-			OCTETOS_MATH_DECIMAL operator*(const Vector&);
-			Vector operator+(const Vector&);
-			Vector operator-(const Vector&);
-			Vector operator*(OCTETOS_MATH_DECIMAL);
-			Vector operator/(OCTETOS_MATH_DECIMAL);
-		protected:
+		//operator
+		operator std::string() const;
+		OCTETOS_MATH_DECIMAL operator*(const Vector&);
+		Vector operator+(const Vector&);
+		Vector operator-(const Vector&);
+		Vector operator*(OCTETOS_MATH_DECIMAL);
+		Vector operator/(OCTETOS_MATH_DECIMAL);
+		const Vector& operator= (const Vector&);
+	protected:
 
-		private:
+	private:
 			Point begin;
 			Point end;
-		};
-	}
+	};
+
 	
 	
-	namespace D3
-	{
-		class Point : public D2::Point
-		{
-
-		public:
-			//contructor
-			Point();
-			Point(OCTETOS_MATH_BASEPOINT x, OCTETOS_MATH_BASEPOINT y,OCTETOS_MATH_BASEPOINT z);
-			
-			//getter
-			OCTETOS_MATH_BASEPOINT getZ() const;
-
-		protected:
-			Point(int dimension,char type);
-		};
-
-		static Point O(0,0,0);
-
-		class Plane : public D2::Plane
-		{
-		public:
-			//contructor
-			Plane();
-			
-			//funtions
-			static OCTETOS_MATH_DECIMAL distance(const Point& p0,const Point& p1);
-			
-		protected:
-			Plane(int dimension,char type);
-		};
-	} 
  
 
 
