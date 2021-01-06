@@ -6,15 +6,25 @@
 namespace algebra
 {
 
-class Termino
-{
-public:
-	char incognota;
+	class Literal
+	{
+	public:
+		Literal(wchar_t literal);
+		Literal(wchar_t literal, int numerator, int denominator);
+		wchar_t getValue() const;
 
-private:
+	protected:
+		
+	private:
+		wchar_t literal;
+		int numerator;
+		int denominator;
+	};
 
-};
 
+	
+	
+	
 } 
 
 

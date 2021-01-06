@@ -1,0 +1,7 @@
+
+#ifndef OCTETOS_MATH_DEFINES_HH
+#define OCTETOS_MATH_DEFINES_HH
+
+
+
+#endif 

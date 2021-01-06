@@ -12,6 +12,6 @@ AM_CFLAGS =\
 lib_LTLIBRARIES = liboctetos-math.la
 
 
-liboctetos_math_la_SOURCES = algebra.cc
-
-
+liboctetos_math_la_SOURCES = algebra.cc geometry.cc
+liboctetos_math_la_LIBADD = $(OCTETOS_CORE_LIBS)
+liboctetos_math_la_CFLAGS = $(OCTETOS_CORE_CFLAGS)
