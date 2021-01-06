@@ -19,7 +19,7 @@ namespace metry
 	{
 	}
 	Point::Point(const Point& obj) : 
-		std::vector<OCTETOS_MATH_BASEPOINT>(obj.dimension),
+		std::vector<OCTETOS_MATH_DECIMAL>(obj.dimension),
 		dimension(obj.dimension), type(obj.type)
 	{
 		at(0) = obj[0];
@@ -28,15 +28,16 @@ namespace metry
 		at(2) = obj[2];
 #endif
 	}
-	Point::Point(OCTETOS_MATH_BASEPOINT x, OCTETOS_MATH_BASEPOINT y) :
-		std::vector<OCTETOS_MATH_BASEPOINT>(2),dimension(2), type('R')
+#if OCTETOS_MATH_DIMENSION == 2
+	Point::Point(OCTETOS_MATH_DECIMAL x, OCTETOS_MATH_DECIMAL y) :
+		std::vector<OCTETOS_MATH_DECIMAL>(2),dimension(2), type('R')
 	{
 		at(0) = x;
 		at(1) = y;
 	}
-#if OCTETOS_MATH_DIMENSION >= 3
-	Point::Point(OCTETOS_MATH_BASEPOINT x, OCTETOS_MATH_BASEPOINT y,OCTETOS_MATH_BASEPOINT z) :
-		std::vector<OCTETOS_MATH_BASEPOINT>(3),dimension(3), type('R')
+#elif OCTETOS_MATH_DIMENSION == 3
+	Point::Point(OCTETOS_MATH_DECIMAL x, OCTETOS_MATH_DECIMAL y,OCTETOS_MATH_DECIMAL z) :
+		std::vector<OCTETOS_MATH_DECIMAL>(3),dimension(3), type('R')
 	{
 		at(0) = x;
 		at(1) = y;
@@ -62,16 +63,16 @@ namespace metry
 				return "Unknown";				
 		}
 	}
-	OCTETOS_MATH_BASEPOINT Point::getX() const
+	OCTETOS_MATH_DECIMAL Point::getX() const
 	{
 		return at(0);
 	}
-	OCTETOS_MATH_BASEPOINT Point::getY() const
+	OCTETOS_MATH_DECIMAL Point::getY() const
 	{
 		return at(1);
 	}
 #if OCTETOS_MATH_DIMENSION >= 3
-	OCTETOS_MATH_BASEPOINT Point::getZ() const
+	OCTETOS_MATH_DECIMAL Point::getZ() const
 	{
 		return at(2);
 	}

@@ -7,7 +7,7 @@
 #include <string>
 #include <octetos/core/Exception.hh>
 
-#define OCTETOS_MATH_BASEPOINT double
+//#define OCTETOS_MATH_BASEPOINT double
 #define OCTETOS_MATH_DECIMAL double
 #define OCTETOS_MATH_EPSILON 0.0001
 #define OCTETOS_MATH_DIMENSION 2
@@ -15,22 +15,23 @@
 namespace metry
 {
 
-	class Point : public std::vector<OCTETOS_MATH_BASEPOINT>
+	class Point : public std::vector<OCTETOS_MATH_DECIMAL>
 	{
 	public:
 		//contructor
 		Point();
 		Point(const Point& obj);
-		Point(OCTETOS_MATH_BASEPOINT x, OCTETOS_MATH_BASEPOINT y);
-#if OCTETOS_MATH_DIMENSION >= 3
-		Point(OCTETOS_MATH_BASEPOINT x, OCTETOS_MATH_BASEPOINT y,OCTETOS_MATH_BASEPOINT z);
+#if OCTETOS_MATH_DIMENSION == 2
+		Point(OCTETOS_MATH_DECIMAL x, OCTETOS_MATH_DECIMAL y);
+#elif OCTETOS_MATH_DIMENSION == 3
+		Point(OCTETOS_MATH_DECIMAL x, OCTETOS_MATH_DECIMAL y,OCTETOS_MATH_DECIMAL z);
 #endif
 		
 		//getter
-		OCTETOS_MATH_BASEPOINT getX() const;
-		OCTETOS_MATH_BASEPOINT getY() const;
+		OCTETOS_MATH_DECIMAL getX() const;
+		OCTETOS_MATH_DECIMAL getY() const;
 #if OCTETOS_MATH_DIMENSION >= 3
-		OCTETOS_MATH_BASEPOINT getZ() const;
+		OCTETOS_MATH_DECIMAL getZ() const;
 #endif
 		char getType()const;
 		const char* getTypeDescribe()const;
@@ -84,18 +85,13 @@ namespace metry
 		bool isParallel(const Vector&) const;
 		bool normalize();
 		OCTETOS_MATH_DECIMAL length()const;
+		
 	protected:
-
+		
 	private:
 		Point begin;
 		Point end;
 	};
-
-	
-	
- 
-
-
 	
 } 
 

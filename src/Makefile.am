@@ -1,11 +1,15 @@
-AUTOMAKE_OPTIONS=foreign 1.4
 
-lib_LTLIBRARIES = liboctetos-math.la
+AUTOMAKE_OPTIONS=foreign 1.4
 
 OCTETOS_MATH_DEFINES = 
 if WITH_TESTS
 	OCTETOS_MATH_DEFINES += -DDEBUG
 endif
+
+
+lib_LTLIBRARIES = liboctetos-math.la
+
+
 
 liboctetos_math_la_SOURCES = metry.cc
 liboctetos_math_la_LIBADD = $(OCTETOS_CORE_LIBS)
