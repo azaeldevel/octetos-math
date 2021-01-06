@@ -86,6 +86,14 @@ namespace metry
 		bool normalize();
 		OCTETOS_MATH_DECIMAL length()const;
 		bool isOrthogonal(const Vector&) const;
+		/**
+		*\brief Proyeccion de a(this) en la direccion de b
+		*/
+		Vector Proj(const Vector& b);
+		/**
+		*\brief Component de a(this) en la direccion de b
+		*/		
+		OCTETOS_MATH_DECIMAL Comp(const Vector& b);
 		
 	protected:
 		

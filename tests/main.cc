@@ -95,6 +95,10 @@ int main()
 	if(vect9.isOrthogonal(vect2)) std::cout << "vect9 is orthogonal t0 vect2\n";
 	else std::cout << "vect9 is not orthogonal to vect2\n";
 
+	Vector vect14(Point(2.0,5.0));
+	Vector vect15(Point(-1.0,2.0));
+	std::cout << "La componente de vect14 en la direccion de vect15 es "  << vect14.Comp(vect15) << "\n";
+	std::cout << "La proyeccion de vect14 en la direccion de vect15 es "  << (std::string)vect14.Proj(vect15) << "\n";
 	
 	return 0;
 }

@@ -337,4 +337,24 @@ namespace metry
 		if(fabs(val) > OCTETOS_MATH_EPSILON) return false;
 		return true;
 	}
+	Vector Vector::Proj(const Vector& b)
+	{
+		OCTETOS_MATH_DECIMAL comp = Comp(b);
+		if(fabs(b.length()- 1.0) > OCTETOS_MATH_EPSILON)
+		{
+			Vector u (b);
+			u.normalize();
+			return u * comp;
+		}
+		else
+		{
+			return b * comp;
+		}
+	}
+	OCTETOS_MATH_DECIMAL Vector::Comp(const Vector& b)
+	{
+		OCTETOS_MATH_DECIMAL ps = *this * b;
+		OCTETOS_MATH_DECIMAL lb = b.length();
+		return ps/lb;
+	}
 } 
