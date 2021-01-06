@@ -82,12 +82,19 @@ int main()
 	Vector vect12(Point(-6.0,-3.0));
 	std::cout << "vect12" << (std::string)vect12 << "\n";
 	bool fpv12 = vect11.isParallel(vect12);
-	if(fpv12) std::cout << "vect11 is paralle t0 vect12\n";
-	else std::cout << "vect11 is not paralle t0 vect12\n";
+	if(fpv12) std::cout << "vect11 is paralle to vect12\n";
+	else std::cout << "vect11 is not paralle to vect12\n";
 
 	Vector vect13(Point(2.0,1.0));
 	vect13.normalize();
 	std::cout << "vect13:" << (std::string)vect13 << ", size " << vect13.length() << "\n";
+	
+	if(vect8.isOrthogonal(vect7)) std::cout << "vect8 is orthogonal t0 vect7\n";
+	else std::cout << "vect8 is not orthogonal to vect7\n";
+
+	if(vect9.isOrthogonal(vect2)) std::cout << "vect9 is orthogonal t0 vect2\n";
+	else std::cout << "vect9 is not orthogonal to vect2\n";
+
 	
 	return 0;
 }

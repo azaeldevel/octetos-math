@@ -119,10 +119,7 @@ namespace metry
 		if(fabs(at(2) - obj[2]) > OCTETOS_MATH_EPSILON) return false;
 
 		return true;
-	}
-
-
-			
+	}			
 	OCTETOS_MATH_DECIMAL Point::distance(const Point& p) const
 	{
 		OCTETOS_MATH_DECIMAL lengx = p[0] - at(0);
@@ -166,7 +163,7 @@ namespace metry
 
 		return str;
 	}
-	OCTETOS_MATH_DECIMAL Vector::operator*(const Vector& obj)
+	OCTETOS_MATH_DECIMAL Vector::operator*(const Vector& obj)const
 	{
 		OCTETOS_MATH_DECIMAL v1 = end.at(0) * obj.end.at(0);
 		OCTETOS_MATH_DECIMAL v2 = end.at(1) * obj.end.at(1);
@@ -174,7 +171,7 @@ namespace metry
 		return v1 + v2;
 	}
 
-	Vector Vector::operator+(const Vector& obj)
+	Vector Vector::operator+(const Vector& obj)const
 	{
 		Vector v;
 		v.begin = begin;
@@ -185,7 +182,7 @@ namespace metry
 #endif
 		return v;
 	}
-	Vector Vector::operator-(const Vector& obj)
+	Vector Vector::operator-(const Vector& obj)const
 	{
 		Vector v;
 		v.begin = begin;
@@ -197,7 +194,7 @@ namespace metry
 		
 		return v;
 	}
-	Vector Vector::operator*(OCTETOS_MATH_DECIMAL r)
+	Vector Vector::operator*(OCTETOS_MATH_DECIMAL r)const
 	{
 		Vector v;
 		v.begin = begin;
@@ -209,7 +206,7 @@ namespace metry
 			
 		return v;
 	}
-	Vector Vector::operator/(OCTETOS_MATH_DECIMAL r)
+	Vector Vector::operator/(OCTETOS_MATH_DECIMAL r)const
 	{
 		Vector v;
 		v.begin = begin;
@@ -333,5 +330,11 @@ namespace metry
 #endif
 		leng = sqrt(leng);
 		return leng;
+	}	
+	bool Vector::isOrthogonal(const Vector& v) const
+	{
+		OCTETOS_MATH_DECIMAL val = *this * v;
+		if(fabs(val) > OCTETOS_MATH_EPSILON) return false;
+		return true;
 	}
 } 

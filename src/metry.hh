@@ -24,7 +24,7 @@ namespace metry
 #if OCTETOS_MATH_DIMENSION == 2
 		Point(OCTETOS_MATH_DECIMAL x, OCTETOS_MATH_DECIMAL y);
 #elif OCTETOS_MATH_DIMENSION == 3
-		Point(OCTETOS_MATH_DECIMAL x, OCTETOS_MATH_DECIMAL y,OCTETOS_MATH_DECIMAL z);
+		Point(OCTETOS_MATH_DECIMAL x, OCTETOS_MATH_DECIMAL y, OCTETOS_MATH_DECIMAL z);
 #endif
 		
 		//getter
@@ -42,7 +42,7 @@ namespace metry
 		bool operator ==(const Point&);
 
 		//funtion
-		OCTETOS_MATH_DECIMAL distance(const Point& p0)const;
+		OCTETOS_MATH_DECIMAL distance(const Point& p)const;
 		
 	private:
 		int dimension;
@@ -73,11 +73,11 @@ namespace metry
 			
 		//operator
 		operator std::string() const;
-		OCTETOS_MATH_DECIMAL operator*(const Vector&);
-		Vector operator+(const Vector&);
-		Vector operator-(const Vector&);
-		Vector operator*(OCTETOS_MATH_DECIMAL);
-		Vector operator/(OCTETOS_MATH_DECIMAL);
+		OCTETOS_MATH_DECIMAL operator*(const Vector&)const;
+		Vector operator+(const Vector&)const;
+		Vector operator-(const Vector&)const;
+		Vector operator*(OCTETOS_MATH_DECIMAL)const;
+		Vector operator/(OCTETOS_MATH_DECIMAL)const;
 		const Vector& operator= (const Vector&);
 
 		//funtions
@@ -85,6 +85,7 @@ namespace metry
 		bool isParallel(const Vector&) const;
 		bool normalize();
 		OCTETOS_MATH_DECIMAL length()const;
+		bool isOrthogonal(const Vector&) const;
 		
 	protected:
 		
