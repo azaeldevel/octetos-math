@@ -34,6 +34,7 @@ namespace metry
 #endif
 		char getType()const;
 		const char* getTypeDescribe()const;
+		
 		//operators
 		operator std::string() const;
 		const Point& operator= (const Point&);
