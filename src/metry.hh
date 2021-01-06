@@ -82,11 +82,15 @@ namespace metry
 		Vector operator*(OCTETOS_MATH_DECIMAL);
 		Vector operator/(OCTETOS_MATH_DECIMAL);
 		const Vector& operator= (const Vector&);
+
+		//funtions
+		Vector orthogonal() const;
+		bool isParallel(const Vector&) const;
 	protected:
 
 	private:
-			Point begin;
-			Point end;
+		Point begin;
+		Point end;
 	};
 
 	

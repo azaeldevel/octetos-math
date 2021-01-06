@@ -264,7 +264,76 @@ namespace metry
 	}
 
 
+	//funtions
+	Vector Vector::orthogonal() const
+	{
+		Vector v;
+		v.begin = begin;
+		v.end[0] = end[1] * -1;
+		v.end[1] = end[0];
 
+		return v;
+	}
+	/**
+	*\brief determina si el vector actual es paraledo al vetor pasado como paramtero
+	*/
+	bool Vector::isParallel(const Vector& obj) const
+	{
+		//se optine la pendeinte de ambos vectores y la pendiente determinada por el segmento entre ambos vectores
+		//se determina como paralelo si las tres pendientes coinciden.
+		
+		//actual
+		OCTETOS_MATH_DECIMAL dxt = end[0] - begin[0];
+		OCTETOS_MATH_DECIMAL dyt = end[1] - begin[1];
+		OCTETOS_MATH_DECIMAL mdxyt = dyt/dxt;
+#if OCTETOS_MATH_DIMENSION >= 3
+		throw octetos::core::Exception("Incompleto",__FILE__,__LINE__);
+#endif
+
+		//objeto
+		OCTETOS_MATH_DECIMAL dxo = obj.end[0] - obj.begin[0];
+		OCTETOS_MATH_DECIMAL dyo = obj.end[1] - obj.begin[1];
+		OCTETOS_MATH_DECIMAL mdxyo = dyo/dxo;
+#if OCTETOS_MATH_DIMENSION >= 3
+		throw octetos::core::Exception("Incompleto",__FILE__,__LINE__);
+#endif
+
+		if(fabs(mdxyt - mdxyo) > OCTETOS_MATH_EPSILON) 
+		{
+			std::cout << "La pendiente del actual " << mdxyt << " no conincide con el objetivo " << mdxyo << "\n";
+			return false;//no tiene la misma pendiente
+		}
+		else
+		{//en este punto ambos vectores tiene la misma pendiente.
+
+		}
+#if OCTETOS_MATH_DIMENSION >= 3
+		throw octetos::core::Exception("Incompleto",__FILE__,__LINE__);
+#endif
+
+		//intermedio
+		OCTETOS_MATH_DECIMAL dxi = end[0] - obj.begin[0];
+		OCTETOS_MATH_DECIMAL dyi = end[1] - obj.begin[1];
+		OCTETOS_MATH_DECIMAL mdxyi = dyi/dxi;
+#if OCTETOS_MATH_DIMENSION >= 3
+		throw octetos::core::Exception("Incompleto",__FILE__,__LINE__);
+#endif
+
+		if(fabs(mdxyt - mdxyi) > OCTETOS_MATH_EPSILON) 
+		{
+			std::cout << "La pendiente del actual " << mdxyt << " no conincide con el intermedio " << mdxyi << "\n";
+			return false;//no tiene la misma pendiente
+		}
+		else
+		{//en este punto ambos vectores tiene la misma pendiente.
+
+		}
+#if OCTETOS_MATH_DIMENSION >= 3
+		throw octetos::core::Exception("Incompleto",__FILE__,__LINE__);
+#endif
+		
+		return true;
+	}
 
 	
 } 

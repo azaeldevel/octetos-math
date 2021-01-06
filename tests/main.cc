@@ -19,8 +19,8 @@
 
 #include <iostream>
 
-#include "../src/algebra.hh"
-#include "../src/metry.hh"
+
+#include <../src/metry.hh>
 
 using namespace metry;
 
@@ -59,6 +59,16 @@ int main()
 
 	Point point3(1.0,0.0);
 	std::cout << "point3" << (std::string)point3 << "\n";
+
+	Vector vect8 = vect7.orthogonal();
+	std::cout << "vect8" << (std::string)vect8 << "\n";
+
+	Vector vect9(Point(7.0,35.0));
+	std::cout << "vect9" << (std::string)vect9 << "\n";
+	bool fpv9 = vect9.isParallel(vect2);
+	if(fpv9) std::cout << "vect9 is paralle t0 vect2\n";
+	else std::cout << "vect9 is not paralle t0 vect2\n";
+
 	
 	return 0;
 }
