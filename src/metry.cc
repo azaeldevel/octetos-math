@@ -1,7 +1,8 @@
 
 #include <math.h>
-#include <iostream>
-
+#ifdef DEBUG
+	#include <iostream>
+#endif
 
 #include "metry.hh"
 
@@ -18,7 +19,8 @@ namespace metry
 	{
 	}
 	Point::Point(const Point& obj) : 
-		std::vector<OCTETOS_MATH_BASEPOINT>(obj.dimension),dimension(obj.dimension), type(obj.type)
+		std::vector<OCTETOS_MATH_BASEPOINT>(obj.dimension),
+		dimension(obj.dimension), type(obj.type)
 	{
 		at(0) = obj[0];
 		at(1) = obj[1];
@@ -71,7 +73,7 @@ namespace metry
 #if OCTETOS_MATH_DIMENSION >= 3
 	OCTETOS_MATH_BASEPOINT Point::getZ() const
 	{
-			return at(2);
+		return at(2);
 	}
 #endif
 		
@@ -89,7 +91,9 @@ namespace metry
 		{
 			at(0) = obj[0];
 			at(1) = obj[1];
-			if(dimension >= 3) at(2) = obj[2];
+#if OCTETOS_MATH_DIMENSION >= 3
+			at(2) = obj[2];
+#endif
 		}
 
 		return *this;
@@ -99,10 +103,25 @@ namespace metry
 		std::string str = "(";
 		str += std::to_string(at(0)) ;
 		str = str + "," + std::to_string(at(1));
-		if(dimension >= 3) str = str + "," + std::to_string(at(2));
+#if OCTETOS_MATH_DIMENSION >= 3
+		str = str + "," + std::to_string(at(2));
+#endif
 		str += ")";
 		return str;
 	}
+	bool Point::operator ==(const Point& obj)
+	{
+		if(size() != obj.size()) return false;
+
+		if(fabs(at(0) - obj[0]) > OCTETOS_MATH_EPSILON) return false;
+		if(fabs(at(1) - obj[1]) > OCTETOS_MATH_EPSILON) return false;
+		if(fabs(at(2) - obj[2]) > OCTETOS_MATH_EPSILON) return false;
+
+		return true;
+	}
+
+
+			
 	OCTETOS_MATH_DECIMAL Point::distance(const Point& p) const
 	{
 		OCTETOS_MATH_DECIMAL lengx = p[0] - at(0);
@@ -115,60 +134,6 @@ namespace metry
 		leng = sqrt(leng);
 		return leng;
 	}
-		/*
-		bool Point::rotate(const Point& eje)
-		{
-		    OCTETOS_MATH_DECIMAL lengPen = O.distance(eje);
-		    if(fabs(lengPen - 1.0) > OCTETOS_MATH_EPSILON)
-		    {
-		        std::string msg = "El vector usado para la rotacion deve tener longitud unitaria, ahora tiene '";
-		        msg = msg + std::to_string(lengPen) + "'";
-		        throw octetos::core::Exception(msg,__FILE__,__LINE__);
-		    }
-
-			OCTETOS_MATH_DECIMAL v1xNew = (eje[0] * at(0)) - (eje[1] * at(1));
-			OCTETOS_MATH_DECIMAL v1yNew = (eje[1] * at(0)) + (eje[0] * at(1));
-			at(0) = v1xNew;
-			at(1) = v1yNew;
-
-		    return true;
-		}
-		bool Point::rotate(OCTETOS_MATH_DECIMAL theta)
-		{
-		    OCTETOS_MATH_DECIMAL xNew = (cos(theta) * at(0)) - (sin(theta) * at(1));
-		    OCTETOS_MATH_DECIMAL yNew = (sin(theta) * at(0)) + (cos(theta) * at(1));
-		    at(0) = xNew;
-			at(1) = yNew;
-
-		    return true;
-		}
-		bool Point::normalize()
-		{
-		    OCTETOS_MATH_DECIMAL lenvect = O.distance(*this);
-			std::cout << "lenvect : " << lenvect << "\n";
-		    if(fabs(lenvect - OCTETOS_MATH_EPSILON) >= lenvect)
-		    {
-		        std::string msg = "El vector a normalizar deve ser diferente de 0. ahora es de '";
-		        msg = msg + std::to_string(lenvect) + "'";
-		        throw octetos::core::Exception(msg,__FILE__,__LINE__);
-		    }
-			
-			//std::cout << "lenvect : " << (std::string)*this << "\n";
-		    at(0) = at(0)/lenvect;
-			at(1) = at(1)/lenvect;
-			
-		    lenvect = O.distance(*this);
-			std::cout << "lenvect : " << lenvect << "\n";
-		    if(fabs(lenvect - 1.0) > OCTETOS_MATH_EPSILON)
-		    {
-		        std::string msg = "Despues de normalizar un vetor deveria tener longitud unitaria, ahora tiene '";
-		        msg = msg + std::to_string(lenvect) + "'";
-		        throw octetos::core::Exception(__FILE__,__LINE__,msg);
-		    }
-
-		    return true;
-		}
-		*/
 
 
 
@@ -300,12 +265,10 @@ namespace metry
 
 		if(fabs(mdxyt - mdxyo) > OCTETOS_MATH_EPSILON) 
 		{
+#ifdef DEBUG
 			std::cout << "La pendiente del actual " << mdxyt << " no conincide con el objetivo " << mdxyo << "\n";
+#endif
 			return false;//no tiene la misma pendiente
-		}
-		else
-		{//en este punto ambos vectores tiene la misma pendiente.
-
 		}
 #if OCTETOS_MATH_DIMENSION >= 3
 		throw octetos::core::Exception("Incompleto",__FILE__,__LINE__);
@@ -321,12 +284,10 @@ namespace metry
 
 		if(fabs(mdxyt - mdxyi) > OCTETOS_MATH_EPSILON) 
 		{
+#ifdef DEBUG
 			std::cout << "La pendiente del actual " << mdxyt << " no conincide con el intermedio " << mdxyi << "\n";
+#endif
 			return false;//no tiene la misma pendiente
-		}
-		else
-		{//en este punto ambos vectores tiene la misma pendiente.
-
 		}
 #if OCTETOS_MATH_DIMENSION >= 3
 		throw octetos::core::Exception("Incompleto",__FILE__,__LINE__);

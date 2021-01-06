@@ -7,7 +7,6 @@
 #include <string>
 #include <octetos/core/Exception.hh>
 
-
 #define OCTETOS_MATH_BASEPOINT double
 #define OCTETOS_MATH_DECIMAL double
 #define OCTETOS_MATH_EPSILON 0.0001
@@ -38,12 +37,10 @@ namespace metry
 		//operators
 		operator std::string() const;
 		const Point& operator= (const Point&);
+		bool operator ==(const Point&);
 
 		//funtion
 		OCTETOS_MATH_DECIMAL distance(const Point& p0)const;
-		//bool rotate(const Point& eje);
-		//bool rotate(OCTETOS_MATH_BASEPOINT theta);
-		//bool normalize();
 		
 	private:
 		int dimension;
@@ -59,8 +56,6 @@ namespace metry
 	static const Point O(0.0,0.0,0.0);
 #endif
 	
-
-			
 	class Vector
 	{
 	public:

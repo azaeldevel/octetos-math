@@ -70,6 +70,12 @@ int main()
 	else std::cout << "vect9 is not paralle t0 vect2\n";
 
 	
+	Vector vect10(Point(7.0,35.001));
+	std::cout << "vect10" << (std::string)vect10 << "\n";
+	bool fpv10 = vect10.isParallel(vect2);
+	if(fpv10) std::cout << "vect10 is paralle t0 vect2\n";
+	else std::cout << "vect10 is not paralle t0 vect2\n";
+	
 	return 0;
 }
 
