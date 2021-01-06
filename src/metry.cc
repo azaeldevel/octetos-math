@@ -3,10 +3,10 @@
 #include <iostream>
 
 
-#include "geometry.hh"
+#include "metry.hh"
 
 
-namespace geometry
+namespace metry
 {
 
 

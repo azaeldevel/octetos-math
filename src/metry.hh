@@ -13,7 +13,7 @@
 #define OCTETOS_MATH_EPSILON 0.0001
 #define OCTETOS_MATH_DIMENSION 2
 
-namespace geometry
+namespace metry
 {
 
 	class Point : public std::vector<OCTETOS_MATH_BASEPOINT>
