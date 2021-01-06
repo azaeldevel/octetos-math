@@ -295,6 +295,42 @@ namespace metry
 		
 		return true;
 	}
+	bool Vector::normalize()
+	{
+		OCTETOS_MATH_DECIMAL lenvect = begin.distance(end);
+        if(fabs(lenvect - OCTETOS_MATH_EPSILON) >= lenvect)
+        {
+            std::string msg = "El vector a normalizar deve ser diferente de 0. ahora es de '";
+            msg = msg + std::to_string(lenvect) + "'";
+            throw octetos::core::Exception(__FILE__,__LINE__,msg.c_str());
+        }
+		
+        end.at(0) = end.at(0)/lenvect;
+		end.at(1) = end.at(1)/lenvect;
+#if OCTETOS_MATH_DIMENSION >= 3
+		begin.at(2) = begin.at(2)/lenvect;
+#endif
 
-	
+        lenvect = begin.distance(end);
+        if(fabs(lenvect - 1.0) > OCTETOS_MATH_EPSILON)
+        {
+            std::string msg = "Despues de normalizar un vetor deveria tener longitud unitaria, ahora tiene '";
+            msg = msg + std::to_string(lenvect) + "'";
+            throw octetos::core::Exception(msg,__FILE__,__LINE__);
+        }
+
+        return true;
+	}
+	OCTETOS_MATH_DECIMAL Vector::length()const
+	{
+		OCTETOS_MATH_DECIMAL lengx = end[0] - begin.at(0);
+		OCTETOS_MATH_DECIMAL lengy = end[1] - begin.at(1);
+		OCTETOS_MATH_DECIMAL leng = pow(lengx,2) + pow(lengy,2);
+#if OCTETOS_MATH_DIMENSION >= 3
+		OCTETOS_MATH_DECIMAL lengz = end[2] - begin.at(2);
+		leng += pow(lengz,2);
+#endif
+		leng = sqrt(leng);
+		return leng;
+	}
 } 

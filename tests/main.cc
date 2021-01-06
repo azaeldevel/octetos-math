@@ -75,6 +75,19 @@ int main()
 	bool fpv10 = vect10.isParallel(vect2);
 	if(fpv10) std::cout << "vect10 is paralle t0 vect2\n";
 	else std::cout << "vect10 is not paralle t0 vect2\n";
+
+	
+	Vector vect11(Point(2.0,1.0));
+	std::cout << "vect11" << (std::string)vect11 << "\n";
+	Vector vect12(Point(-6.0,-3.0));
+	std::cout << "vect12" << (std::string)vect12 << "\n";
+	bool fpv12 = vect11.isParallel(vect12);
+	if(fpv12) std::cout << "vect11 is paralle t0 vect12\n";
+	else std::cout << "vect11 is not paralle t0 vect12\n";
+
+	Vector vect13(Point(2.0,1.0));
+	vect13.normalize();
+	std::cout << "vect13:" << (std::string)vect13 << ", size " << vect13.length() << "\n";
 	
 	return 0;
 }

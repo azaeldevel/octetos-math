@@ -82,6 +82,8 @@ namespace metry
 		//funtions
 		Vector orthogonal() const;
 		bool isParallel(const Vector&) const;
+		bool normalize();
+		OCTETOS_MATH_DECIMAL length()const;
 	protected:
 
 	private:
