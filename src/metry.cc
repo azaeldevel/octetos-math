@@ -314,9 +314,6 @@ namespace vector
 
 		if(fabs(mdxyt - mdxyo) > OCTETOS_MATH_EPSILON) 
 		{
-#ifdef DEBUG
-			std::cout << "La pendiente del actual " << mdxyt << " no conincide con el objetivo " << mdxyo << "\n";
-#endif
 			return false;//no tiene la misma pendiente
 		}
 #if OCTETOS_MATH_DIMENSION >= 3

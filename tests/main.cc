@@ -26,19 +26,6 @@
 using namespace metry;
 
 
-void testDeveloping()
-{	
-	vector::Line line1(Point(2.0,3.0),Point(4.0,-2.0));
-
-	vector::Line line2(Point(-5.0,8.0),Point(3.0,0.0));
-	vector::Line line3(Point(-1.0,-3.0),Point(1.0,-1.0));
-	bool l23 = line2.isParallel(line3);
-	//if(l23) std::cout << "line2 is paralle to line3\n";
-	//else std::cout << "line2 is not paralle to line3\n";
-	//if(l23)CU_ASSERT(true)
-	//else CU_ASSERT(false)
-	
-}
 
 void testVector()
 {
@@ -115,7 +102,7 @@ void testVector()
 		
 
 	vector::Vector vect8 = vect7.orthogonal();
-	std::cout << "vect8" << (std::string)vect8 << "\n";
+	//std::cout << "vect8" << (std::string)vect8 << "\n";
 	if(fabs(vect8.getBegin().getX() - 0.0) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
 	else CU_ASSERT(false)
 	if(fabs(vect8.getBegin().getY() - 0.0) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
@@ -217,6 +204,24 @@ int clean(void)
 	return 0;
 }
 
+
+
+void testDeveloping()
+{	
+	vector::Line line1(Point(2.0,3.0),Point(4.0,-2.0));
+
+	vector::Line line2(Point(-5.0,8.0),Point(3.0,0.0));
+	vector::Line line3(Point(1.0,-3.0),Point(-1.0,-1.0));
+	bool l23 = line2.isParallel(line3);
+	//if(l23) std::cout << "line2 is paralle to line3\n";
+	//else std::cout << "line2 is not paralle to line3\n";
+	if(l23)CU_ASSERT(true)
+	else CU_ASSERT(false)
+	
+}
+
+
+
 int main()
 {
 	/* initialize the CUnit test registry */
@@ -228,14 +233,20 @@ int main()
 		CU_cleanup_registry();
 		return CU_get_error();
 	}
+
+	if ((NULL == CU_add_test(pSuite, "Test for Point class", testPoint)))
+	{
+		CU_cleanup_registry();
+		return CU_get_error();
+	}	
 	
-	if ((NULL == CU_add_test(pSuite, "Test for developing", testDeveloping)))
+	if ((NULL == CU_add_test(pSuite, "Test for Vector class", testVector)))
 	{
 		CU_cleanup_registry();
 		return CU_get_error();
 	}
-
-	if ((NULL == CU_add_test(pSuite, "Test for Point class", testPoint)))
+	
+	if ((NULL == CU_add_test(pSuite, "Test for developing", testDeveloping)))
 	{
 		CU_cleanup_registry();
 		return CU_get_error();
