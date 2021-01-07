@@ -52,6 +52,8 @@ namespace metry
 		char type;
 	};
 	
+namespace vector
+{
 #if OCTETOS_MATH_DIMENSION == 2
 	static const Point O(0.0,0.0);
 #elif OCTETOS_MATH_DIMENSION == 3
@@ -101,7 +103,27 @@ namespace metry
 		Point begin;
 		Point end;
 	};
+
+	class Line
+	{	
+	public:
+		//constructor
+		Line(const Point& p0,const Point& a);
+		Line(OCTETOS_MATH_DECIMAL b, OCTETOS_MATH_DECIMAL m);
+		Line(const Vector&);
+		
+		//
+		Point getPoint(OCTETOS_MATH_DECIMAL t)const;
+		Vector getVector(OCTETOS_MATH_DECIMAL t)const;
+
+		//
+		bool isParallel(const Point&) const;
+		bool isOrthogonal(const Point&) const;
+	private:
+		Vector vector;
+	};
 	
+}
 } 
 
 

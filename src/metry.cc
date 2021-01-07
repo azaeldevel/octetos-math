@@ -139,7 +139,47 @@ namespace metry
 
 
 
+namespace vector
+{
+	//constructors
+	Line::Line(OCTETOS_MATH_DECIMAL b,OCTETOS_MATH_DECIMAL m): vector(Point(0.0,b),Point(1.0,m))
+	{
+	}
+	Line::Line(const Point& p0,const Point& a) : vector(p0,a)
+	{
+	}
+	Line::Line(const Vector& v) : vector(v)
+	{
+	}
+	
+	Point Line::getPoint(OCTETOS_MATH_DECIMAL t)const
+	{
+		return (vector * t).getEnd();
+	}
+	Vector Line::getVector(OCTETOS_MATH_DECIMAL t)const
+	{
+		return vector * t;
+	}
 
+	//functions
+	bool Line::isParallel(const Point& p) const
+	{
+		Vector v(vector.getBegin(),p);
+		return vector.isParallel(v);
+	}
+	bool Line::isOrthogonal(const Point& p) const
+	{
+		Vector v(vector.getBegin(),p);
+		return vector.isOrthogonal(v);
+	}
+
+
+
+
+
+
+
+	
 	//contructors
 	Vector::Vector() : begin(O), end(O)
 	{
@@ -154,7 +194,17 @@ namespace metry
 	{
 	}
 
-		
+
+	//getter
+	const Point& Vector::getBegin()const
+	{
+		return begin;
+	}
+	const Point& Vector::getEnd()const
+	{
+		return end;
+	}
+	
 	//operators
 	Vector::operator std::string() const
 	{
@@ -357,4 +407,6 @@ namespace metry
 		OCTETOS_MATH_DECIMAL lb = b.length();
 		return ps/lb;
 	}
+
+}
 } 
