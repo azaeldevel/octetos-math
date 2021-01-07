@@ -176,7 +176,22 @@ namespace vector
 	{
 		return vector.isParallel(obj.vector);
 	}
-
+	Vector Line::orthogonalIn(const Point& p) const
+	{
+		//es punto es paralelo a la recta?
+		bool isp = isParallel(p);
+		if(isp)
+		{
+			//OCTETOS_MATH_DECIMAL sx = p.getX() - vector.getBegin().getX();
+			//sx = sx/vector.getEnd().getX();
+			Vector vp(p,vector.getEnd());
+			return vp.orthogonal();
+		}
+		else
+		{
+			return Vector(O,O);
+		}
+	}
 
 
 

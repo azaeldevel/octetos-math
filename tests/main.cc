@@ -217,7 +217,11 @@ void testDeveloping()
 	//else std::cout << "line2 is not paralle to line3\n";
 	if(l23)CU_ASSERT(true)
 	else CU_ASSERT(false)
-	
+
+	vector::Vector vect16(Point(2.0,5.0),Point(-1.0,2.0));
+	vector::Vector vect17(vect16.orthogonal());
+	OCTETOS_MATH_DECIMAL ps1617 = vect16 * vect17;
+	std::cout << "ps1617 = " << ps1617 << " \n";
 }
 
 

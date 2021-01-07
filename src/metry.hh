@@ -96,6 +96,7 @@ namespace vector
 		*\brief Component de a(this) en la direccion de b
 		*/		
 		OCTETOS_MATH_DECIMAL Comp(const Vector& b);
+		bool isNull()const;
 		
 	protected:
 		
@@ -103,6 +104,8 @@ namespace vector
 		Point begin;
 		Point end;
 	};
+
+	static const NullVector(O,O);
 
 	class Line
 	{	
@@ -120,6 +123,8 @@ namespace vector
 		bool isParallel(const Point&) const;
 		bool isOrthogonal(const Point&) const;
 		bool isParallel(const Line&) const;
+		Vector orthogonalIn(const Point&) const;
+		
 	private:
 		Vector vector;
 	};
