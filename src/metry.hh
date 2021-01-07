@@ -119,6 +119,7 @@ namespace vector
 		//
 		bool isParallel(const Point&) const;
 		bool isOrthogonal(const Point&) const;
+		bool isParallel(const Line&) const;
 	private:
 		Vector vector;
 	};

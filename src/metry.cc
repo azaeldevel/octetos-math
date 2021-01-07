@@ -172,7 +172,10 @@ namespace vector
 		Vector v(vector.getBegin(),p);
 		return vector.isOrthogonal(v);
 	}
-
+	bool Line::isParallel(const Line& obj) const
+	{
+		return vector.isParallel(obj.vector);
+	}
 
 
 
