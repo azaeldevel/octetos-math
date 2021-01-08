@@ -33,9 +33,9 @@ namespace rect
 		//contructor
 		Point();
 		Point(const Point& obj);
-#if OCTETOS_MATH_DIMENSION == 2
+
 		Point(OCTETOS_MATH_COORDENATE x, OCTETOS_MATH_COORDENATE y);
-#elif OCTETOS_MATH_DIMENSION == 3
+#if OCTETOS_MATH_DIMENSION == 3
 		Point(OCTETOS_MATH_COORDENATE x, OCTETOS_MATH_COORDENATE y, OCTETOS_MATH_COORDENATE z);
 #endif
 		
@@ -72,9 +72,9 @@ namespace rect
 		Vector();
 		Vector(const Point& end);
 		Vector(const Vector&);
-#if OCTETOS_MATH_DIMENSION == 2
+
 		Vector(OCTETOS_MATH_COORDENATE x, OCTETOS_MATH_COORDENATE y);
-#elif OCTETOS_MATH_DIMENSION == 3
+#if OCTETOS_MATH_DIMENSION >= 3
 		Vector(OCTETOS_MATH_COORDENATE x, OCTETOS_MATH_COORDENATE y, OCTETOS_MATH_COORDENATE z);
 #endif
 			

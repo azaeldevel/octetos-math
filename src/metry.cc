@@ -35,13 +35,15 @@ namespace rect
 		at(2) = obj[2];
 #endif
 	}
-#if OCTETOS_MATH_DIMENSION == 2
 	Point::Point(OCTETOS_MATH_COORDENATE x, OCTETOS_MATH_COORDENATE y) : core::Point(OCTETOS_MATH_DIMENSION)
 	{
 		at(0) = x;
 		at(1) = y;
+#if OCTETOS_MATH_DIMENSION >= 3
+		at(2) = 0.0;
+#endif
 	}
-#elif OCTETOS_MATH_DIMENSION == 3
+#if OCTETOS_MATH_DIMENSION >= 3
 	Point::Point(OCTETOS_MATH_COORDENATE x, OCTETOS_MATH_COORDENATE y,OCTETOS_MATH_COORDENATE z) : core::Point(OCTETOS_MATH_DIMENSION)
 	{
 		at(0) = x;
@@ -149,18 +151,14 @@ namespace rect
 	{
 	}	
 	
-#if OCTETOS_MATH_DIMENSION == 2
+
 	Vector::Vector(OCTETOS_MATH_COORDENATE x, OCTETOS_MATH_COORDENATE y) : Point(x,y)
 	{
-		at(0) = x;
-		at(1) = y;
+
 	}
-#elif OCTETOS_MATH_DIMENSION == 3
+#if OCTETOS_MATH_DIMENSION >= 3
 	Vector::Vector(OCTETOS_MATH_COORDENATE x, OCTETOS_MATH_COORDENATE y,OCTETOS_MATH_COORDENATE z) : Point(x,y,z)
 	{
-		at(0) = x;
-		at(1) = y;
-		at(2) = z;
 	}
 #endif
 
