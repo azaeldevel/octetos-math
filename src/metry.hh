@@ -15,8 +15,18 @@
 
 namespace metry
 {
-
+namespace core
+{
 	class Point : public std::vector<OCTETOS_MATH_DECIMAL>
+	{
+	public:
+		Point(int dimension);
+	};
+}
+
+namespace rect
+{
+	class Point : public core::Point
 	{
 	public:
 		//contructor
@@ -34,27 +44,19 @@ namespace metry
 #if OCTETOS_MATH_DIMENSION >= 3
 		OCTETOS_MATH_DECIMAL getZ() const;
 #endif
-		char getType()const;
-		const char* getTypeDescribe()const;
+		int getDimension()const;
 		
 		//operators
 		operator std::string() const;
 		const Point& operator= (const Point&);
 		bool operator ==(const Point&);
-
+		
 		//funtion
 		OCTETOS_MATH_DECIMAL distance(const Point& p)const;
 		
 	private:
 		int dimension;
-		/**
-		* R:Rectangular, C:Circular
-		*/
-		char type;
 	};
-	
-namespace vector
-{
 #if OCTETOS_MATH_DIMENSION == 2
 	static const Point O(0.0,0.0);
 #elif OCTETOS_MATH_DIMENSION == 3
@@ -75,8 +77,6 @@ namespace vector
 #endif
 			
 		//getter
-		//const Point& getBegin()const;
-		//const Point& getEnd()const;
 			
 		//operator
 		operator std::string() const;
@@ -106,8 +106,6 @@ namespace vector
 	protected:
 		
 	private:
-		//Point begin;
-		//Point end;
 	};
 
 	static const Vector NullVector(O);
@@ -118,21 +116,19 @@ namespace vector
 		//constructor
 		Line(const Vector& p0,const Vector& p1);
 		Line(OCTETOS_MATH_DECIMAL b, OCTETOS_MATH_DECIMAL m);
-		//Line(const Line&);
 
 		//operator
 		operator std::string() const;
 		
 		//
 		Point getPoint(OCTETOS_MATH_DECIMAL t)const;
-		//Vector getVector(OCTETOS_MATH_DECIMAL t)const;
 
 		//
 		bool isParallel(const Point&) const;
 		bool isOrthogonal(const Point&) const;
 		bool isParallel(const Line&) const;
-		//Vector orthogonalIn(const Point&) const;
 		OCTETOS_MATH_DECIMAL distance(const Vector&) const;
+		
 	private:
 		Vector p0;
 		Vector a;

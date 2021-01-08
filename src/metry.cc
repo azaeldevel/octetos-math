@@ -12,15 +12,22 @@ namespace metry
 
 
 
+namespace core
+{
 
-
-
-	Point::Point()
+	Point::Point(int dimension) : std::vector<OCTETOS_MATH_DECIMAL>(dimension)
 	{
 	}
-	Point::Point(const Point& obj) : 
-		std::vector<OCTETOS_MATH_DECIMAL>(obj.dimension),
-		dimension(obj.dimension), type(obj.type)
+
+}
+
+
+namespace rect
+{
+	Point::Point() : core::Point(OCTETOS_MATH_DIMENSION)
+	{
+	}
+	Point::Point(const Point& obj) : core::Point(obj.getDimension())
 	{
 		at(0) = obj[0];
 		at(1) = obj[1];
@@ -29,15 +36,13 @@ namespace metry
 #endif
 	}
 #if OCTETOS_MATH_DIMENSION == 2
-	Point::Point(OCTETOS_MATH_DECIMAL x, OCTETOS_MATH_DECIMAL y) :
-		std::vector<OCTETOS_MATH_DECIMAL>(2),dimension(2), type('R')
+	Point::Point(OCTETOS_MATH_DECIMAL x, OCTETOS_MATH_DECIMAL y) : core::Point(OCTETOS_MATH_DIMENSION)
 	{
 		at(0) = x;
 		at(1) = y;
 	}
 #elif OCTETOS_MATH_DIMENSION == 3
-	Point::Point(OCTETOS_MATH_DECIMAL x, OCTETOS_MATH_DECIMAL y,OCTETOS_MATH_DECIMAL z) :
-		std::vector<OCTETOS_MATH_DECIMAL>(3),dimension(3), type('R')
+	Point::Point(OCTETOS_MATH_DECIMAL x, OCTETOS_MATH_DECIMAL y,OCTETOS_MATH_DECIMAL z) : core::Point(OCTETOS_MATH_DIMENSION)
 	{
 		at(0) = x;
 		at(1) = y;
@@ -46,23 +51,7 @@ namespace metry
 #endif
 
 
-	//getter
-	char Point::getType()const
-	{
-		return type;
-	}
-	const char* Point::getTypeDescribe()const
-	{
-		switch(type)
-		{
-			case 'R':
-				return "Rectangular";
-			case 'C':
-				return "Circular";
-			default:
-				return "Unknown";				
-		}
-	}
+	//getter	
 	OCTETOS_MATH_DECIMAL Point::getX() const
 	{
 		return at(0);
@@ -77,7 +66,10 @@ namespace metry
 		return at(2);
 	}
 #endif
-		
+	int Point::getDimension()const
+	{
+		return OCTETOS_MATH_DIMENSION;
+	}
 
 	//funtions
 	const Point& Point::operator= (const Point& obj)
@@ -139,86 +131,8 @@ namespace metry
 
 
 
-namespace vector
-{
-	//constructors
-	Line::Line(OCTETOS_MATH_DECIMAL b,OCTETOS_MATH_DECIMAL m): p0(0.0,b),a(1.0,m)
-	{
-	}
-	Line::Line(const Vector& pp0,const Vector& pp1) : p0(pp0)
-	{
-		Vector v = pp1 - pp0;
-		v.normalize();
-		a = v;
-	}
-	/*
-	Line::Line(const Vector& v) : : p0(Point(v.p0)),a(Point(v.a))
-	{
-	}
-	*/
-	//operator
-	Line::operator std::string() const
-	{
-		std::string str = "L={";
-		str += (std::string)p0 + " + t" + (std::string)a + " | para t pertecen a R}";
-		return (std::string)str;
-	}
+
 	
-	Point Line::getPoint(OCTETOS_MATH_DECIMAL t)const
-	{
-		Vector v = a * t;
-		v = v + p0;
-		return v;
-	}
-	/*
-	Vector Line::getVector(OCTETOS_MATH_DECIMAL t)const
-	{
-		return vector * t;
-	}
-	*/
-	//functions
-	bool Line::isParallel(const Point& p) const
-	{
-		Vector v(p);
-		return isParallel(v);
-	}
-	bool Line::isOrthogonal(const Point& p) const
-	{
-		Vector v(p);
-		return isOrthogonal(v);
-	}
-	bool Line::isParallel(const Line& obj) const
-	{
-		return a.isParallel(obj.a);
-	}
-	/*
-	Vector Line::orthogonalIn(const Point& p) const
-	{
-		//es punto es paralelo a la recta?
-		bool isp = isParallel(p);
-		if(isp)
-		{
-			//OCTETOS_MATH_DECIMAL sx = p.getX() - vector.getBegin().getX();
-			//sx = sx/vector.getEnd().getX();
-			Vector vp(p,vector.getEnd());
-			return vp.orthogonal();
-		}
-		else
-		{
-			return Vector(O,O);
-		}
-	}
-	*/
-	OCTETOS_MATH_DECIMAL Line::distance(const Vector& p) const
-	{	
-		//pagina 42
-		Vector vQ = p - p0;
-		//std::cout << "a" << (std::string)a << "\n";
-		Vector n = a.orthogonal();
-		//std::cout << "n" << (std::string)n << "\n";
-		//std::cout << "vQ:" << (std::string)vQ << "\n";
-		return fabs(vQ.Comp(n));
-	}
 
 
 
@@ -234,16 +148,7 @@ namespace vector
 	Vector::Vector(const Point& e): Point(e)
 	{
 	}	
-	/*
-	Vector::Vector(const Point& b,const Point& e): begin(b)
-	{
-		end[0] =  b[0] - e[0];
-		end[1] =  b[1] - e[1];
-#if OCTETOS_MATH_DIMENSION >= 3
-		throw octetos::core::Exception("Incompleto",__FILE__,__LINE__);
-#endif
-	}
-	*/
+	
 #if OCTETOS_MATH_DIMENSION == 2
 	Vector::Vector(OCTETOS_MATH_DECIMAL x, OCTETOS_MATH_DECIMAL y) : Point(x,y)
 	{
@@ -260,16 +165,6 @@ namespace vector
 #endif
 
 	//getter
-	/*
-	const Point& Vector::getBegin()const
-	{
-		return begin;
-	}
-	const Point& Vector::getEnd()const
-	{
-		return end;
-	}
-	*/
 	
 	//operators
 	Vector::operator std::string() const
@@ -338,8 +233,8 @@ namespace vector
 	{
 		return Point::operator =(obj);
 	}
-
-
+	
+	
 	//funtions
 	Vector Vector::orthogonal() const
 	{
@@ -356,18 +251,13 @@ namespace vector
 	bool Vector::isParallel(const Vector& obj) const
 	{//se comparan la pendientes de ambos vectores
 		
-		//actual
-		//OCTETOS_MATH_DECIMAL dxt = end[0] - begin[0];
-		//OCTETOS_MATH_DECIMAL dyt = end[1] - begin[1];
-		OCTETOS_MATH_DECIMAL mdxyt = at(1)/at(0);
+		OCTETOS_MATH_DECIMAL mdxyt = fabs(at(1)/at(0));
 #if OCTETOS_MATH_DIMENSION >= 3
 		throw octetos::core::Exception("Incompleto",__FILE__,__LINE__);
 #endif
 
 		//objeto
-		//OCTETOS_MATH_DECIMAL dxo = obj.end[0] - obj.begin[0];
-		//OCTETOS_MATH_DECIMAL dyo = obj.end[1] - obj.begin[1];
-		OCTETOS_MATH_DECIMAL mdxyo = obj[1]/obj[0];
+		OCTETOS_MATH_DECIMAL mdxyo = fabs(obj[1]/obj[0]);
 #if OCTETOS_MATH_DIMENSION >= 3
 		throw octetos::core::Exception("Incompleto",__FILE__,__LINE__);
 #endif
@@ -410,11 +300,8 @@ namespace vector
 	}
 	OCTETOS_MATH_DECIMAL Vector::length()const
 	{
-		//OCTETOS_MATH_DECIMAL lengx = end[0] - begin.at(0);
-		//OCTETOS_MATH_DECIMAL lengy = end[1] - begin.at(1);
 		OCTETOS_MATH_DECIMAL leng = pow(at(0),2) + pow(at(1),2);
 #if OCTETOS_MATH_DIMENSION >= 3
-		//OCTETOS_MATH_DECIMAL lengz = end[2] - begin.at(2);
 		leng += pow(end[2],2);
 #endif
 		leng = sqrt(leng);
@@ -448,14 +335,77 @@ namespace vector
 	}
 	bool Vector::isNull()const
 	{
-		//if(begin.getX() > OCTETOS_MATH_EPSILON) return false;
-		//if(begin.getY() > OCTETOS_MATH_EPSILON) return false;
 		if(at(0) > OCTETOS_MATH_EPSILON) return false;
 		if(at(1) > OCTETOS_MATH_EPSILON) return false;
 #if OCTETOS_MATH_DIMENSION >= 3
 		if(at(2) > OCTETOS_MATH_EPSILON) return false;
 #endif
 		return true;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+	//constructors
+	Line::Line(OCTETOS_MATH_DECIMAL b,OCTETOS_MATH_DECIMAL m): p0(0.0,b),a(1.0,m)
+	{
+	}
+	Line::Line(const Vector& pp0,const Vector& pp1) : p0(pp0)
+	{
+		Vector v = pp1 - pp0;
+		v.normalize();
+		a = v;
+	}
+	/*
+	Line::Line(const Vector& v) : : p0(Point(v.p0)),a(Point(v.a))
+	{
+	}
+	*/
+	//operator
+	Line::operator std::string() const
+	{
+		std::string str = "L={";
+		str += (std::string)p0 + " + t" + (std::string)a + " | para t pertecen a R}";
+		return (std::string)str;
+	}
+	
+	Point Line::getPoint(OCTETOS_MATH_DECIMAL t)const
+	{
+		Vector v = a * t;
+		v = v + p0;
+		return v;
+	}
+	
+	//functions
+	bool Line::isParallel(const Point& p) const
+	{
+		Vector v(p);
+		return isParallel(v);
+	}
+	bool Line::isOrthogonal(const Point& p) const
+	{
+		Vector v(p);
+		return isOrthogonal(v);
+	}
+	bool Line::isParallel(const Line& obj) const
+	{
+		return a.isParallel(obj.a);
+	}
+	
+	OCTETOS_MATH_DECIMAL Line::distance(const Vector& p) const
+	{	
+		//pagina 42
+		Vector vQ = p - p0;
+		Vector n = a.orthogonal();
+		return fabs(vQ.Comp(n));
 	}
 
 }
