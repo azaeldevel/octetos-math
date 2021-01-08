@@ -206,6 +206,18 @@ void testDeveloping()
 	//std::cout << "pl4Leng = " << pl4Leng << "\n";
 	if(fabs(pl4Leng - 1.78885) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
 	else CU_ASSERT(false)
+
+	//Pag 105
+	rect::Vector c(7.0,17.0/3.0);
+	rect::Vector a(3.0,1.0);
+	rect::Vector b(1.0,2.0);
+	OCTETOS_MATH_DECIMAL s,t;
+	c.combLinIndep (a,b,s,t);
+	//std::cout << "s = " << s << ", t = " << t << "\n";
+	if(fabs(t - 2.0) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
+	else CU_ASSERT(false)
+	if(fabs(s - (5.0/3.0)) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
+	else CU_ASSERT(false)
 }
 
 

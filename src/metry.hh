@@ -8,6 +8,7 @@
 #include <octetos/core/Exception.hh>
 
 //#define OCTETOS_MATH_BASEPOINT double
+#define OCTETOS_MATH_COORDENATE double
 #define OCTETOS_MATH_DECIMAL double
 #define OCTETOS_MATH_EPSILON 0.0001
 #define OCTETOS_MATH_DIMENSION 2
@@ -17,7 +18,7 @@ namespace metry
 {
 namespace core
 {
-	class Point : public std::vector<OCTETOS_MATH_DECIMAL>
+	class Point : public std::vector<OCTETOS_MATH_COORDENATE>
 	{
 	public:
 		Point(int dimension);
@@ -33,9 +34,9 @@ namespace rect
 		Point();
 		Point(const Point& obj);
 #if OCTETOS_MATH_DIMENSION == 2
-		Point(OCTETOS_MATH_DECIMAL x, OCTETOS_MATH_DECIMAL y);
+		Point(OCTETOS_MATH_COORDENATE x, OCTETOS_MATH_COORDENATE y);
 #elif OCTETOS_MATH_DIMENSION == 3
-		Point(OCTETOS_MATH_DECIMAL x, OCTETOS_MATH_DECIMAL y, OCTETOS_MATH_DECIMAL z);
+		Point(OCTETOS_MATH_COORDENATE x, OCTETOS_MATH_COORDENATE y, OCTETOS_MATH_COORDENATE z);
 #endif
 		
 		//getter
@@ -57,6 +58,7 @@ namespace rect
 	private:
 		int dimension;
 	};
+
 #if OCTETOS_MATH_DIMENSION == 2
 	static const Point O(0.0,0.0);
 #elif OCTETOS_MATH_DIMENSION == 3
@@ -71,9 +73,9 @@ namespace rect
 		Vector(const Point& end);
 		Vector(const Vector&);
 #if OCTETOS_MATH_DIMENSION == 2
-		Vector(OCTETOS_MATH_DECIMAL x, OCTETOS_MATH_DECIMAL y);
+		Vector(OCTETOS_MATH_COORDENATE x, OCTETOS_MATH_COORDENATE y);
 #elif OCTETOS_MATH_DIMENSION == 3
-		Vector(OCTETOS_MATH_DECIMAL x, OCTETOS_MATH_DECIMAL y, OCTETOS_MATH_DECIMAL z);
+		Vector(OCTETOS_MATH_COORDENATE x, OCTETOS_MATH_COORDENATE y, OCTETOS_MATH_COORDENATE z);
 #endif
 			
 		//getter
@@ -102,6 +104,18 @@ namespace rect
 		*/		
 		OCTETOS_MATH_DECIMAL Comp(const Vector& b);
 		bool isNull()const;
+		bool isLinIndep(const Vector&)const;
+		bool isLinDep(const Vector&)const;		
+		/**
+		*\brief Expresa el vector actual como un combinacion lineal de los vectores a y b
+		*/		
+		bool combLinIndep(const Vector& a, const Vector& b, OCTETOS_MATH_DECIMAL& s, OCTETOS_MATH_DECIMAL& t);
+#if OCTETOS_MATH_DIMENSION == 2
+		OCTETOS_MATH_DECIMAL slope()const;
+#elif OCTETOS_MATH_DIMENSION == 3
+		OCTETOS_MATH_DECIMAL slope()const;
+		OCTETOS_MATH_DECIMAL slopeY()const;
+#endif
 		
 	protected:
 		
@@ -114,6 +128,7 @@ namespace rect
 	{
 	public:
 		//constructor
+		Line();
 		Line(const Vector& p0,const Vector& p1);
 		Line(OCTETOS_MATH_DECIMAL b, OCTETOS_MATH_DECIMAL m);
 
@@ -121,18 +136,24 @@ namespace rect
 		operator std::string() const;
 		
 		//
-		Point getPoint(OCTETOS_MATH_DECIMAL t)const;
 
 		//
 		bool isParallel(const Point&) const;
 		bool isOrthogonal(const Point&) const;
 		bool isParallel(const Line&) const;
 		OCTETOS_MATH_DECIMAL distance(const Vector&) const;
-		
+		OCTETOS_MATH_DECIMAL onX(OCTETOS_MATH_COORDENATE x)const;
+#if OCTETOS_MATH_DIMENSION == 3
+		OCTETOS_MATH_DECIMAL onXY(OCTETOS_MATH_COORDENATE x,OCTETOS_MATH_COORDENATE y)const;
+#endif
+		Line orthogonalOn(const Vector&)const;
 	private:
 		Vector p0;
 		Vector a;
+		OCTETOS_MATH_DECIMAL m;
 	};
+
+	
 	
 }
 } 

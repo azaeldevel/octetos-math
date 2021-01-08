@@ -15,7 +15,7 @@ namespace metry
 namespace core
 {
 
-	Point::Point(int dimension) : std::vector<OCTETOS_MATH_DECIMAL>(dimension)
+	Point::Point(int dimension) : std::vector<OCTETOS_MATH_COORDENATE>(dimension)
 	{
 	}
 
@@ -36,13 +36,13 @@ namespace rect
 #endif
 	}
 #if OCTETOS_MATH_DIMENSION == 2
-	Point::Point(OCTETOS_MATH_DECIMAL x, OCTETOS_MATH_DECIMAL y) : core::Point(OCTETOS_MATH_DIMENSION)
+	Point::Point(OCTETOS_MATH_COORDENATE x, OCTETOS_MATH_COORDENATE y) : core::Point(OCTETOS_MATH_DIMENSION)
 	{
 		at(0) = x;
 		at(1) = y;
 	}
 #elif OCTETOS_MATH_DIMENSION == 3
-	Point::Point(OCTETOS_MATH_DECIMAL x, OCTETOS_MATH_DECIMAL y,OCTETOS_MATH_DECIMAL z) : core::Point(OCTETOS_MATH_DIMENSION)
+	Point::Point(OCTETOS_MATH_COORDENATE x, OCTETOS_MATH_COORDENATE y,OCTETOS_MATH_COORDENATE z) : core::Point(OCTETOS_MATH_DIMENSION)
 	{
 		at(0) = x;
 		at(1) = y;
@@ -124,7 +124,7 @@ namespace rect
 		leng = sqrt(leng);
 		return leng;
 	}
-
+	
 
 
 
@@ -150,13 +150,13 @@ namespace rect
 	}	
 	
 #if OCTETOS_MATH_DIMENSION == 2
-	Vector::Vector(OCTETOS_MATH_DECIMAL x, OCTETOS_MATH_DECIMAL y) : Point(x,y)
+	Vector::Vector(OCTETOS_MATH_COORDENATE x, OCTETOS_MATH_COORDENATE y) : Point(x,y)
 	{
 		at(0) = x;
 		at(1) = y;
 	}
 #elif OCTETOS_MATH_DIMENSION == 3
-	Vector::Vector(OCTETOS_MATH_DECIMAL x, OCTETOS_MATH_DECIMAL y,OCTETOS_MATH_DECIMAL z) : Point(x,y,z)
+	Vector::Vector(OCTETOS_MATH_COORDENATE x, OCTETOS_MATH_COORDENATE y,OCTETOS_MATH_COORDENATE z) : Point(x,y,z)
 	{
 		at(0) = x;
 		at(1) = y;
@@ -342,8 +342,34 @@ namespace rect
 #endif
 		return true;
 	}
+#if OCTETOS_MATH_DIMENSION == 2
+	OCTETOS_MATH_DECIMAL Vector::slope()const
+	{
+		return at(1)/at(0);
+	}
+#elif OCTETOS_MATH_DIMENSION == 3
+		OCTETOS_MATH_DECIMAL slope()const;
+		OCTETOS_MATH_DECIMAL slopeY()const;
+#endif
+	bool Vector::isLinIndep(const Vector& v)const
+	{
+		return !isParallel(v);
+	}
+	bool Vector::isLinDep(const Vector& v)const
+	{
+		return isParallel(v);
+	}
+	bool Vector::combLinIndep(const Vector& a, const Vector& b,OCTETOS_MATH_DECIMAL& s, OCTETOS_MATH_DECIMAL& t)
+	{//basado en el teorema 12.3 Pag 108
+		if(!a.isLinIndep(b)) return false;
+		
+		Vector aortho = a.orthogonal();
+		t = (aortho * *this) / (aortho * b);
+		Vector bortho = b.orthogonal();
+		s = (bortho * *this) / (bortho * a);
 
-
+		return true;
+	}
 
 
 
@@ -355,14 +381,19 @@ namespace rect
 
 
 	//constructors
+	Line::Line()
+	{
+	}
 	Line::Line(OCTETOS_MATH_DECIMAL b,OCTETOS_MATH_DECIMAL m): p0(0.0,b),a(1.0,m)
 	{
+		this->m = m;
 	}
 	Line::Line(const Vector& pp0,const Vector& pp1) : p0(pp0)
 	{
 		Vector v = pp1 - pp0;
 		v.normalize();
 		a = v;
+		m = a.slope();
 	}
 	/*
 	Line::Line(const Vector& v) : : p0(Point(v.p0)),a(Point(v.a))
@@ -373,17 +404,11 @@ namespace rect
 	Line::operator std::string() const
 	{
 		std::string str = "L={";
-		str += (std::string)p0 + " + t" + (std::string)a + " | para t pertecen a R}";
+		str += (std::string)p0 + " + t" + (std::string)a + " | para todo t ϵ R}";
 		return (std::string)str;
 	}
 	
-	Point Line::getPoint(OCTETOS_MATH_DECIMAL t)const
-	{
-		Vector v = a * t;
-		v = v + p0;
-		return v;
-	}
-	
+		
 	//functions
 	bool Line::isParallel(const Point& p) const
 	{
@@ -407,6 +432,17 @@ namespace rect
 		Vector n = a.orthogonal();
 		return fabs(vQ.Comp(n));
 	}
-
+	OCTETOS_MATH_DECIMAL Line::onX(OCTETOS_MATH_COORDENATE x)const
+	{
+		return (m * x) + p0[1];
+	}
+	Line Line::orthogonalOn(const Vector& p0)const
+	{
+		Vector n = a.orthogonal();
+		Line l;
+		l.p0 = p0;
+		l.a = n;
+		return l;
+	}
 }
 } 
