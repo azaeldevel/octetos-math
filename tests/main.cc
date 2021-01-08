@@ -203,8 +203,8 @@ void testDeveloping()
 	vector::Line line4(Point(0.0,5.0),Point(2.0,1.0));
 	vector::Vector pl4(2.0,-3.0);
 	OCTETOS_MATH_DECIMAL pl4Leng = line4.distance(pl4);
-	std::cout << "line2 : " << (std::string)line4 << "\n";
-	std::cout << "pl4Leng = " << pl4Leng << "\n";
+	//std::cout << "line2 : " << (std::string)line4 << "\n";
+	//std::cout << "pl4Leng = " << pl4Leng << "\n";
 	if(fabs(pl4Leng - 1.78885) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
 	else CU_ASSERT(false)
 	

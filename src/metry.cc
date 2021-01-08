@@ -213,11 +213,11 @@ namespace vector
 	{	
 		//pagina 42
 		Vector vQ = p - p0;
-		std::cout << "a" << (std::string)a << "\n";
+		//std::cout << "a" << (std::string)a << "\n";
 		Vector n = a.orthogonal();
-		std::cout << "n" << (std::string)n << "\n";
-		std::cout << "vQ:" << (std::string)vQ << "\n";
-		return vQ.Comp(n);
+		//std::cout << "n" << (std::string)n << "\n";
+		//std::cout << "vQ:" << (std::string)vQ << "\n";
+		return fabs(vQ.Comp(n));
 	}
 
 
