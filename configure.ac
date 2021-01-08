@@ -33,6 +33,9 @@ if test "x$with_tests" = "xyes"; then
 	PKG_CHECK_MODULES(CUNIT,cunit)
 fi
 
+AM_CONDITIONAL(WITH_3D, test x"$with_3d" = "xyes")
+AC_ARG_WITH([3d], AS_HELP_STRING([--with-3d], [Compilando con soporte para 3D]))
+
 
 AC_OUTPUT([
 Makefile
