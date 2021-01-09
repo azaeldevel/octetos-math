@@ -7,6 +7,10 @@
 #include "metry.hh"
 
 
+#define CX 0
+#define CY 1
+#define CZ 2
+
 namespace metry
 {
 
@@ -127,6 +131,20 @@ namespace rect
 		return leng;
 	}
 	
+	/*bool Point::rotate(OCTETOS_MATH_DECIMAL theta)
+	{
+		if(fabs(theta) < OCTETOS_MATH_EPSILON) return true;
+
+		std::cout << "sin(theta) : " << sin(theta) << "\n";
+		std::cout << "cos(theta) : " << cos(theta) << "\n";
+		
+		OCTETOS_MATH_DECIMAL xNew = (cos(theta) * at(CX)) - (sin(theta) * at(CY));
+        OCTETOS_MATH_DECIMAL yNew = (sin(theta) * at(CX)) + (cos(theta) * at(CY));
+        at(CX) = xNew;
+        at(CY) = yNew;
+
+		return true;
+	}*/
 
 
 
@@ -360,7 +378,7 @@ namespace rect
 	{
 		return isParallel(v);
 	}
-	bool Vector::combLinIndep(const Vector& a, const Vector& b,OCTETOS_MATH_DECIMAL& s, OCTETOS_MATH_DECIMAL& t)
+	bool Vector::combLineal(const Vector& a, const Vector& b,OCTETOS_MATH_DECIMAL& s, OCTETOS_MATH_DECIMAL& t)
 	{//basado en el teorema 12.3 Pag 108
 		if(!a.isLinIndep(b)) return false;
 		
@@ -371,8 +389,16 @@ namespace rect
 
 		return true;
 	}
+	bool Vector::translate(const Vector& a)
+	{
+		at(CX) = at(CX) + a[CX];
+		at(CY) = at(CY) + a[CY];
+#if OCTETOS_MATH_DIMENSION >= 3
+		at(CZ) = at(CZ) + a[CZ];
+#endif
 
-
+		return true;
+	}
 
 
 

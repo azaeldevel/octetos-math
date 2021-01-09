@@ -55,6 +55,10 @@ namespace rect
 		
 		//funtion
 		OCTETOS_MATH_DECIMAL distance(const Point& p)const;
+		/**
+		*\brief rota el punto this alrededor de origen
+		*/
+		//bool rotate(OCTETOS_MATH_DECIMAL theta);
 		
 	private:
 		int dimension;
@@ -112,10 +116,11 @@ namespace rect
 		/**
 		*\brief Expresa el vector actual como un combinacion lineal de los vectores a y b
 		*/		
-		bool combLinIndep(const Vector& a, const Vector& b, OCTETOS_MATH_DECIMAL& s, OCTETOS_MATH_DECIMAL& t);
+		bool combLineal(const Vector& a, const Vector& b, OCTETOS_MATH_DECIMAL& s, OCTETOS_MATH_DECIMAL& t);
 
 		OCTETOS_MATH_DECIMAL slope()const;
-
+		
+		bool translate(const Vector& a);
 		
 	protected:
 		
@@ -152,7 +157,7 @@ namespace rect
 		Vector a;
 		OCTETOS_MATH_DECIMAL m;
 	};
-
+	
 	
 	
 }

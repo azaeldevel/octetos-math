@@ -212,12 +212,41 @@ void testDeveloping()
 	rect::Vector a(3.0,1.0);
 	rect::Vector b(1.0,2.0);
 	OCTETOS_MATH_DECIMAL s,t;
-	c.combLinIndep (a,b,s,t);
+	c.combLineal (a,b,s,t);
 	//std::cout << "s = " << s << ", t = " << t << "\n";
 	if(fabs(t - 2.0) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
 	else CU_ASSERT(false)
 	if(fabs(s - (5.0/3.0)) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
 	else CU_ASSERT(false)
+
+	rect::Vector vec17(1.0,1.0),vec18(1.0,0.0),vec19(1.5,3.5);
+	//std::cout << "vec17 : " << (std::string)vec17 << "\n";
+	//std::cout << "vec18 : " << (std::string)vec18 << "\n";
+	std::cout << "vec19 : " << (std::string)vec19 << "\n";
+	if(fabs(vec17.getX() - 1.0) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
+	else CU_ASSERT(false)
+	if(fabs(vec17.getY() - 1.0) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
+	else CU_ASSERT(false)
+	if(fabs(vec18.getX() - 1.0) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
+	else CU_ASSERT(false)
+	if(fabs(vec18.getY() - 0.0) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
+	else CU_ASSERT(false)	
+	if(fabs(vec19.getX() - 1.5) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
+	else CU_ASSERT(false)
+	if(fabs(vec19.getY() - 3.5) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
+	else CU_ASSERT(false)
+	vec17.translate(vec18);
+	if(fabs(vec17.getX() - 2.0) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
+	else CU_ASSERT(false)
+	if(fabs(vec17.getY() - 1.0) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
+	else CU_ASSERT(false)
+	vec17.translate (vec19);
+	if(fabs(vec17.getX() - 3.5) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
+	else CU_ASSERT(false)
+	if(fabs(vec17.getY() - 4.5) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
+	else CU_ASSERT(false)
+	std::cout << "vec17 : " << (std::string)vec17 << "\n";
+	
 }
 
 
