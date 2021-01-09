@@ -7,12 +7,13 @@
 #include <string>
 #include <octetos/core/Exception.hh>
 
-//#define OCTETOS_MATH_BASEPOINT double
+
 #define OCTETOS_MATH_COORDENATE double
 #define OCTETOS_MATH_DECIMAL double
 #define OCTETOS_MATH_EPSILON 0.0001
 #define OCTETOS_MATH_DIMENSION 2
-//#define DEBUG
+
+
 
 namespace metry
 {
@@ -35,7 +36,7 @@ namespace rect
 		Point(const Point& obj);
 
 		Point(OCTETOS_MATH_COORDENATE x, OCTETOS_MATH_COORDENATE y);
-#if OCTETOS_MATH_DIMENSION == 3
+#if OCTETOS_MATH_DIMENSION >= 3
 		Point(OCTETOS_MATH_COORDENATE x, OCTETOS_MATH_COORDENATE y, OCTETOS_MATH_COORDENATE z);
 #endif
 		
@@ -63,6 +64,8 @@ namespace rect
 	static const Point O(0.0,0.0);
 #elif OCTETOS_MATH_DIMENSION == 3
 	static const Point O(0.0,0.0,0.0);
+#else
+	#error "Agrege un valor para 'OCTETOS_MATH_DIMENSION'"
 #endif
 	
 	class Vector : public Point
@@ -110,12 +113,9 @@ namespace rect
 		*\brief Expresa el vector actual como un combinacion lineal de los vectores a y b
 		*/		
 		bool combLinIndep(const Vector& a, const Vector& b, OCTETOS_MATH_DECIMAL& s, OCTETOS_MATH_DECIMAL& t);
-#if OCTETOS_MATH_DIMENSION == 2
+
 		OCTETOS_MATH_DECIMAL slope()const;
-#elif OCTETOS_MATH_DIMENSION == 3
-		OCTETOS_MATH_DECIMAL slope()const;
-		OCTETOS_MATH_DECIMAL slopeY()const;
-#endif
+
 		
 	protected:
 		
@@ -138,12 +138,12 @@ namespace rect
 		//
 
 		//
-		bool isParallel(const Point&) const;
-		bool isOrthogonal(const Point&) const;
+		bool isParallel(const Vector&) const;
+		bool isOrthogonal(const Vector&) const;
 		bool isParallel(const Line&) const;
 		OCTETOS_MATH_DECIMAL distance(const Vector&) const;
 		OCTETOS_MATH_DECIMAL onX(OCTETOS_MATH_COORDENATE x)const;
-#if OCTETOS_MATH_DIMENSION == 3
+#if OCTETOS_MATH_DIMENSION >= 3
 		OCTETOS_MATH_DECIMAL onXY(OCTETOS_MATH_COORDENATE x,OCTETOS_MATH_COORDENATE y)const;
 #endif
 		Line orthogonalOn(const Vector&)const;

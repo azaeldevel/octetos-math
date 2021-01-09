@@ -175,7 +175,8 @@ namespace rect
 		OCTETOS_MATH_DECIMAL v2 = at(1) * obj.at(1);
 		OCTETOS_MATH_DECIMAL v = v1 + v2;
 #if OCTETOS_MATH_DIMENSION >= 3
-		throw octetos::core::Exception("Incompleto",__FILE__,__LINE__);
+		OCTETOS_MATH_DECIMAL v3 = at(2) * obj.at(2);
+		v += v3;
 #endif
 		return v;
 	}
@@ -187,7 +188,7 @@ namespace rect
 		v[0] = at(0) + obj[0];
 		v[1] = at(1) + obj[1];
 #if OCTETOS_MATH_DIMENSION >= 3
-		v.end[2] = end[2] + obj.end[2];
+		v[2] = at(2) + obj[2];
 #endif
 		return v;
 	}
@@ -198,7 +199,7 @@ namespace rect
 		v[0] = at(0) - obj[0];
 		v[1] = at(1) - obj[1];
 #if OCTETOS_MATH_DIMENSION >= 3
-		v.end[2] = end[2] - obj.end[2];
+		v[2] = at(2) - obj[2];
 #endif
 		
 		return v;
@@ -210,7 +211,7 @@ namespace rect
 		v[0] = at(0) * r;
 		v[1] = at(1) * r;
 #if OCTETOS_MATH_DIMENSION >= 3
-		v.end[2] = end[2] * r;
+		v[2] = at(2) * r;
 #endif
 			
 		return v;
@@ -222,7 +223,7 @@ namespace rect
 		v[0] = at(0) / r;
 		v[1] = at(1) / r;
 #if OCTETOS_MATH_DIMENSION >= 3
-		v.end[2] = end[2] / r;
+		v[2] = at(2) / r;
 #endif
 			
 		return v;
@@ -240,7 +241,9 @@ namespace rect
 		//v.begin = begin;
 		v[0] = at(1) * -1;
 		v[1] = at(0);
-
+#if OCTETOS_MATH_DIMENSION >= 3
+		
+#endif
 		return v;
 	}
 	/**
@@ -249,23 +252,26 @@ namespace rect
 	bool Vector::isParallel(const Vector& obj) const
 	{//se comparan la pendientes de ambos vectores
 		
-		OCTETOS_MATH_DECIMAL mdxyt = fabs(at(1)/at(0));
+		OCTETOS_MATH_DECIMAL mdyxt = fabs(at(1)/at(0));
 #if OCTETOS_MATH_DIMENSION >= 3
-		throw octetos::core::Exception("Incompleto",__FILE__,__LINE__);
+		OCTETOS_MATH_DECIMAL mdzyt = fabs(at(2)/at(1));
 #endif
 
 		//objeto
-		OCTETOS_MATH_DECIMAL mdxyo = fabs(obj[1]/obj[0]);
+		OCTETOS_MATH_DECIMAL mdyxo = fabs(obj[1]/obj[0]);
 #if OCTETOS_MATH_DIMENSION >= 3
-		throw octetos::core::Exception("Incompleto",__FILE__,__LINE__);
+		OCTETOS_MATH_DECIMAL mdzyo = fabs(obj[1]/obj[2]);
 #endif
 
-		if(fabs(mdxyt - mdxyo) > OCTETOS_MATH_EPSILON) 
+		if(fabs(mdyxt - mdyxo) > OCTETOS_MATH_EPSILON) 
 		{
 			return false;//no tiene la misma pendiente
 		}
 #if OCTETOS_MATH_DIMENSION >= 3
-		throw octetos::core::Exception("Incompleto",__FILE__,__LINE__);
+		if(fabs(mdzyt - mdzyo) > OCTETOS_MATH_EPSILON) 
+		{
+			return false;//no tiene la misma pendiente
+		}
 #endif
 		
 		return true;
@@ -283,7 +289,7 @@ namespace rect
         at(0) = at(0)/lenvect;
 		at(1) = at(1)/lenvect;
 #if OCTETOS_MATH_DIMENSION >= 3
-		end.at(2) = end.at(2)/lenvect;
+		at(2) = at(2)/lenvect;
 #endif
 
         lenvect = O.distance(*this);
@@ -300,7 +306,7 @@ namespace rect
 	{
 		OCTETOS_MATH_DECIMAL leng = pow(at(0),2) + pow(at(1),2);
 #if OCTETOS_MATH_DIMENSION >= 3
-		leng += pow(end[2],2);
+		leng += pow(at(2),2);
 #endif
 		leng = sqrt(leng);
 		return leng;
@@ -340,15 +346,12 @@ namespace rect
 #endif
 		return true;
 	}
-#if OCTETOS_MATH_DIMENSION == 2
+
 	OCTETOS_MATH_DECIMAL Vector::slope()const
 	{
 		return at(1)/at(0);
 	}
-#elif OCTETOS_MATH_DIMENSION == 3
-		OCTETOS_MATH_DECIMAL slope()const;
-		OCTETOS_MATH_DECIMAL slopeY()const;
-#endif
+
 	bool Vector::isLinIndep(const Vector& v)const
 	{
 		return !isParallel(v);
@@ -408,14 +411,12 @@ namespace rect
 	
 		
 	//functions
-	bool Line::isParallel(const Point& p) const
+	bool Line::isParallel(const Vector& v) const
 	{
-		Vector v(p);
 		return isParallel(v);
 	}
-	bool Line::isOrthogonal(const Point& p) const
+	bool Line::isOrthogonal(const Vector& v) const
 	{
-		Vector v(p);
 		return isOrthogonal(v);
 	}
 	bool Line::isParallel(const Line& obj) const
