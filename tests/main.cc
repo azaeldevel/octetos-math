@@ -222,7 +222,7 @@ void testDeveloping()
 	rect::Vector vec17(1.0,1.0),vec18(1.0,0.0),vec19(1.5,3.5);
 	//std::cout << "vec17 : " << (std::string)vec17 << "\n";
 	//std::cout << "vec18 : " << (std::string)vec18 << "\n";
-	std::cout << "vec19 : " << (std::string)vec19 << "\n";
+	//std::cout << "vec19 : " << (std::string)vec19 << "\n";
 	if(fabs(vec17.getX() - 1.0) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
 	else CU_ASSERT(false)
 	if(fabs(vec17.getY() - 1.0) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
@@ -245,7 +245,20 @@ void testDeveloping()
 	else CU_ASSERT(false)
 	if(fabs(vec17.getY() - 4.5) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
 	else CU_ASSERT(false)
-	std::cout << "vec17 : " << (std::string)vec17 << "\n";
+	//std::cout << "vec17 : " << (std::string)vec17 << "\n";
+
+	rect::Vector vec20(1.0,1.0), vec21(5.0,0.0);
+	if(fabs(fabs(vec20.getX()) - 1.0) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
+	else CU_ASSERT(false)
+	if(fabs(fabs(vec20.getY()) - 1.0) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
+	else CU_ASSERT(false)
+	bool fv21n = vec20.normalize();
+	if(fv21n) CU_ASSERT(true)
+	else CU_ASSERT(false)
+	bool fv21 = vec20.rotate(vec20);	
+	if(fv21) CU_ASSERT(true)
+	else CU_ASSERT(false)
+	
 	
 }
 

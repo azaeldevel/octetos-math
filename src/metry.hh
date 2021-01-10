@@ -100,6 +100,9 @@ namespace rect
 		Vector orthogonal() const;
 		bool isParallel(const Vector&) const;
 		bool normalize();
+		/**
+		*\brief Longitud del vector
+		*/		
 		OCTETOS_MATH_DECIMAL length()const;
 		bool isOrthogonal(const Vector&) const;
 		/**
@@ -121,6 +124,8 @@ namespace rect
 		OCTETOS_MATH_DECIMAL slope()const;
 		
 		bool translate(const Vector& a);
+		bool rotate(const Vector& a);
+		bool reflect(const Vector& a);
 		
 	protected:
 		
@@ -158,6 +163,19 @@ namespace rect
 		OCTETOS_MATH_DECIMAL m;
 	};
 	
+	class Circumference
+	{
+	public:
+		Circumference(OCTETOS_MATH_DECIMAL r);	
+		/**
+		*\brief returna el valor absoluto de 
+		*/		
+		OCTETOS_MATH_DECIMAL onX(OCTETOS_MATH_COORDENATE x)const;
+	private:
+		OCTETOS_MATH_DECIMAL radio2;
+	};
+	
+
 	
 	
 }

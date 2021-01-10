@@ -272,7 +272,7 @@ namespace rect
 		
 		OCTETOS_MATH_DECIMAL mdyxt = fabs(at(1)/at(0));
 #if OCTETOS_MATH_DIMENSION >= 3
-		OCTETOS_MATH_DECIMAL mdzyt = fabs(at(2)/at(1));
+		throw octetos::core::Exception("Un no es implemeteta esta fucionen 3D",__FILE__,__LINE__);
 #endif
 
 		//objeto
@@ -286,10 +286,7 @@ namespace rect
 			return false;//no tiene la misma pendiente
 		}
 #if OCTETOS_MATH_DIMENSION >= 3
-		if(fabs(mdzyt - mdzyo) > OCTETOS_MATH_EPSILON) 
-		{
-			return false;//no tiene la misma pendiente
-		}
+		throw octetos::core::Exception("Un no es implemeteta esta fucionen 3D",__FILE__,__LINE__);
 #endif
 		
 		return true;
@@ -399,8 +396,34 @@ namespace rect
 
 		return true;
 	}
-
-
+	bool Vector::rotate(const Vector& a)
+	{
+		OCTETOS_MATH_DECIMAL leng = a.length();
+		if(fabs(leng - 1.0) >= OCTETOS_MATH_EPSILON)
+		{
+			throw octetos::core::Exception("El vecto que idica la direccion deve tener longitud unitaria.",__FILE__,__LINE__);
+		}
+		at(CX) = (a[CX] * at(CX)) + (a[CY] * at(CY));
+		at(CY) = (a[CY] * at(CX)) + (a[CX] * at(CY));
+#if OCTETOS_MATH_DIMENSION >= 3
+		throw octetos::core::Exception("Un no es implemeteta esta fucionen 3D",__FILE__,__LINE__);
+#endif
+		return true;
+	}
+	bool Vector::reflect(const Vector& a)
+	{
+		OCTETOS_MATH_DECIMAL leng = a.length();
+		if(fabs(leng - 1.0) >= OCTETOS_MATH_EPSILON)
+		{
+			throw octetos::core::Exception("El vecto que idica la direccion deve tener longitud unitaria.",__FILE__,__LINE__);
+		}
+		at(CX) = (a[CX] * at(CX)) + (a[CY] * at(CY));
+		at(CY) = (a[CY] * at(CX)) - (a[CX] * at(CY));
+#if OCTETOS_MATH_DIMENSION >= 3
+		throw octetos::core::Exception("Un no es implemeteta esta fucionen 3D",__FILE__,__LINE__);
+#endif
+		return true;
+	}
 
 
 
@@ -468,6 +491,25 @@ namespace rect
 		l.p0 = p0;
 		l.a = n;
 		return l;
+	}
+
+
+
+
+
+
+
+
+
+	Circumference::Circumference(OCTETOS_MATH_DECIMAL r) : radio2(pow(r,2))
+	{
+	}
+
+	//funtions
+	OCTETOS_MATH_DECIMAL Circumference::onX(OCTETOS_MATH_COORDENATE x)const
+	{
+		OCTETOS_MATH_DECIMAL y = pow(radio2,2) - radio2;
+		return sqrt(y);
 	}
 }
 } 
