@@ -511,5 +511,41 @@ namespace rect
 		OCTETOS_MATH_DECIMAL y = pow(radio2,2) - radio2;
 		return sqrt(y);
 	}
+
+
+
+
+	Parable::Parable(OCTETOS_MATH_DECIMAL p) : p4(4 * p)
+	{
+	}
+	OCTETOS_MATH_DECIMAL Parable::onX(OCTETOS_MATH_COORDENATE x)const
+	{
+		return sqrt(p4*x);
+	}
+
+
+	Ellipse::Ellipse(OCTETOS_MATH_DECIMAL a,OCTETOS_MATH_DECIMAL b) : a2(pow(a,2)), b2(pow(b,2))
+	{
+		
+	}
+
+	OCTETOS_MATH_DECIMAL Ellipse::onX(OCTETOS_MATH_COORDENATE x)const
+	{
+		return (b2-(b2*pow(x,2)/a2));
+	}
+
+
+
+
+	
+	Hyperbola::Hyperbola(OCTETOS_MATH_DECIMAL a,OCTETOS_MATH_DECIMAL b) : a2(pow(a,2)), b2(pow(b,2))
+	{
+		
+	}
+
+	OCTETOS_MATH_DECIMAL Hyperbola::onX(OCTETOS_MATH_COORDENATE x)const
+	{
+		return (b2+(b2*pow(x,2)/a2));
+	}
 }
 } 

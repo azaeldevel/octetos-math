@@ -175,9 +175,46 @@ namespace rect
 		OCTETOS_MATH_DECIMAL radio2;
 	};
 	
-
+	class Parable
+	{
+	public:
+		Parable(OCTETOS_MATH_DECIMAL p);
+		/**
+		*\brief returna el valor absoluto de 
+		**/		
+		OCTETOS_MATH_DECIMAL onX(OCTETOS_MATH_COORDENATE x)const;
+		
+	private:
+		OCTETOS_MATH_DECIMAL p4;
+	};
 	
+	class Ellipse
+	{
+	public:
+		Ellipse(OCTETOS_MATH_DECIMAL a,OCTETOS_MATH_DECIMAL b);
+		/**
+		*\brief returna el valor absoluto de 
+		*/		
+		OCTETOS_MATH_DECIMAL onX(OCTETOS_MATH_COORDENATE x)const;
+		
+	private:
+		OCTETOS_MATH_DECIMAL a2,b2;
 	
+	};
+		
+	class Hyperbola
+	{
+	public:
+		Hyperbola(OCTETOS_MATH_DECIMAL a,OCTETOS_MATH_DECIMAL b);
+		/**
+		*\brief returna el valor absoluto de 
+		*/		
+		OCTETOS_MATH_DECIMAL onX(OCTETOS_MATH_COORDENATE x)const;
+		
+	private:
+		OCTETOS_MATH_DECIMAL a2,b2;
+	
+	};
 }
 } 
 
