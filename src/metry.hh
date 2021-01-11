@@ -55,10 +55,6 @@ namespace rect
 		
 		//funtion
 		OCTETOS_MATH_DECIMAL distance(const Point& p)const;
-		/**
-		*\brief rota el punto this alrededor de origen
-		*/
-		//bool rotate(OCTETOS_MATH_DECIMAL theta);
 		
 	private:
 		int dimension;
@@ -113,7 +109,7 @@ namespace rect
 		*\brief Component de a(this) en la direccion de b
 		*/		
 		OCTETOS_MATH_DECIMAL Comp(const Vector& b);
-		bool isNull()const;
+		//bool isNull()const;
 		bool isLinIndep(const Vector&)const;
 		bool isLinDep(const Vector&)const;		
 		/**
@@ -126,13 +122,17 @@ namespace rect
 		bool translate(const Vector& a);
 		bool rotate(const Vector& a);
 		bool reflect(const Vector& a);
+		/**
+		*\brief rota(radianes) el punto this alrededor de origen
+		*/
+		bool rotate(OCTETOS_MATH_DECIMAL theta);
 		
 	protected:
 		
 	private:
 	};
 
-	static const Vector NullVector(O);
+	//static const Vector NullVector(O);
 
 	class Line
 	{

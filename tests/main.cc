@@ -140,9 +140,9 @@ void testVector()
 	//OCTETOS_MATH_DECIMAL ps1617 = vect16 * vect17;
 	//std::cout << "ps1617 = " << ps1617 << " \n";
 
-	bool isnull = rect::NullVector.isNull();
-	if(isnull)CU_ASSERT(true)
-	else CU_ASSERT(false)
+	//bool isnull = rect::NullVector.isNull();
+	//if(isnull)CU_ASSERT(true)
+	//else CU_ASSERT(false)
 }
 
 void testPoint()
@@ -259,7 +259,9 @@ void testDeveloping()
 	if(fv21) CU_ASSERT(true)
 	else CU_ASSERT(false)
 	
-	
+	rect::Vector vec23(5.0,0.0);
+	vec23.rotate(1.5708);
+	//std::cout << "vec23 : " << (std::string)vec23 << "\n";
 }
 
 

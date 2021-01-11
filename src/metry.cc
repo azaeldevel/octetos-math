@@ -131,20 +131,7 @@ namespace rect
 		return leng;
 	}
 	
-	/*bool Point::rotate(OCTETOS_MATH_DECIMAL theta)
-	{
-		if(fabs(theta) < OCTETOS_MATH_EPSILON) return true;
-
-		std::cout << "sin(theta) : " << sin(theta) << "\n";
-		std::cout << "cos(theta) : " << cos(theta) << "\n";
-		
-		OCTETOS_MATH_DECIMAL xNew = (cos(theta) * at(CX)) - (sin(theta) * at(CY));
-        OCTETOS_MATH_DECIMAL yNew = (sin(theta) * at(CX)) + (cos(theta) * at(CY));
-        at(CX) = xNew;
-        at(CY) = yNew;
-
-		return true;
-	}*/
+	/**/
 
 
 
@@ -352,6 +339,7 @@ namespace rect
 		OCTETOS_MATH_DECIMAL lb = b.length();
 		return ps/lb;
 	}
+	/*
 	bool Vector::isNull()const
 	{
 		if(at(0) > OCTETOS_MATH_EPSILON) return false;
@@ -361,7 +349,7 @@ namespace rect
 #endif
 		return true;
 	}
-
+	*/
 	OCTETOS_MATH_DECIMAL Vector::slope()const
 	{
 		return at(1)/at(0);
@@ -424,7 +412,20 @@ namespace rect
 #endif
 		return true;
 	}
+	bool Vector::rotate(OCTETOS_MATH_DECIMAL theta)
+	{
+		if(fabs(theta) < OCTETOS_MATH_EPSILON) return true;
 
+		//std::cout << "sin(theta) : " << sin(theta) << "\n";
+		//std::cout << "cos(theta) : " << cos(theta) << "\n";
+		
+		OCTETOS_MATH_DECIMAL xNew = (cos(theta) * at(CX)) - (sin(theta) * at(CY));
+        OCTETOS_MATH_DECIMAL yNew = (sin(theta) * at(CX)) + (cos(theta) * at(CY));
+        at(CX) = xNew;
+        at(CY) = yNew;
+
+		return true;
+	}
 
 
 
