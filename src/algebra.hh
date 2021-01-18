@@ -22,8 +22,22 @@ namespace algebra
 	};
 
 
+	class Equation
+	{
 	
+	public:
+	};
 	
+	class Quadratic : public Equation
+	{
+	
+	public:
+		Quadratic(double A,double B,double C,double D,double E,double F);
+
+	private:
+		double A,B,C,D,E,F,x,y;
+		
+	};
 	
 } 
 

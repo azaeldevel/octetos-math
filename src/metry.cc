@@ -419,14 +419,33 @@ namespace rect
 		//std::cout << "sin(theta) : " << sin(theta) << "\n";
 		//std::cout << "cos(theta) : " << cos(theta) << "\n";
 		
-		OCTETOS_MATH_DECIMAL xNew = (cos(theta) * at(CX)) - (sin(theta) * at(CY));
-        OCTETOS_MATH_DECIMAL yNew = (sin(theta) * at(CX)) + (cos(theta) * at(CY));
+		OCTETOS_MATH_DECIMAL xNew = (::cos(theta) * at(CX)) - (::sin(theta) * at(CY));
+        OCTETOS_MATH_DECIMAL yNew = (::sin(theta) * at(CX)) + (::cos(theta) * at(CY));
         at(CX) = xNew;
         at(CY) = yNew;
 
 		return true;
 	}
-
+	OCTETOS_MATH_DECIMAL Vector::cos(const Vector& b)const
+	{
+		OCTETOS_MATH_DECIMAL prod = *this * b;
+		OCTETOS_MATH_DECIMAL lon = length() * b.length ();
+		return prod/lon;
+	}
+	OCTETOS_MATH_DECIMAL Vector::sen(const Vector& b)const
+	{
+		Vector aortho = this->orthogonal ();
+		OCTETOS_MATH_DECIMAL prod = aortho * b;
+		OCTETOS_MATH_DECIMAL lon = length() * b.length ();
+		return prod/lon;
+	}
+	OCTETOS_MATH_DECIMAL Vector::tan(const Vector& b)const
+	{
+		Vector aortho = this->orthogonal ();
+		OCTETOS_MATH_DECIMAL prod1 = aortho * b;
+		OCTETOS_MATH_DECIMAL prod2 = *this * b;
+		return prod1/prod2;
+	}
 
 
 

@@ -260,8 +260,24 @@ void testDeveloping()
 	else CU_ASSERT(false)
 	
 	rect::Vector vec23(5.0,0.0);
-	vec23.rotate(1.5708);
+	vec23.rotate(1.5708);//rota 90 grados
 	//std::cout << "vec23 : " << (std::string)vec23 << "\n";
+	if(fabs(vec23.getX()) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
+	else CU_ASSERT(false)
+	if(fabs(vec23.getY()) - 5.0) CU_ASSERT(true)
+	else CU_ASSERT(false)
+
+	rect::Vector vec24(2.0,1.0);
+	rect::Vector vec25(1.0,2.0);
+	OCTETOS_MATH_DECIMAL valcos = vec24.cos(vec25);
+	if(fabs(valcos - (4.0/5.0)) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
+	else CU_ASSERT(false)
+	OCTETOS_MATH_DECIMAL valsen = vec24.sen(vec25);
+	if(fabs(valsen - (3.0/5.0)) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
+	else CU_ASSERT(false)
+	OCTETOS_MATH_DECIMAL valtan = vec24.tan(vec25);
+	if(fabs(valtan - (3.0/4.0)) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
+	else CU_ASSERT(false)
 }
 
 

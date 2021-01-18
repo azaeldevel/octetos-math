@@ -20,4 +20,17 @@ namespace algebra
 	{
 		return literal;
 	}
+
+
+	Quadratic::Quadratic(double A,double B,double C,double D,double E,double F)
+	{
+		this->A = A;
+		this->B = B;
+		this->C = C;
+		this->D = D;
+		this->E = E;
+		this->F = F;
+	}
+
+	
 }

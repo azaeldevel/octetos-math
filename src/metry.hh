@@ -126,6 +126,18 @@ namespace rect
 		*\brief rota(radianes) el punto this alrededor de origen
 		*/
 		bool rotate(OCTETOS_MATH_DECIMAL theta);
+		/**
+		*\brief cos del angulo(radian) formado por el vectora actual y el prametro b
+		*/
+		OCTETOS_MATH_DECIMAL cos(const Vector& b)const;
+		/**
+		*\brief sen del angulo(radian) formado por el vectora actual y el prametro b
+		*/
+		OCTETOS_MATH_DECIMAL sen(const Vector& b)const;
+		/**
+		*\brief tan del angulo(radian) formado por el vectora actual y el prametro b
+		*/
+		OCTETOS_MATH_DECIMAL tan(const Vector& b)const;
 		
 	protected:
 		
