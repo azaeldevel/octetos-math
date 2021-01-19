@@ -19,7 +19,7 @@
 
 #include <CUnit/Basic.h>
 #include <iostream>
-
+#include <math.h>
 
 #include <metry.hh>
 
@@ -277,6 +277,28 @@ void testDeveloping()
 	else CU_ASSERT(false)
 	OCTETOS_MATH_DECIMAL valtan = vec24.tan(vec25);
 	if(fabs(valtan - (3.0/4.0)) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
+	else CU_ASSERT(false)
+
+	//comprobar que vec28 es el vetor unitario para rotar vec26 hacia vec27
+	rect::Vector vec26(1.0,2.0);
+	rect::Vector vec27(-3.0,1.0);
+	rect::Vector vec28 = vec26.rotateCreate(vec27);
+	std::cout << "vec28 : " << (std::string)vec28 << "\n";
+	OCTETOS_MATH_DECIMAL vec28Leng = vec28.length ();
+	if(fabs(vec28.getX() + (1.0/sqrt(50))) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
+	else CU_ASSERT(false)
+	if(fabs(vec28.getY() - (7.0/sqrt(50))) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
+	else CU_ASSERT(false)
+	if(fabs(vec28Leng - 1.0) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
+	else CU_ASSERT(false)
+
+	//comprobar que el vector unitario vec28 rota vec29 correctamente.
+	rect::Vector vec29(1.0,2.0);
+	vec29.rotate(vec28);
+	std::cout << "vec29 : " << (std::string)vec29 << "\n";
+	if(fabs(vec29.getX() + (3.0/sqrt(2))) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
+	else CU_ASSERT(false)
+	if(fabs(vec29.getY() - (1.0/sqrt(2))) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
 	else CU_ASSERT(false)
 }
 

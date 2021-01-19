@@ -119,9 +119,9 @@ namespace rect
 
 		OCTETOS_MATH_DECIMAL slope()const;
 		
-		bool translate(const Vector& a);
-		bool rotate(const Vector& a);
-		bool reflect(const Vector& a);
+		bool translate(const Vector& b);
+		bool rotate(const Vector& b);
+		bool reflect(const Vector& b);
 		/**
 		*\brief rota(radianes) el punto this alrededor de origen
 		*/
@@ -138,7 +138,10 @@ namespace rect
 		*\brief tan del angulo(radian) formado por el vectora actual y el prametro b
 		*/
 		OCTETOS_MATH_DECIMAL tan(const Vector& b)const;
-		
+		/**
+		*\brief crea un vector de rotacion tranformado a en la direcion de b.
+		*/
+		Vector rotateCreate(const Vector& b)const;
 	protected:
 		
 	private:

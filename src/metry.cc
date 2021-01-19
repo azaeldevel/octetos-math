@@ -374,39 +374,42 @@ namespace rect
 
 		return true;
 	}
-	bool Vector::translate(const Vector& a)
+	bool Vector::translate(const Vector& b)
 	{
-		at(CX) = at(CX) + a[CX];
-		at(CY) = at(CY) + a[CY];
+		at(CX) = at(CX) + b[CX];
+		at(CY) = at(CY) + b[CY];
 #if OCTETOS_MATH_DIMENSION >= 3
 		at(CZ) = at(CZ) + a[CZ];
 #endif
 
 		return true;
 	}
-	bool Vector::rotate(const Vector& a)
+	bool Vector::rotate(const Vector& b)
 	{
-		OCTETOS_MATH_DECIMAL leng = a.length();
+		OCTETOS_MATH_DECIMAL leng = b.length();
 		if(fabs(leng - 1.0) >= OCTETOS_MATH_EPSILON)
 		{
-			throw octetos::core::Exception("El vecto que idica la direccion deve tener longitud unitaria.",__FILE__,__LINE__);
+			throw octetos::core::Exception("El vector que idica la direccion deve tener longitud unitaria.",__FILE__,__LINE__);
 		}
-		at(CX) = (a[CX] * at(CX)) + (a[CY] * at(CY));
-		at(CY) = (a[CY] * at(CX)) + (a[CX] * at(CY));
+		OCTETOS_MATH_DECIMAL x = (b[CX] * at(CX)) - (b[CY] * at(CY));
+		OCTETOS_MATH_DECIMAL y = (b[CY] * at(CX)) + (b[CX] * at(CY));
+		at(CX) = x;
+		at(CY) = y;
 #if OCTETOS_MATH_DIMENSION >= 3
 		throw octetos::core::Exception("Un no es implemeteta esta fucionen 3D",__FILE__,__LINE__);
 #endif
 		return true;
 	}
-	bool Vector::reflect(const Vector& a)
+	
+	bool Vector::reflect(const Vector& b)
 	{
-		OCTETOS_MATH_DECIMAL leng = a.length();
+		OCTETOS_MATH_DECIMAL leng = b.length();
 		if(fabs(leng - 1.0) >= OCTETOS_MATH_EPSILON)
 		{
 			throw octetos::core::Exception("El vecto que idica la direccion deve tener longitud unitaria.",__FILE__,__LINE__);
 		}
-		at(CX) = (a[CX] * at(CX)) + (a[CY] * at(CY));
-		at(CY) = (a[CY] * at(CX)) - (a[CX] * at(CY));
+		at(CX) = (b[CX] * at(CX)) + (b[CY] * at(CY));
+		at(CY) = (b[CY] * at(CX)) - (b[CX] * at(CY));
 #if OCTETOS_MATH_DIMENSION >= 3
 		throw octetos::core::Exception("Un no es implemeteta esta fucionen 3D",__FILE__,__LINE__);
 #endif
@@ -427,26 +430,38 @@ namespace rect
 		return true;
 	}
 	OCTETOS_MATH_DECIMAL Vector::cos(const Vector& b)const
-	{
+	{//pag 290
 		OCTETOS_MATH_DECIMAL prod = *this * b;
 		OCTETOS_MATH_DECIMAL lon = length() * b.length ();
 		return prod/lon;
 	}
 	OCTETOS_MATH_DECIMAL Vector::sen(const Vector& b)const
-	{
+	{//pag 290
 		Vector aortho = this->orthogonal ();
 		OCTETOS_MATH_DECIMAL prod = aortho * b;
 		OCTETOS_MATH_DECIMAL lon = length() * b.length ();
 		return prod/lon;
 	}
 	OCTETOS_MATH_DECIMAL Vector::tan(const Vector& b)const
-	{
+	{//pag 290
 		Vector aortho = this->orthogonal ();
 		OCTETOS_MATH_DECIMAL prod1 = aortho * b;
 		OCTETOS_MATH_DECIMAL prod2 = *this * b;
 		return prod1/prod2;
 	}
+	Vector Vector::rotateCreate(const Vector& b)const
+	{
+		//pag 285
+		OCTETOS_MATH_DECIMAL prod1 = *this * b;
+		OCTETOS_MATH_DECIMAL lon1 = length() * b.length ();
+		
+		Vector aortho = this->orthogonal ();
+		OCTETOS_MATH_DECIMAL prod2 = aortho * b;
+		OCTETOS_MATH_DECIMAL lon2 = length() * b.length ();
 
+		Vector u(prod1/lon1,prod2/lon2);
+		return u;
+	}
 
 
 
