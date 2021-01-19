@@ -75,7 +75,7 @@ namespace rect
 		Vector();
 		Vector(const Point& end);
 		Vector(const Vector&);
-
+		
 		Vector(OCTETOS_MATH_COORDENATE x, OCTETOS_MATH_COORDENATE y);
 #if OCTETOS_MATH_DIMENSION >= 3
 		Vector(OCTETOS_MATH_COORDENATE x, OCTETOS_MATH_COORDENATE y, OCTETOS_MATH_COORDENATE z);
@@ -142,6 +142,11 @@ namespace rect
 		*\brief crea un vector de rotacion tranformado a en la direcion de b.
 		*/
 		Vector rotateCreate(const Vector& b)const;
+		/**
+		*\brief crea un vector de angulo y longitud espoecificada.
+		*/
+		//bool set(OCTETOS_MATH_DECIMAL theta,OCTETOS_MATH_DECIMAL length);
+		OCTETOS_MATH_DECIMAL angle()const;
 	protected:
 		
 	private:
@@ -166,12 +171,15 @@ namespace rect
 		bool isParallel(const Vector&) const;
 		bool isOrthogonal(const Vector&) const;
 		bool isParallel(const Line&) const;
+		bool isOrthogonal(const Line&) const;
 		OCTETOS_MATH_DECIMAL distance(const Vector&) const;
 		OCTETOS_MATH_DECIMAL onX(OCTETOS_MATH_COORDENATE x)const;
 #if OCTETOS_MATH_DIMENSION >= 3
 		OCTETOS_MATH_DECIMAL onXY(OCTETOS_MATH_COORDENATE x,OCTETOS_MATH_COORDENATE y)const;
 #endif
 		Line orthogonalOn(const Vector&)const;
+		OCTETOS_MATH_COORDENATE angle(const Line&)const;
+		OCTETOS_MATH_DECIMAL angle()const;
 	private:
 		Vector p0;
 		Vector a;

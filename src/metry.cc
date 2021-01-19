@@ -1,5 +1,6 @@
 
 #include <math.h>
+#include <cmath>
 #ifdef DEBUG
 	#include <iostream>
 #endif
@@ -259,7 +260,7 @@ namespace rect
 		
 		OCTETOS_MATH_DECIMAL mdyxt = fabs(at(1)/at(0));
 #if OCTETOS_MATH_DIMENSION >= 3
-		throw octetos::core::Exception("Un no es implemeteta esta fucionen 3D",__FILE__,__LINE__);
+		throw octetos::core::Exception("Aun no esta implemeteda esta funcion en 3D",__FILE__,__LINE__);
 #endif
 
 		//objeto
@@ -396,7 +397,7 @@ namespace rect
 		at(CX) = x;
 		at(CY) = y;
 #if OCTETOS_MATH_DIMENSION >= 3
-		throw octetos::core::Exception("Un no es implemeteta esta fucionen 3D",__FILE__,__LINE__);
+		throw octetos::core::Exception("Aun no esta implemeteda esta funcion en 3D",__FILE__,__LINE__);
 #endif
 		return true;
 	}
@@ -408,10 +409,12 @@ namespace rect
 		{
 			throw octetos::core::Exception("El vecto que idica la direccion deve tener longitud unitaria.",__FILE__,__LINE__);
 		}
-		at(CX) = (b[CX] * at(CX)) + (b[CY] * at(CY));
-		at(CY) = (b[CY] * at(CX)) - (b[CX] * at(CY));
+		OCTETOS_MATH_DECIMAL x = (b[CX] * at(CX)) + (b[CY] * at(CY));
+		OCTETOS_MATH_DECIMAL y = (b[CY] * at(CX)) - (b[CX] * at(CY));
+		at(CX) = x;
+		at(CY) = y;
 #if OCTETOS_MATH_DIMENSION >= 3
-		throw octetos::core::Exception("Un no es implemeteta esta fucionen 3D",__FILE__,__LINE__);
+		throw octetos::core::Exception("Aun no esta implemeteda esta funcion en 3D",__FILE__,__LINE__);
 #endif
 		return true;
 	}
@@ -462,8 +465,20 @@ namespace rect
 		Vector u(prod1/lon1,prod2/lon2);
 		return u;
 	}
-
-
+	/*bool Vector::set(OCTETOS_MATH_DECIMAL theta,OCTETOS_MATH_DECIMAL length = 1.0)
+	{
+		at(CX) = cos(theta) * length;
+		at(CY) = sen(theta) * length;
+#if OCTETOS_MATH_DIMENSION >= 3
+		throw octetos::core::Exception("Aun no esta implemeteda esta funcion 3D",__FILE__,__LINE__);
+#endif
+		return true;
+	}*/
+	OCTETOS_MATH_DECIMAL Vector::angle()const
+	{
+		OCTETOS_MATH_DECIMAL angleInRadians = std::atan2(at(CX), at(CY));
+		return (angleInRadians / M_PI) * 180.0;
+	}
 
 	//constructors
 	Line::Line()
@@ -507,7 +522,10 @@ namespace rect
 	{
 		return a.isParallel(obj.a);
 	}
-	
+	bool Line::isOrthogonal(const Line& l2) const
+	{
+		return a.isOrthogonal(l2.a);
+	}
 	OCTETOS_MATH_DECIMAL Line::distance(const Vector& p) const
 	{	
 		//pagina 42
@@ -527,8 +545,40 @@ namespace rect
 		l.a = n;
 		return l;
 	}
+	OCTETOS_MATH_COORDENATE Line::angle(const Line& l2)const
+	{
+		if(isParallel(l2))
+		{
+			throw octetos::core::Exception("Esta tratando determinar en angulo entre rectas paralelas.",__FILE__,__LINE__);
+		}
+		else if(isOrthogonal(l2))
+		{
+			return 90.0;
+		}
 
+		OCTETOS_MATH_COORDENATE l1Theta = a.angle();
+		OCTETOS_MATH_COORDENATE l2Theta = l2.angle();
 
+		if(l1Theta > 0 and l2Theta > 0)
+		{
+			return l1Theta - l2Theta;
+		}
+		else if((l1Theta > 0 and l2Theta < 0) or (l1Theta < 0 and l2Theta > 0))
+		{
+			Vector orthoa = a.orthogonal ();
+			OCTETOS_MATH_COORDENATE v1 = orthoa * l2.a;
+			OCTETOS_MATH_COORDENATE v2 = a * l2.a;
+			return v1/v2;
+		}
+		else
+		{
+			throw octetos::core::Exception("Angulo entre rectas no determinable.",__FILE__,__LINE__);
+		}
+	}
+	OCTETOS_MATH_DECIMAL Line::angle()const
+	{
+		return a.angle();
+	}
 
 
 
