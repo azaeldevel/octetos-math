@@ -465,15 +465,15 @@ namespace rect
 		Vector u(prod1/lon1,prod2/lon2);
 		return u;
 	}
-	/*bool Vector::set(OCTETOS_MATH_DECIMAL theta,OCTETOS_MATH_DECIMAL length = 1.0)
+	bool Vector::setPolar(OCTETOS_MATH_DECIMAL theta,OCTETOS_MATH_DECIMAL length = 1.0)
 	{
-		at(CX) = cos(theta) * length;
-		at(CY) = sen(theta) * length;
+		at(CX) = ::cos(theta) * length;
+		at(CY) = ::sin(theta) * length;
 #if OCTETOS_MATH_DIMENSION >= 3
-		throw octetos::core::Exception("Aun no esta implemeteda esta funcion 3D",__FILE__,__LINE__);
+		throw octetos::core::Exception("Aun no esta implemeteda esta funcion en 3D",__FILE__,__LINE__);
 #endif
 		return true;
-	}*/
+	}
 	OCTETOS_MATH_DECIMAL Vector::angle()const
 	{
 		OCTETOS_MATH_DECIMAL angleInRadians = std::atan2(at(CX), at(CY));

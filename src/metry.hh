@@ -145,7 +145,10 @@ namespace rect
 		/**
 		*\brief crea un vector de angulo y longitud espoecificada.
 		*/
-		//bool set(OCTETOS_MATH_DECIMAL theta,OCTETOS_MATH_DECIMAL length);
+		bool setPolar(OCTETOS_MATH_DECIMAL theta,OCTETOS_MATH_DECIMAL length);
+		/**
+		*\brief 
+		*/
 		OCTETOS_MATH_DECIMAL angle()const;
 	protected:
 		
