@@ -48,15 +48,18 @@ namespace metry::rect
 		//getter
 		T getX() const
 		{
+			if(Point<T>::getDimension() < 1) throw octetos::core::Exception("Obejto vacio",__FILE__,__LINE__);
 			return Point<T>::at(OCTETOS_MATH_CX);
 		}
 		T getY() const
 		{
+			if(Point<T>::getDimension() < 2) throw octetos::core::Exception("EL obejto no contiene coordenada Y.",__FILE__,__LINE__);
 			return Point<T>::at(OCTETOS_MATH_CY);
 		}
 #if OCTETOS_MATH_DIMENSION >= 3
 		T getZ() const
 		{
+			if(Point<T>::getDimension() < 3) throw octetos::core::Exception("EL obejto no contiene coordenada Z.",__FILE__,__LINE__);
 			return Point<T>::at(OCTETOS_MATH_CZ);
 		}
 #endif
@@ -66,16 +69,54 @@ namespace metry::rect
 		}
 		void setX(T val)
 		{
-			Point<T>::at(OCTETOS_MATH_CX) = val;
+			if(Point<T>::getDimension() == 0)
+			{
+				Point<T>::push_back(val);
+			}
+			else if(Point<T>::getDimension() >= 1)
+			{
+				Point<T>::at(OCTETOS_MATH_CX) = val;
+			}
+			else
+			{
+				throw octetos::core::Exception("Error desconocido",__FILE__,__LINE__);
+			}
 		}
 		void setY(T val)
 		{
-			Point<T>::at(OCTETOS_MATH_CY) = val;
+			if(Point<T>::getDimension() == 0)
+			{
+				Point<T>::push_back(0);
+				Point<T>::push_back(val);
+			}
+			else if(Point<T>::getDimension() >= 2)
+			{
+				Point<T>::at(OCTETOS_MATH_CY) = val;
+			}
+			else
+			{
+				throw octetos::core::Exception("El obejto actual no tiene elemento Y",__FILE__,__LINE__);
+			}
 		}
+#if OCTETOS_MATH_DIMENSION >= 3
 		void setZ(T val)
 		{
-			Point<T>::at(OCTETOS_MATH_CZ) = val;
+			if(Point<T>::getDimension() == 0)
+			{
+				Point<T>::push_back(0);
+				Point<T>::push_back(0);
+				Point<T>::push_back(val);
+			}
+			else if(Point<T>::getDimension() >= 3)
+			{
+				Point<T>::at(OCTETOS_MATH_CZ) = val;
+			}
+			else
+			{
+				throw octetos::core::Exception("El obejto actual no tiene elemento Z",__FILE__,__LINE__);
+			}
 		}
+#endif
 		//operators
 		operator std::string() const
 		{

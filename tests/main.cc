@@ -53,20 +53,28 @@ void testVector()
 	else CU_ASSERT(false)
 	if(fabs(vec17.getY() - 1.0) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
 	else CU_ASSERT(false)
+
 	if(fabs(vec18.getX() - 1.0) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
 	else CU_ASSERT(false)
 	if(fabs(vec18.getY() - 0.0) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
 	else CU_ASSERT(false)	
+
 	if(fabs(vec19.getX() - 1.5) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
 	else CU_ASSERT(false)
 	if(fabs(vec19.getY() - 3.5) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
 	else CU_ASSERT(false)
+
+	//std::cout << "vec18 : " << (std::string)vec18 << "\n";
+	//std::cout << "vec17 : " << (std::string)vec17 << "\n";
 	vec17.translate(vec18);
+	//std::cout << "vec17 : " << (std::string)vec17 << "\n";
 	if(fabs(vec17.getX() - 2.0) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
 	else CU_ASSERT(false)
 	if(fabs(vec17.getY() - 1.0) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
 	else CU_ASSERT(false)
+
 	vec17.translate (vec19);
+	//std::cout << "vec17 : " << (std::string)vec17 << "\n";
 	if(fabs(vec17.getX() - 3.5) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
 	else CU_ASSERT(false)
 	if(fabs(vec17.getY() - 4.5) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
@@ -281,6 +289,12 @@ void testPoint()
 	else CU_ASSERT(false);
 	if(point5.getY() == 11) CU_ASSERT(true)
 	else CU_ASSERT(false)
+
+	rect::Point<double> point6;
+	point6.setX(10);
+		
+	rect::Point<double> point7;
+	point7.setY(10);
 }
 
 void testLines()
@@ -302,6 +316,7 @@ void testLines()
 	//std::cout << "pl4Leng = " << pl4Leng << "\n";
 	if(fabs(pl4Leng - 1.788828764) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
 	else CU_ASSERT(false)
+		
 }
 
 int init(void)

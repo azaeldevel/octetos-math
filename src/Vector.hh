@@ -31,9 +31,6 @@ namespace metry::rect
 #endif
 			
 		//getter
-			
-		//operator
-		//operator std::string() const;
 		OCTETOS_MATH_DECIMAL operator*(const Vector& obj)const
 		{
 			OCTETOS_MATH_DECIMAL v1 = Vector<T>::getX() * obj.getX();
@@ -239,10 +236,9 @@ namespace metry::rect
 		{
 			Point<T>::setX(Point<T>::getX() + b.getX());
 			Point<T>::setY(Point<T>::getY() + b.getY());
-	#if OCTETOS_MATH_DIMENSION >= 3
+#if OCTETOS_MATH_DIMENSION >= 3
 			Point<T>::setZ(Point<T>::getZ() + b.getZ());
-	#endif
-
+#endif
 			return true;
 		}
 		bool rotate(const Vector& b)
