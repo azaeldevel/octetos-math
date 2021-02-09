@@ -1,9 +1,4 @@
 
-#include <math.h>
-#include <cmath>
-#ifdef DEBUG
-	#include <iostream>
-#endif
 
 #include "metry.hh"
 
@@ -15,16 +10,4 @@
 namespace metry
 {
 
-
-
-namespace core
-{
-
-}
-
-
-namespace rect
-{
-	
-}
 } 
