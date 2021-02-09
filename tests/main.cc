@@ -176,7 +176,7 @@ void testVector()
 	if(fabs(compa - 3.57771) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
 	else CU_ASSERT(false)
 
-rect::Vector<double> vec20(1.0,1.0), vec21(5.0,0.0);
+	rect::Vector<double> vec20(1.0,1.0), vec21(5.0,0.0);
 	if(fabs(fabs(vec20.getX()) - 1.0) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
 	else CU_ASSERT(false)
 	if(fabs(fabs(vec20.getY()) - 1.0) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
@@ -295,6 +295,53 @@ void testPoint()
 		
 	rect::Point<double> point7;
 	point7.setY(10);
+
+	rect::Point<float> point8(5.3,2.9);
+	if(fabs(point8.getX() - 5.3) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
+	else CU_ASSERT(false);
+	if(fabs(point8.getY() - 2.9) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
+	else CU_ASSERT(false)
+	rect::Point<float> point9(10.3,9.3);
+	if(fabs(point9.getX() - 10.3) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
+	else CU_ASSERT(false);
+	if(fabs(point9.getY() - 9.3) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
+	else CU_ASSERT(false)
+	OCTETOS_MATH_DECIMAL dp8p9 = point8.distance(point9);
+	//std::cout << "point8.distance(point9) = " << dp8p9 << std::endl;
+	if(fabs(dp8p9 - 8.121576202) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
+	else CU_ASSERT(false)
+
+	rect::Point<int> point10(20,14);
+	if(point10.getX() == 20) CU_ASSERT(true)
+	else CU_ASSERT(false);
+	if(point10.getY() == 14) CU_ASSERT(true)
+	else CU_ASSERT(false)
+	rect::Point<int> point11(53,15);
+	if(point11.getX() == 53) CU_ASSERT(true)
+	else CU_ASSERT(false);
+	if(point11.getY() == 15) CU_ASSERT(true)
+	else CU_ASSERT(false)
+	OCTETOS_MATH_DECIMAL dp10p11 = point10.distance(point11);
+	//std::cout << "point10.distance(point11) = " << dp10p11 << std::endl;
+	if(fabs(dp10p11 - 33.015148038) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
+	else CU_ASSERT(false)
+	
+	rect::Point<double> point13(3.0,9.2);
+	if(point1 == point13) CU_ASSERT(true)
+	else CU_ASSERT(false)
+	
+	rect::Point<int> point12(20,14);
+	if(point10 == point12) CU_ASSERT(true)
+	else CU_ASSERT(false)
+	
+	rect::Point<float> point14(5.3,2.9);
+	if(point8 == point14) CU_ASSERT(true)
+	else CU_ASSERT(false)
+		
+	rect::Point<long> point15(20,14);
+	rect::Point<long> point16(20,14);
+	if(point15 == point16) CU_ASSERT(true)
+	else CU_ASSERT(false)
 }
 
 void testLines()
