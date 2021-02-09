@@ -3,7 +3,7 @@
 #define OCTETOS_MATH_POINT_HH
 
 #include <core.hh>
-
+#include <type_traits>
 
 #define OCTETOS_MATH_CX 0
 #define OCTETOS_MATH_CY 1
@@ -44,7 +44,27 @@ namespace metry::rect
 			Point<T>::at(OCTETOS_MATH_CZ) = z;
 		}
 #endif
-		
+		inline bool checkType()
+		{
+			if(std::is_same<T, double>::value)
+			{
+				return true;
+			}
+			else if(std::is_same<T, long>::value)
+			{
+				return true;
+			}
+			else if(std::is_same<T, float>::value)
+			{
+				return true;
+			}
+			else if(std::is_same<T, int>::value)
+			{
+				return true;
+			}
+
+			return false;
+		}
 		//getter
 		T getX() const
 		{
@@ -141,10 +161,10 @@ namespace metry::rect
 			}
 			else if(Point<T>::size() == obj.size())
 			{
-				Point<T>::at(OCTETOS_MATH_CX) = obj[OCTETOS_MATH_CX];
-				Point<T>::at(OCTETOS_MATH_CY) = obj[OCTETOS_MATH_CY];
+				Point<T>::at(OCTETOS_MATH_CX) = obj.getX();
+				Point<T>::at(OCTETOS_MATH_CY) = obj.getY();
 #if OCTETOS_MATH_DIMENSION >= 3
-				Point<T>::at(OCTETOS_MATH_CZ) = obj[OCTETOS_MATH_CZ];
+				Point<T>::at(OCTETOS_MATH_CZ) = obj.getZ();
 #endif
 			}
 			else
@@ -158,20 +178,44 @@ namespace metry::rect
 		{
 			if(Point<double>::size() != obj.size()) return false;
 
-			if(fabs(Point<double>::at(OCTETOS_MATH_CX) - obj[OCTETOS_MATH_CX]) > OCTETOS_MATH_EPSILON) return false;
-			if(fabs(Point<double>::at(OCTETOS_MATH_CY) - obj[OCTETOS_MATH_CY]) > OCTETOS_MATH_EPSILON) return false;
-			if(fabs(Point<double>::at(OCTETOS_MATH_CZ) - obj[OCTETOS_MATH_CZ]) > OCTETOS_MATH_EPSILON) return false;
-
+			if(fabs(Point<double>::getX() - obj.getX()) > OCTETOS_MATH_EPSILON) return false;
+			if(fabs(Point<double>::getY() - obj.getY()) > OCTETOS_MATH_EPSILON) return false;
+#if OCTETOS_MATH_DIMENSION >= 3
+			if(fabs(Point<double>::getZ() - obj.getZ()) > OCTETOS_MATH_EPSILON) return false;
+#endif
 			return true;
-		}		
+		}
+		bool operator ==(const Point<float>& obj)
+		{
+			if(Point<float>::size() != obj.size()) return false;
+
+			if(fabs(Point<float>::getX() - obj.getX()) > OCTETOS_MATH_EPSILON) return false;
+			if(fabs(Point<float>::getY() - obj.getY()) > OCTETOS_MATH_EPSILON) return false;
+#if OCTETOS_MATH_DIMENSION >= 3
+			if(fabs(Point<float>::getZ() - obj.getZ()) > OCTETOS_MATH_EPSILON) return false;
+#endif
+			return true;
+		}			
+		bool operator ==(const Point<long>& obj)
+		{
+			if(Point<long>::size() != obj.size()) return false;
+
+			if(Point<long>::getX() != obj.getX()) return false;
+			if(Point<long>::getY() != obj.getY()) return false;
+#if OCTETOS_MATH_DIMENSION >= 3
+			if(Point<long>::getZ() != obj.getZ()) return false;
+#endif
+			return true;
+		}	
 		bool operator ==(const Point<int>& obj)
 		{
 			if(Point<int>::size() != obj.size()) return false;
 
-			if(Point<int>::at(OCTETOS_MATH_CX) = obj[OCTETOS_MATH_CX]) return false;
-			if(Point<int>::at(OCTETOS_MATH_CY) = obj[OCTETOS_MATH_CY]) return false;
-			if(Point<int>::at(OCTETOS_MATH_CZ) = obj[OCTETOS_MATH_CZ]) return false;
-
+			if(Point<int>::getX() != obj.getX()) return false;
+			if(Point<int>::getY() != obj.getY()) return false;
+#if OCTETOS_MATH_DIMENSION >= 3
+			if(Point<int>::getZ() != obj.getZ()) return false;
+#endif
 			return true;
 		}
 		//funtion

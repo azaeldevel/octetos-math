@@ -96,14 +96,13 @@ namespace metry::rect
 			//v.begin = begin;
 			v.push_back(Point<T>::getY() * -1);
 			v.push_back(Point<T>::getX());
-	#if OCTETOS_MATH_DIMENSION >= 3
+#if OCTETOS_MATH_DIMENSION >= 3
 			throw octetos::core::Exception("Aun no esta implemeteda esta funcion en 3D",__FILE__,__LINE__);
-	#endif
+#endif
 			return v;
 		}
 		bool isParallel(const Vector& obj) const
 		{//se comparan la pendientes de ambos vectores
-			
 			OCTETOS_MATH_DECIMAL mdyxt = fabs(Point<T>::getY()/Point<T>::getX());
 #if OCTETOS_MATH_DIMENSION >= 3
 			throw octetos::core::Exception("Aun no esta implemeteda esta funcion en 3D",__FILE__,__LINE__);
@@ -252,9 +251,9 @@ namespace metry::rect
 			OCTETOS_MATH_DECIMAL y = (b.getY() * Point<T>::getX()) + (b.getX() * Point<T>::getY());
 			Point<T>::setX(x);
 			Point<T>::setY(y);
-	#if OCTETOS_MATH_DIMENSION >= 3
+#if OCTETOS_MATH_DIMENSION >= 3
 			throw octetos::core::Exception("Aun no esta implemeteda esta funcion en 3D",__FILE__,__LINE__);
-	#endif
+#endif
 			return true;
 		}
 		bool reflect(const Vector& b)
@@ -268,9 +267,9 @@ namespace metry::rect
 			OCTETOS_MATH_DECIMAL y = (b.getY() * Point<T>::getX()) - (b.getX() * Point<T>::getY());
 			Point<T>::setX(x);
 			Point<T>::setY(y);
-	#if OCTETOS_MATH_DIMENSION >= 3
+#if OCTETOS_MATH_DIMENSION >= 3
 			throw octetos::core::Exception("Aun no esta implemeteda esta funcion en 3D",__FILE__,__LINE__);
-	#endif
+#endif
 			return true;
 		}
 		/**
@@ -342,9 +341,9 @@ namespace metry::rect
 		{
 			Point<T>::setX(::cos(theta) * length);
 			Point<T>::setY(::sin(theta) * length);
-	#if OCTETOS_MATH_DIMENSION >= 3
+#if OCTETOS_MATH_DIMENSION >= 3
 			throw octetos::core::Exception("Aun no esta implemeteda esta funcion en 3D",__FILE__,__LINE__);
-	#endif
+#endif
 			return true;
 		}
 		/**
