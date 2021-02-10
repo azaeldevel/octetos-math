@@ -1,6 +1,6 @@
 
 
-AC_INIT(octetos-math, 0.2.4-alpha, azael.devel@gmail.com)
+AC_INIT(octetos-math, 0.2.5-alpha, azael.devel@gmail.com)
 
 AC_CONFIG_HEADERS([config.h])
 
@@ -42,5 +42,4 @@ Makefile
 src/Makefile
 tests/Makefile
 src/octetos-math.pc
-po/Makefile.in
 ])
