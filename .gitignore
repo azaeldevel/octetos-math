@@ -17,7 +17,6 @@ intltool-extract.in
 intltool-merge.in
 intltool-update.in
 ltmain.sh
-missing
 po/Makefile.in.in
 src/Makefile.in
 tests/Makefile.in
