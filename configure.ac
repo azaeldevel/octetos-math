@@ -16,7 +16,7 @@ AC_PROG_CXX
 dnl ***************************************************************************
 dnl Internationalization
 dnl ***************************************************************************
-IT_PROG_INTLTOOL([0.35.0])
+dnl IT_PROG_INTLTOOL([0.35.0])
 
 dnl GETTEXT_PACKAGE=math
 dnl AC_SUBST(GETTEXT_PACKAGE)
