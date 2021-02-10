@@ -2,7 +2,7 @@
 #ifndef OCTETOS_MATH_POINT_HH
 #define OCTETOS_MATH_POINT_HH
 
-#include <core.hh>
+#include "core.hh"
 #include <type_traits>
 
 #define OCTETOS_MATH_CX 0

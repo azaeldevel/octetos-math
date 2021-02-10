@@ -1,6 +1,6 @@
 
 
-AC_INIT(octetos-math, 0.2.8-alpha, azael.devel@gmail.com)
+AC_INIT(octetos-math, 0.2.9-alpha, azael.devel@gmail.com)
 
 AC_CONFIG_HEADERS([config.h])
 

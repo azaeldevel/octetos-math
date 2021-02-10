@@ -2,7 +2,7 @@
 #ifndef OCTETOS_MATH_VECTOR_HH
 #define OCTETOS_MATH_VECTOR_HH
 
-#include <Point.hh>
+#include "Point.hh"
 
 namespace metry::rect
 {
