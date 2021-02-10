@@ -14,7 +14,7 @@ liboctetos_math_la_LIBADD = $(OCTETOS_CORE_LIBS)
 liboctetos_math_la_CXXFLAGS = $(OCTETOS_MATH_DEFINES) $(OCTETOS_CORE_CFLAGS) 
 
 octetos_math_includedir = $(includedir)/octetos/math
-octetos_math_include_HEADERS = core.hh Point.hh Vector.hh
+octetos_math_include_HEADERS = core.hh Point.hh Vector.hh Line.hh
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = octetos-math.pc
