@@ -8,23 +8,30 @@
 #include <octetos/core/Exception.hh>
 #include <cmath>
 
-#define OCTETOS_MATH_DECIMAL double
-#define OCTETOS_MATH_INTEGER long
-#define OCTETOS_MATH_EPSILON 0.0001
+#include "defines.hh"
 
-namespace metry::core
+namespace metry
 {
-	template<class T>
-	class Point : public std::vector<T>
+	typedef OCTETOS_MATH_DECIMAL decimal;
+	typedef OCTETOS_MATH_INTEGER integer;
+
+	static decimal epsilon = OCTETOS_MATH_EPSILON;
+
+	namespace core
 	{
-	public:
-		Point() : std::vector<T>()
+		template<class T>
+		class Point : public std::vector<T>
 		{
-		}
-		Point(int dimension) : std::vector<T>(dimension)
-		{
-		}
-	};
+		public:
+			Point() : std::vector<T>()
+			{
+			}
+			Point(int dimension) : std::vector<T>(dimension)
+			{
+			}
+		};
+	}
+	
 } 
 
 
