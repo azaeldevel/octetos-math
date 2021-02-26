@@ -13,14 +13,14 @@
 namespace metry::rect
 {
 	template<class T>
-	class Point : public core::Point<T>
+	class Point : public core::Array<T>
 	{
 	public:
 		//contructor		
-		Point() : core::Point<T>()
+		Point() : core::Array<T>()
 		{
 		}
-		Point(const Point& obj) : core::Point<T>(obj.size())
+		Point(const Point& obj) : core::Array<T>(obj.size())
 		{
 			Point<T>::at(OCTETOS_MATH_CX) = obj[OCTETOS_MATH_CX];
 			Point<T>::at(OCTETOS_MATH_CY) = obj[OCTETOS_MATH_CY];
@@ -28,7 +28,7 @@ namespace metry::rect
 			Point<T>::at(OCTETOS_MATH_CZ) = obj[OCTETOS_MATH_CZ];
 #endif
 		}
-		Point(T x, T y) : core::Point<T>(2)
+		Point(T x, T y) : core::Array<T>(2)
 		{
 			Point<T>::at(OCTETOS_MATH_CX) = x;
 			Point<T>::at(OCTETOS_MATH_CY) = y;
@@ -174,6 +174,8 @@ namespace metry::rect
 
 			return *this;
 		}
+
+		//operator ==
 		bool operator ==(const Point<double>& obj)
 		{
 			if(Point<double>::size() != obj.size()) return false;
@@ -218,6 +220,8 @@ namespace metry::rect
 #endif
 			return true;
 		}
+
+
 		//funtion
 		OCTETOS_MATH_DECIMAL distance(const Point& p)const
 		{

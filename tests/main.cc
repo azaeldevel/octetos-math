@@ -23,6 +23,9 @@
 #include <typeinfo>
 #include <metry.hh>
 
+#include <Functions.hh>
+
+
 using namespace metry;
 
 
@@ -384,6 +387,32 @@ void testDeveloping()
 	//vector : 29
 	//line : 4
 
+	func::Naturals<double> N;
+	func::Identity<double> FI1(N);
+	//std::cout << "funtion FI1 : " << FI1(3) << "\n";
+
+	
+	func::Square<double> FS1(N);
+	double FS1_val = 0.0;
+	try
+	{
+		FS1_val = FS1(3);
+	}
+	catch(std::exception& e)
+	{
+		std::cout << e.what() << "\n";
+		return;
+	}
+	//std::cout << "funtion FS1 : " << FS1_val << "\n";
+
+	func::Set<double> N2(1.0,20.0,1.0);
+	func::Identity<double> FI2(N2);
+	func::Constant<double> FC2(N2,2);
+	func::Sum<double> FSum1(FI2,FC2);
+	double FSum1_y3 = FSum1(3);
+	if(FSum1_y3 - 5.0 < metry::epsilon) CU_ASSERT(true)
+	else CU_ASSERT(false)
+	//std::cout << "FSum1(" << 3 << ") = " << FSum1(3) << "\n";
 }
 
 

@@ -20,13 +20,13 @@ namespace metry
 	namespace core
 	{
 		template<class T>
-		class Point : public std::vector<T>
+		class Array : public std::vector<T>
 		{
 		public:
-			Point() : std::vector<T>()
+			Array() : std::vector<T>()
 			{
 			}
-			Point(int dimension) : std::vector<T>(dimension)
+			Array(int dimension) : std::vector<T>(dimension)
 			{
 			}
 		};
