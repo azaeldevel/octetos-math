@@ -3,121 +3,28 @@
 #ifndef OCTETOS_MATH_FUNCTIONS_HH
 #define OCTETOS_MATH_FUNCTIONS_HH
 
+#include "core.hh"
+#include "Intervals.hh"
 
-namespace func
+
+namespace math::funcs
 {
 	template<class T>
-	class Domain
+	class Parameters : public Domain<T>, public Set<T>
 	{
 	public:
-		virtual bool check(T a) const = 0;
-	};
-
-	template<class T>
-	class Interval : public Domain<T>
-	{
-	};
-
-	template<class T>
-	class Unbounded : public Interval<T>
-	{
-	public:
-		Unbounded(T a)
+		Parameters(double from, double to, double delta) : Set<T>(from,to,delta)
 		{
-			this->a = a;
 		};
-		
-	public:
-		T a;
-	};
-
-
-	template<class T>
-	class Bounded : public Unbounded<T>
-	{
-	public:
-		Bounded(T a, T b) : Unbounded<T>(a)
-		{
-			this->b = b;
-		};
-		
-	public:
-		T b;
-	};
-
-	template<class T>
-	class IntevalClosed : public Bounded<T>
-	{
-	public:
-		IntevalClosed(T a, T b) : Bounded<T>(a,b)
+		Parameters(long from, long to, long delta) : Set<T>(from,to,delta)
 		{
 		};
 		
-		virtual bool check(T i) const
-		{
-			return i >= this->a and i <= this->b;
-		}; 
-	};
-
-	template<class T>
-	class IntervalOpen : public Bounded<T>
-	{
-	public:
-		IntervalOpen(T a, T b) : Bounded<T>(a,b)
-		{
-		};
-		virtual bool check(T i) const
-		{
-			return i > this->a and i < this->b;
-		}; 
-	};
-
-	template<class T>
-	class Naturals : public Domain<T>
-	{
-		virtual bool check(T i) const
-		{
-			long tmp = (long)i;
-			T n = tmp;
-			if( (i - n) <= metry::epsilon) return true;
-			return false;
-		};
-	};
-
-	template<class T>
-	class NotNegative : public Domain<T>
-	{
-		virtual bool check(T i) const
-		{
-			if( i < 0.0) return false;
-			return true;
-		};
-	};
-
-	
-	template<class T>
-	class Set : public Domain<T>, public metry::core::Array<T>
-	{
-	public:
-		Set(double from, double to, double delta) : metry::core::Array<T>()
-		{
-			for(double i = 0.0; i - to < metry::epsilon; i = i + delta)
-			{
-				add(i);
-			};
-		};
-		Set(long from, long to, long delta)
-		{
-			for(long i = 0; i < to; i = i + delta)
-			{
-				add(i);
-			};
-		};
 		virtual bool check(double i) const
 		{
 			for(T t : *this)
 			{
-				if(t - i < metry::epsilon) return true;
+				if(t - i < math::epsilon) return true;
 			}
 
 			return false;
@@ -126,7 +33,7 @@ namespace func
 		{
 			for(T t : *this)
 			{
-				if(t - i < metry::epsilon) return true;
+				if(t - i < math::epsilon) return true;
 			}
 
 			return false;
@@ -156,77 +63,14 @@ namespace func
 		};
 	};
 
-	template<class T>
-	class Function
-	{
-	public:
-		//
-		Function(Domain<T>& d) : domain(&d)
-		{	
-		};
-		//evaluation
-		virtual T operator() (T a) = 0;
-
-		//
-		bool check(T a)
-		{
-			if(domain)return domain->check(a);
-			return false;
-		};
-
-		double inverAdd(double a)
-		{
-			return -1.0 * (*this)(a);
-		};
-		double inverMult(double a)
-		{
-			return 1.0 / (*this)(a);
-		};
-		float inverAdd(float a)
-		{
-			return -1.0 * (*this)(a);
-		};
-		float inverMult(float a)
-		{
-			return 1.0 / (*this)(a);
-		};
-		
-		long inverAdd(long a)
-		{
-			return -1 * (*this)(a);
-		};
-		long inverMult(long a)
-		{
-			return 1 / (*this)(a);
-		};
-		int inverAdd(int a)
-		{
-			return -1 * (*this)(a);
-		};
-		int inverMult(int a)
-		{
-			return 1 / (*this)(a);
-		};
-
-		//funciones
-		virtual T lim(T n) = 0;
-		virtual T D() = 0;
-		virtual T S() = 0;
-	protected:
-		Domain<T>* domain;
-
-		//
-		Function(Domain<T>* d) : domain(d)
-		{	
-		};
-	};
+	
 
 	template<class T>
 	class Identity : public Function<T>
 	{
 	public:
 		//
-		Identity(Domain<T>& d) : Function<T>(d)
+		Identity(Domain<T>& d, short dim) : Function<T>(d,dim)
 		{
 		};
 		virtual T operator() (T a)
@@ -234,8 +78,9 @@ namespace func
 			return a;
 		};
 
-		virtual T lim(T n)
+		virtual T lim(T a)
 		{
+			return this->operator()(a);
 		};
 		virtual T D()
 		{
@@ -250,11 +95,11 @@ namespace func
 	{
 	public:
 		//
-		Constant(T c) : Function<T>(NULL)
+		Constant(T c, short dim) : Function<T>(NULL,dim)
 		{
 			this->c = c;
 		};
-		Constant(Domain<T>& d,T c) : Function<T>(d)
+		Constant(Domain<T>& d,T c, short dim) : Function<T>(d,dim)
 		{
 			this->c = c;
 		};
@@ -262,8 +107,9 @@ namespace func
 		{
 			return c;
 		};
-		virtual T lim(T n)
+		virtual T lim(T a)
 		{
+			return this->operator()(a);
 		};
 		virtual T D()
 		{
@@ -274,25 +120,26 @@ namespace func
 	private:
 		T c;
 	};
-
+	
 	template<class T>
 	class Square : public Function<T>
 	{
 	public:
 		//
-		Square(Domain<T>& d) : Function<T>(d)
+		Square(Domain<T>& d, short dim) : Function<T>(d,dim)
 		{
 		};
 		virtual T operator() (T a)
 		{
-			if(this->domain->check(a)) return sqrt(a);
+			if(Function<T>::check(a)) return sqrt(a);
 			
 			std::string msg = "El valor '";
 			msg += std::to_string(a) + "', esta fuera del Dominio.";
 			throw octetos::core::Exception(msg,__FILE__,__LINE__);
 		};
-		virtual T lim(T n)
+		virtual T lim(T a)
 		{
+			return this->operator()(a);
 		};
 		virtual T D()
 		{
@@ -335,7 +182,7 @@ namespace func
 	{
 	public:
 		//
-		Polinomio(Domain<T>& d, const metry::core::Array<T>& coefs) : Function<T>(d)
+		Polinomio(Domain<T>& d, const std::vector<T>& coefs) : Function<T>(d)
 		{//[1] pag 139
 			grade = coefs.size() + 1;
 		};
@@ -361,21 +208,69 @@ namespace func
 		{
 		};
 	private:
-		const metry::core::Array<T>& coefs;
+		const std::vector<T>& coefs;
 		short grade;
 	};
+
 	template<class T>
-	class Composition : public Function<T>
+	class List : public Function<T>
+	{
+	private:
+		//
+		template<class U>
+		class Valid : public Domain<U>
+		{
+		public:
+			Valid(const std::map<U,U>& c) : coordenadas(c)
+			{
+			
+			};
+			virtual bool check(U i) const
+			{
+				if(coordenadas.find(i) != coordenadas.end()) return true;
+				return false;
+			};
+		private:
+			const std::map<U,U>& coordenadas;
+		};
+	public:
+		//
+		List(const std::map<T,T>& c, short dim): Function<T>(new Valid<T>(c),dim),coordenadas(c)
+		{
+		};
+		virtual T operator() (T a)
+		{
+			return coordenadas.at(a);
+		};
+		virtual T lim(T a)
+		{
+			return this->operator()(a);
+		};
+		virtual T D()
+		{
+		};
+		virtual T S()
+		{
+		};
+	private:
+		const std::map<T,T>& coordenadas;
+		
+	};
+
+	//Operations>>>>>>>>>>>>
+	template<class T>
+	class Operator : public Function<T>
 	{
 	public:
 		//
-		Composition(Function<T>& f, Function<T>& g) : Function<T>(NULL)
+		Operator(Function<T>& f, Function<T>& g, short dim) : Function<T>(NULL,dim)
 		{
 			fs.push_back(&f);
 			fs.push_back(&g);
 		};
-		virtual T lim(T n)
+		virtual T lim(T a)
 		{
+			return this->operator()(a);
 		};
 		virtual T D()
 		{
@@ -388,11 +283,11 @@ namespace func
 	};
 
 	template<class T>
-	class Sum : public Composition<T>
+	class Sum : public Operator<T>
 	{
 	public:
 		//
-		Sum(Function<T>& f, Function<T>& g) : Composition<T>(f,g)
+		Sum(Function<T>& f, Function<T>& g, short dim) : Operator<T>(f,g,dim)
 		{
 		};
 		virtual T operator() (T a)
@@ -413,8 +308,9 @@ namespace func
 			}
 			return temp;
 		};
-		virtual T lim(T n)
+		virtual T lim(T a)
 		{
+			return this->operator()(a);
 		};
 		virtual T D()
 		{
@@ -426,11 +322,11 @@ namespace func
 	};
 	
 	template<class T>
-	class Multiplication : public Composition<T>
+	class Multiplication : public Operator<T>
 	{
 	public:
 		//
-		Multiplication(Function<T>& f, Function<T>& g): Function<T>(f,g)	
+		Multiplication(Function<T>& f, Function<T>& g): Operator<T>(f,g)	
 		{
 		};
 		virtual T operator() (T a)
@@ -447,12 +343,59 @@ namespace func
 			T temp = 0;
 			for(Function<T>* f : this->fs)
 			{
-				temp += (*f)(a);
+				temp *= (*f)(a);
 			}
 			return temp;
 		};
 		virtual T lim(T n)
 		{
+		};
+		virtual T D()
+		{
+		};
+		virtual T S()
+		{
+		};
+	private:
+	};
+
+	
+
+	template<class T>
+	class Composition : public Operator<T>
+	{//[1] pag 141
+	public:
+		//
+		Composition(Function<T>& f, Function<T>& g,short dim) : Operator<T>(f,g,dim)
+		{
+		};
+		virtual T operator()(T a)
+		{
+			Function<T>& g = *(this->fs[1]);
+			Function<T>& f = *(this->fs[0]);
+			if(g.check(a))
+			{
+				if(f.check(g(a)))
+				{
+					return f(g(a));
+				}
+				else
+				{
+					std::string msg = "El valor '";
+					msg += std::to_string(a) + "', esta fuera del Dominio f.";
+					throw octetos::core::Exception(msg,__FILE__,__LINE__);
+				}
+			}
+			else
+			{
+				std::string msg = "El valor '";
+				msg += std::to_string(a) + "', esta fuera del Dominio de g.";
+				throw octetos::core::Exception(msg,__FILE__,__LINE__);
+			}
+		};
+		virtual T lim(T a)
+		{
+			return this->operator()(a);
 		};
 		virtual T D()
 		{

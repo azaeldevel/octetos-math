@@ -5,7 +5,7 @@
 #include <Vector.hh>
 
 
-namespace metry::rect
+namespace math
 {
 	template<class T>
 	class Line

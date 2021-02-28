@@ -23,10 +23,9 @@
 #include <typeinfo>
 #include <metry.hh>
 
-#include <Functions.hh>
+#include <funcs.hh>
 
 
-using namespace metry;
 
 
 
@@ -34,21 +33,21 @@ void testVector()
 {
 	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	//Contructores
-	rect::Vector<double> vect2(1.0,5.0);
+	math::Vector<double> vect2(1.0,5.0);
 	//std::cout << "vect2" << (std::string)vect2 << "\n";
 	if(fabs(vect2.getX() - 1.0) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
 	else CU_ASSERT(false)
 	if(fabs(vect2.getY() - 5.0) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
 	else CU_ASSERT(false)
 		
-	rect::Vector<double> vect3(-4.0,9.0/10.0);
+	math::Vector<double> vect3(-4.0,9.0/10.0);
 	//std::cout << "vect3" << (std::string)vect3 << "\n";
 	if(fabs(vect3.getX() + 4.0) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
 	else CU_ASSERT(false)
 	if(fabs(vect3.getY() - (9.0/10.0)) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
 	else CU_ASSERT(false)
 
-	rect::Vector<double> vec17(1.0,1.0),vec18(1.0,0.0),vec19(1.5,3.5);
+	math::Vector<double> vec17(1.0,1.0),vec18(1.0,0.0),vec19(1.5,3.5);
 	//std::cout << "vec17 : " << (std::string)vec17 << "\n";
 	//std::cout << "vec18 : " << (std::string)vec18 << "\n";
 	//std::cout << "vec19 : " << (std::string)vec19 << "\n";
@@ -92,43 +91,42 @@ void testVector()
 	if(fabs(ps - 0.5) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
 	else CU_ASSERT(false)
 
-	rect::Vector<double> vect4 = vect2 + vect3;
+	math::Vector<double> vect4 = vect2 + vect3;
 	//std::cout << "vect4 = vect2 + vect3 = " << (std::string)vect4 << "\n";
 	if(fabs(vect4.getX() + 3.0) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
 	else CU_ASSERT(false)
 	if(fabs(vect4.getY() - 5.9) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
 	else CU_ASSERT(false)
 
-	rect::Vector<double> vect5 = vect4 * 5.3;
+	math::Vector<double> vect5 = vect4 * 5.3;
 	//std::cout << "vect5 = vect4 * 5.3 = " << (std::string)vect5 << "\n";
 	if(fabs(vect5.getX() + 15.9) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
 	else CU_ASSERT(false)
 	if(fabs(vect5.getY() - 31.27) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
 	else CU_ASSERT(false)
 	
-	rect::Vector<double> vect6 = vect2 - vect3;
+	math::Vector<double> vect6 = vect2 - vect3;
 	//std::cout << "vect6 = vect2 - vect3= " << (std::string)vect6 << "\n";
 	if(fabs(vect6.getX() - 5.0) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
 	else CU_ASSERT(false)
 	if(fabs(vect6.getY() - 4.1) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
 	else CU_ASSERT(false)
 		
-	rect::Vector<double> vect7 = vect4 / 2.36;
+	math::Vector<double> vect7 = vect4 / 2.36;
 	//std::cout << "vect7 = vect4 / 2.36 = " << (std::string)vect7 << "\n";
 	if(fabs(vect7.getX() + 1.271186) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
 	else CU_ASSERT(false)
 	if(fabs(vect7.getY() - 2.5) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
 	else CU_ASSERT(false)
-		
-
-	rect::Vector<double> vect8 = vect7.orthogonal();
+	
+	math::Vector<double> vect8 = vect7.orthogonal();
 	//std::cout << "vect8" << (std::string)vect8 << "\n";
 	if(fabs(vect8.getX() + 2.5) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
 	else CU_ASSERT(false)
 	if(fabs(vect8.getY() + 1.271186) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
 	else CU_ASSERT(false)
 
-	rect::Vector<double> vect9(7.0,35.0);
+	math::Vector<double> vect9(7.0,35.0);
 	//std::cout << "vect9" << (std::string)vect9 << "\n";
 	bool fpv9 = vect9.isParallel(vect2);
 	//if(fpv9) std::cout << "vect9 is paralle t0 vect2\n";
@@ -136,7 +134,7 @@ void testVector()
 	if(fpv9)CU_ASSERT(true)
 	else CU_ASSERT(false)
 	
-	rect::Vector<double> vect10(7.0,35.001);
+	math::Vector<double> vect10(7.0,35.001);
 	//std::cout << "vect10" << (std::string)vect10 << "\n";
 	bool fpv10 = vect10.isParallel(vect2);
 	//if(fpv10) std::cout << "vect10 is paralle to vect2\n";
@@ -144,9 +142,9 @@ void testVector()
 	if(fpv10)CU_ASSERT(false)
 	else CU_ASSERT(true)
 	
-	rect::Vector<double> vect11(2.0,1.0);
+	math::Vector<double> vect11(2.0,1.0);
 	//std::cout << "vect11" << (std::string)vect11 << "\n";
-	rect::Vector<double> vect12(-6.0,-3.0);
+	math::Vector<double> vect12(-6.0,-3.0);
 	//std::cout << "vect12" << (std::string)vect12 << "\n";
 	bool fpv12 = vect11.isParallel(vect12);
 	//if(fpv12) std::cout << "vect11 is paralle to vect12\n";
@@ -154,7 +152,7 @@ void testVector()
 	if(fpv12) CU_ASSERT(true)
 	else CU_ASSERT(false)
 		
-	rect::Vector<double> vect13(2.0,1.0);
+	math::Vector<double> vect13(2.0,1.0);
 	vect13.normalize();
 	//std::cout << "vect13:" << (std::string)vect13 << ", size " << vect13.length() << "\n";
 	OCTETOS_MATH_DECIMAL v13l = vect13.length();
@@ -171,15 +169,15 @@ void testVector()
 	if(vect9.isOrthogonal(vect2))CU_ASSERT(false)
 	else CU_ASSERT(true)
 
-	rect::Vector<double> vect14(2.0,5.0);
-	rect::Vector<double> vect15(-1.0,2.0);
+	math::Vector<double> vect14(2.0,5.0);
+	math::Vector<double> vect15(-1.0,2.0);
 	//std::cout << "La componente de vect14 en la direccion de vect15 es "  << vect14.Comp(vect15) << "\n";
 	//std::cout << "La proyeccion de vect14 en la direccion de vect15 es "  << (std::string)vect14.Proj(vect15) << "\n";
 	OCTETOS_MATH_DECIMAL compa = vect14.Comp(vect15);
 	if(fabs(compa - 3.57771) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
 	else CU_ASSERT(false)
 
-	rect::Vector<double> vec20(1.0,1.0), vec21(5.0,0.0);
+	math::Vector<double> vec20(1.0,1.0), vec21(5.0,0.0);
 	if(fabs(fabs(vec20.getX()) - 1.0) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
 	else CU_ASSERT(false)
 	if(fabs(fabs(vec20.getY()) - 1.0) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
@@ -191,7 +189,7 @@ void testVector()
 	if(fv21) CU_ASSERT(true)
 	else CU_ASSERT(false)
 	
-	rect::Vector<double> vec23(5.0,0.0);
+	math::Vector<double> vec23(5.0,0.0);
 	vec23.rotate(1.5708);//rota 90 grados
 	//std::cout << "vec23 : " << (std::string)vec23 << "\n";
 	if(fabs(vec23.getX()) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
@@ -199,8 +197,8 @@ void testVector()
 	if(fabs(vec23.getY()) - 5.0) CU_ASSERT(true)
 	else CU_ASSERT(false)
 
-	rect::Vector<double> vec24(2.0,1.0);
-	rect::Vector<double> vec25(1.0,2.0);
+	math::Vector<double> vec24(2.0,1.0);
+	math::Vector<double> vec25(1.0,2.0);
 	OCTETOS_MATH_DECIMAL valcos = vec24.cos(vec25);
 	if(fabs(valcos - (4.0/5.0)) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
 	else CU_ASSERT(false)
@@ -212,9 +210,9 @@ void testVector()
 	else CU_ASSERT(false)
 
 	//comprobar que vec28 es el vetor unitario para rotar vec26 hacia vec27
-	rect::Vector<double> vec26(1.0,2.0);
-	rect::Vector<double> vec27(-3.0,1.0);
-	rect::Vector<double> vec28 = vec26.rotateCreate(vec27);
+	math::Vector<double> vec26(1.0,2.0);
+	math::Vector<double> vec27(-3.0,1.0);
+	math::Vector<double> vec28 = vec26.rotateCreate(vec27);
 	//std::cout << "vec28 : " << (std::string)vec28 << "\n";
 	OCTETOS_MATH_DECIMAL vec28Leng = vec28.length ();
 	if(fabs(vec28.getX() + (1.0/sqrt(50))) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
@@ -225,7 +223,7 @@ void testVector()
 	else CU_ASSERT(false)
 
 	//comprobar que el vector unitario vec28 rota vec29 correctamente.
-	rect::Vector<double> vec29(1.0,2.0);
+	math::Vector<double> vec29(1.0,2.0);
 	vec29.rotate(vec28);
 	//std::cout << "vec29 : " << (std::string)vec29 << "\n";
 	if(fabs(vec29.getX() + (3.0/sqrt(2))) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
@@ -234,9 +232,9 @@ void testVector()
 	else CU_ASSERT(false)
 
 	//Pag 105
-	rect::Vector<double> c(7.0,17.0/3.0);
-	rect::Vector<double> a(3.0,1.0);
-	rect::Vector<double> b(1.0,2.0);
+	math::Vector<double> c(7.0,17.0/3.0);
+	math::Vector<double> a(3.0,1.0);
+	math::Vector<double> b(1.0,2.0);
 	OCTETOS_MATH_DECIMAL s,t;
 	c.combLineal (a,b,s,t);
 	//std::cout << "s = " << s << ", t = " << t << "\n";
@@ -248,15 +246,14 @@ void testVector()
 
 void testPoint()
 {
-	rect::Point<double> point0(1.0,1.0);
+	math::Point<double> point0(1.0,1.0);
 	//std::cout << "point0" << (std::string)point0 << "\n";
 	if(fabs(point0.getX() - 1.0) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
 	else CU_ASSERT(false);
 	if(fabs(point0.getY() - 1.0) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
 	else CU_ASSERT(false)
-
-
-	rect::Point<double> point1(3.0,9.2);
+	
+	math::Point<double> point1(3.0,9.2);
 	//std::cout << "point1" << (std::string)point1 << "\n";
 	if(fabs(point1.getX() - 3.0) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
 	else CU_ASSERT(false);	
@@ -267,18 +264,16 @@ void testPoint()
 	//std::cout << "point0.distance(point1) = " << dp0p1 << std::endl;
 	if(fabs(dp0p1 - 8.44038) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
 	else CU_ASSERT(false)
-
-
-	rect::Point<double> point3(1.0,0.0);
+	
+	math::Point<double> point3(1.0,0.0);
 	//std::cout << "point3" << (std::string)point3 << "\n";
 	if(fabs(point3.getX() - 1.0) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
 	else CU_ASSERT(false);
 	if(fabs(point3.getY() - 0.0) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
 	else CU_ASSERT(false)
-
-
+	
 	//Integer
-	rect::Point<int> point4(2,3);
+	math::Point<int> point4(2,3);
 	//std::cout << "point4" << (std::string)point4 << "\n";
 	if(point4.getX() == 2) CU_ASSERT(true)
 	else CU_ASSERT(false);
@@ -286,25 +281,25 @@ void testPoint()
 	else CU_ASSERT(false)
 
 	
-	rect::Point<int> point5(9,11);
+	math::Point<int> point5(9,11);
 	//std::cout << "point5" << (std::string)point5 << "\n";
 	if(point5.getX() == 9) CU_ASSERT(true)
 	else CU_ASSERT(false);
 	if(point5.getY() == 11) CU_ASSERT(true)
 	else CU_ASSERT(false)
 
-	rect::Point<double> point6;
+	math::Point<double> point6;
 	point6.setX(10);
 		
-	rect::Point<double> point7;
+	math::Point<double> point7;
 	point7.setY(10);
 
-	rect::Point<float> point8(5.3,2.9);
+	math::Point<float> point8(5.3,2.9);
 	if(fabs(point8.getX() - 5.3) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
 	else CU_ASSERT(false);
 	if(fabs(point8.getY() - 2.9) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
 	else CU_ASSERT(false)
-	rect::Point<float> point9(10.3,9.3);
+	math::Point<float> point9(10.3,9.3);
 	if(fabs(point9.getX() - 10.3) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
 	else CU_ASSERT(false);
 	if(fabs(point9.getY() - 9.3) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
@@ -314,12 +309,12 @@ void testPoint()
 	if(fabs(dp8p9 - 8.121576202) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
 	else CU_ASSERT(false)
 
-	rect::Point<int> point10(20,14);
+	math::Point<int> point10(20,14);
 	if(point10.getX() == 20) CU_ASSERT(true)
 	else CU_ASSERT(false);
 	if(point10.getY() == 14) CU_ASSERT(true)
 	else CU_ASSERT(false)
-	rect::Point<int> point11(53,15);
+	math::Point<int> point11(53,15);
 	if(point11.getX() == 53) CU_ASSERT(true)
 	else CU_ASSERT(false);
 	if(point11.getY() == 15) CU_ASSERT(true)
@@ -329,29 +324,29 @@ void testPoint()
 	if(fabs(dp10p11 - 33.015148038) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
 	else CU_ASSERT(false)
 	
-	rect::Point<double> point13(3.0,9.2);
+	math::Point<double> point13(3.0,9.2);
 	if(point1 == point13) CU_ASSERT(true)
 	else CU_ASSERT(false)
 	
-	rect::Point<int> point12(20,14);
+	math::Point<int> point12(20,14);
 	if(point10 == point12) CU_ASSERT(true)
 	else CU_ASSERT(false)
 	
-	rect::Point<float> point14(5.3,2.9);
+	math::Point<float> point14(5.3,2.9);
 	if(point8 == point14) CU_ASSERT(true)
 	else CU_ASSERT(false)
 		
-	rect::Point<long> point15(20,14);
-	rect::Point<long> point16(20,14);
+	math::Point<long> point15(20,14);
+	math::Point<long> point16(20,14);
 	if(point15 == point16) CU_ASSERT(true)
 	else CU_ASSERT(false)
 }
 
 void testLines()
 {
-	rect::Line<double> line2(rect::Vector<double>(-5.0,8.0),rect::Vector<double>(3.0,0.0));
+	math::Line<double> line2(math::Vector<double>(-5.0,8.0),math::Vector<double>(3.0,0.0));
 	//std::cout << "line2" << (std::string)line2 << "\n";
-	rect::Line<double> line3(rect::Vector<double>(-2.0,0.0),rect::Vector<double>(1.0,-3.0));
+	math::Line<double> line3(math::Vector<double>(-2.0,0.0),math::Vector<double>(1.0,-3.0));
 	//std::cout << "line3" << (std::string)line3 << "\n";
 	bool l23 = line2.isParallel(line3);
 	//if(l23) std::cout << "line2 is paralle to line3\n";
@@ -359,8 +354,8 @@ void testLines()
 	if(l23)CU_ASSERT(true)
 	else CU_ASSERT(false)
 
-	rect::Line<double> line4(rect::Vector<double>(0.0,5.0),rect::Vector<double>(2.0,1.0));
-	rect::Vector<double> pl4(2.0,-3.0);
+	math::Line<double> line4(math::Vector<double>(0.0,5.0),math::Vector<double>(2.0,1.0));
+	math::Vector<double> pl4(2.0,-3.0);
 	OCTETOS_MATH_DECIMAL pl4Leng = line4.distance(pl4);
 	//std::cout << "line4 : " << (std::string)line4 << "\n";
 	//std::cout << "pl4Leng = " << pl4Leng << "\n";
@@ -387,12 +382,12 @@ void testDeveloping()
 	//vector : 29
 	//line : 4
 
-	func::Naturals<double> N;
-	func::Identity<double> FI1(N);
+	math::Naturals<double> N;
+	math::funcs::Identity<double> FI1(N,2);
 	//std::cout << "funtion FI1 : " << FI1(3) << "\n";
 
 	
-	func::Square<double> FS1(N);
+	math::funcs::Square<double> FS1(N,2);
 	double FS1_val = 0.0;
 	try
 	{
@@ -405,14 +400,32 @@ void testDeveloping()
 	}
 	//std::cout << "funtion FS1 : " << FS1_val << "\n";
 
-	func::Set<double> N2(1.0,20.0,1.0);
-	func::Identity<double> FI2(N2);
-	func::Constant<double> FC2(N2,2);
-	func::Sum<double> FSum1(FI2,FC2);
+	math::funcs::Parameters<double> N2(1.0,20.0,1.0);
+	math::funcs::Identity<double> FI2(N2,2);
+	math::funcs::Constant<double> FC2(N2,2.0,2);
+	math::funcs::Sum<double> FSum1(FI2,FC2,2);
 	double FSum1_y3 = FSum1(3);
-	if(FSum1_y3 - 5.0 < metry::epsilon) CU_ASSERT(true)
+	if(FSum1_y3 - 5.0 < math::epsilon) CU_ASSERT(true)
 	else CU_ASSERT(false)
 	//std::cout << "FSum1(" << 3 << ") = " << FSum1(3) << "\n";
+
+	std::map<double,double> coorF;
+	coorF.insert(std::pair<double, double>(1.0, 3.0));
+	coorF.insert(std::pair<double, double>(2.0, 4.0));
+	coorF.insert(std::pair<double, double>(3.0, 5.0));
+	coorF.insert(std::pair<double, double>(4.0, 6.0));
+	std::map<double,double> coorG;
+	coorG.insert(std::pair<double, double>(0.0, -3.0));
+	coorG.insert(std::pair<double, double>(3.0, 2.0));
+	coorG.insert(std::pair<double, double>(4.0, 1.0));
+	math::funcs::List<double> FCOOF(coorF,2);
+	math::funcs::List<double> FCOOG(coorG,2);
+	math::funcs::Composition<double> FCOMP1(FCOOF,FCOOG,2);
+	double FCOMP1_x = 3.0;
+	double FCOMP1_y = FCOMP1(FCOMP1_x);
+	if(FCOMP1_y - 4.0 < math::epsilon) CU_ASSERT(true)
+	else CU_ASSERT(false)
+	//std::cout << "FCOMP1(" << 4.0 << "," << << ") = "  << "\n";
 }
 
 

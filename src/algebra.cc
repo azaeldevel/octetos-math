@@ -1,7 +1,7 @@
 
 #include "algebra.hh"
 
-namespace algebra
+namespace math
 {
 
 	
