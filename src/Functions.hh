@@ -3,8 +3,9 @@
 #ifndef OCTETOS_MATH_FUNCTIONS_HH
 #define OCTETOS_MATH_FUNCTIONS_HH
 
+#include <map>
 
-namespace func
+namespace math
 {
 	template<class T>
 	class Domain
@@ -79,7 +80,7 @@ namespace func
 		{
 			long tmp = (long)i;
 			T n = tmp;
-			if( (i - n) <= metry::epsilon) return true;
+			if( (i - n) <= math::epsilon) return true;
 			return false;
 		};
 	};
@@ -96,12 +97,12 @@ namespace func
 
 	
 	template<class T>
-	class Set : public Domain<T>, public metry::core::Array<T>
+	class Set : public Domain<T>, public std::vector<T>
 	{
 	public:
-		Set(double from, double to, double delta) : metry::core::Array<T>()
+		Set(double from, double to, double delta) : std::vector<T>()
 		{
-			for(double i = 0.0; i - to < metry::epsilon; i = i + delta)
+			for(double i = 0.0; i - to < math::epsilon; i = i + delta)
 			{
 				add(i);
 			};
@@ -117,7 +118,7 @@ namespace func
 		{
 			for(T t : *this)
 			{
-				if(t - i < metry::epsilon) return true;
+				if(t - i < math::epsilon) return true;
 			}
 
 			return false;
@@ -126,7 +127,7 @@ namespace func
 		{
 			for(T t : *this)
 			{
-				if(t - i < metry::epsilon) return true;
+				if(t - i < math::epsilon) return true;
 			}
 
 			return false;
@@ -168,47 +169,60 @@ namespace func
 		virtual T operator() (T a) = 0;
 
 		//
-		bool check(T a)
+		bool check(T a)  const
 		{
 			if(domain)return domain->check(a);
 			return false;
 		};
 
-		double inverAdd(double a)
+		double inverAdd(double a) const
 		{
 			return -1.0 * (*this)(a);
 		};
-		double inverMult(double a)
+		double inverMult(double a) const
 		{
 			return 1.0 / (*this)(a);
 		};
-		float inverAdd(float a)
+		float inverAdd(float a) const
 		{
 			return -1.0 * (*this)(a);
 		};
-		float inverMult(float a)
+		float inverMult(float a) const
 		{
 			return 1.0 / (*this)(a);
 		};
 		
-		long inverAdd(long a)
+		long inverAdd(long a) const
 		{
 			return -1 * (*this)(a);
 		};
-		long inverMult(long a)
+		long inverMult(long a) const
 		{
 			return 1 / (*this)(a);
 		};
-		int inverAdd(int a)
+		int inverAdd(int a) const
 		{
 			return -1 * (*this)(a);
 		};
-		int inverMult(int a)
+		int inverMult(int a) const
 		{
 			return 1 / (*this)(a);
 		};
 
 		//funciones
+		bool isUnivalente(T x1, T x2) const
+		{//[1] pag 146
+			if( x1 - x2 < math::epsilon)
+			{
+				
+			}
+			else
+			{
+				throw math::Exception("Para determinar la univalecia de una fucnio se requieren que los valores de prueba sean iguales",__FILE__,__LINE__);
+			}
+
+			return false;
+		};
 		virtual T lim(T n) = 0;
 		virtual T D() = 0;
 		virtual T S() = 0;
@@ -217,7 +231,7 @@ namespace func
 
 		//
 		Function(Domain<T>* d) : domain(d)
-		{	
+		{
 		};
 	};
 
@@ -335,7 +349,7 @@ namespace func
 	{
 	public:
 		//
-		Polinomio(Domain<T>& d, const metry::core::Array<T>& coefs) : Function<T>(d)
+		Polinomio(Domain<T>& d, const std::vector<T>& coefs) : Function<T>(d)
 		{//[1] pag 139
 			grade = coefs.size() + 1;
 		};
@@ -361,15 +375,15 @@ namespace func
 		{
 		};
 	private:
-		const metry::core::Array<T>& coefs;
+		const std::vector<T>& coefs;
 		short grade;
 	};
 	template<class T>
-	class Composition : public Function<T>
+	class Operation : public Function<T>
 	{
 	public:
 		//
-		Composition(Function<T>& f, Function<T>& g) : Function<T>(NULL)
+		Operation(Function<T>& f, Function<T>& g) : Function<T>(NULL)
 		{
 			fs.push_back(&f);
 			fs.push_back(&g);
@@ -388,11 +402,11 @@ namespace func
 	};
 
 	template<class T>
-	class Sum : public Composition<T>
+	class Sum : public Operation<T>
 	{
 	public:
 		//
-		Sum(Function<T>& f, Function<T>& g) : Composition<T>(f,g)
+		Sum(Function<T>& f, Function<T>& g) : Operation<T>(f,g)
 		{
 		};
 		virtual T operator() (T a)
@@ -426,7 +440,7 @@ namespace func
 	};
 	
 	template<class T>
-	class Multiplication : public Composition<T>
+	class Multiplication : public Operation<T>
 	{
 	public:
 		//
@@ -450,6 +464,94 @@ namespace func
 				temp += (*f)(a);
 			}
 			return temp;
+		};
+		virtual T lim(T n)
+		{
+		};
+		virtual T D()
+		{
+		};
+		virtual T S()
+		{
+		};
+	private:
+	};
+
+	template<class T>
+	class Coordenadas : public Function<T>
+	{
+	private:
+		//
+		template<class U>
+		class Valid : public Domain<U>
+		{
+		public:
+			Valid(const std::map<U,U>& c) : coordenadas(c)
+			{
+			
+			};
+			virtual bool check(U i) const
+			{
+				if(coordenadas.find(i) != coordenadas.end()) return true;
+				return false;
+			};
+		private:
+			const std::map<U,U>& coordenadas;
+		};
+	public:
+		//
+		Coordenadas(const std::map<T,T>& c): Function<T>(new Valid<T>(c)),coordenadas(c)	
+		{
+		};
+		virtual T operator() (T a)
+		{
+			return coordenadas.at(a);
+		};
+		virtual T lim(T n)
+		{
+		};
+		virtual T D()
+		{
+		};
+		virtual T S()
+		{
+		};
+	private:
+		const std::map<T,T>& coordenadas;
+		
+	};
+
+	template<class T>
+	class Composition : public Operation<T>
+	{//[1] pag 141
+	public:
+		//
+		Composition(Function<T>& f, Function<T>& g) : Operation<T>(f,g)
+		{
+		};
+		virtual T operator()(T a)
+		{
+			Function<T>& g = *(this->fs[1]);
+			Function<T>& f = *(this->fs[0]);
+			if(g.check(a))
+			{
+				if(f.check(g(a)))
+				{
+					return f(g(a));
+				}
+				else
+				{
+					std::string msg = "El valor '";
+					msg += std::to_string(a) + "', esta fuera del Dominio f.";
+					throw octetos::core::Exception(msg,__FILE__,__LINE__);
+				}
+			}
+			else
+			{
+				std::string msg = "El valor '";
+				msg += std::to_string(a) + "', esta fuera del Dominio de g.";
+				throw octetos::core::Exception(msg,__FILE__,__LINE__);
+			}
 		};
 		virtual T lim(T n)
 		{

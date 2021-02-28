@@ -9,7 +9,7 @@ endif
 
 lib_LTLIBRARIES = liboctetos-math.la
 
-liboctetos_math_la_SOURCES = metry.cc
+liboctetos_math_la_SOURCES = core.cc metry.cc
 liboctetos_math_la_LIBADD = $(OCTETOS_CORE_LIBS)
 liboctetos_math_la_CXXFLAGS = $(OCTETOS_MATH_DEFINES) $(OCTETOS_CORE_CFLAGS) 
 

@@ -10,17 +10,17 @@
 #define OCTETOS_MATH_CZ 2
 
 
-namespace metry::rect
+namespace math
 {
 	template<class T>
-	class Point : public core::Array<T>
+	class Point : public std::vector<T>
 	{
 	public:
 		//contructor		
-		Point() : core::Array<T>()
+		Point() : std::vector<T>()
 		{
 		}
-		Point(const Point& obj) : core::Array<T>(obj.size())
+		Point(const Point& obj) : std::vector<T>(obj.size())
 		{
 			Point<T>::at(OCTETOS_MATH_CX) = obj[OCTETOS_MATH_CX];
 			Point<T>::at(OCTETOS_MATH_CY) = obj[OCTETOS_MATH_CY];
@@ -28,7 +28,7 @@ namespace metry::rect
 			Point<T>::at(OCTETOS_MATH_CZ) = obj[OCTETOS_MATH_CZ];
 #endif
 		}
-		Point(T x, T y) : core::Array<T>(2)
+		Point(T x, T y) : std::vector<T>(2)
 		{
 			Point<T>::at(OCTETOS_MATH_CX) = x;
 			Point<T>::at(OCTETOS_MATH_CY) = y;
@@ -37,7 +37,7 @@ namespace metry::rect
 	#endif
 		}
 #if OCTETOS_MATH_DIMENSION >= 3
-		Point(T x, T y, T z) : core::Point<T>(3)
+		Point(T x, T y, T z) : std::vector<T>(3)
 		{
 			Point<T>::at(OCTETOS_MATH_CX) = x;
 			Point<T>::at(OCTETOS_MATH_CY) = y;

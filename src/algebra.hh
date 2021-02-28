@@ -3,7 +3,7 @@
 #define OCTETOS_MATH_ALGEBRA_HH
 
 
-namespace algebra
+namespace math
 {
 	template<class T>
 	class Equation
