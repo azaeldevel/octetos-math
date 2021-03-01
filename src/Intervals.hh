@@ -21,8 +21,19 @@ namespace math
 			this->a = a;
 		};
 		
-	public:
+	protected:
 		T a;
+	};
+
+	template<class T>
+	class Positives : public Interval<T>
+	{
+	public:
+		virtual bool check(T a) const
+		{
+			if(a < 0.0) return false;
+			else return true;
+		};
 	};
 
 

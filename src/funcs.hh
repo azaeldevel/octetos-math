@@ -75,7 +75,11 @@ namespace math::funcs
 		};
 		virtual T operator() (T a)
 		{
-			return a;
+			if(Function<T>::check(a)) return a;
+			
+			std::string msg = "El valor '";
+			msg += std::to_string(a) + "', esta fuera del Dominio.";
+			throw octetos::core::Exception(msg,__FILE__,__LINE__);
 		};
 
 		virtual T lim(T a)
@@ -105,7 +109,11 @@ namespace math::funcs
 		};
 		virtual T operator() (T a)
 		{
-			return c;
+			if(Function<T>::check(a)) return c;
+			
+			std::string msg = "El valor '";
+			msg += std::to_string(a) + "', esta fuera del Dominio.";
+			throw octetos::core::Exception(msg,__FILE__,__LINE__);
 		};
 		virtual T lim(T a)
 		{
@@ -257,16 +265,55 @@ namespace math::funcs
 		
 	};
 
+	template<class T>
+	class Parabolic : public Function<T>
+	{
+	public:
+		//
+		Parabolic(Domain<T>& d, short dim,T b) : Function<T>(d,dim),base(b)
+		{
+		};
+		virtual T operator() (T a)
+		{
+			if(Function<T>::check(a)) return pow(a,2) + base;
+			
+			std::string msg = "El valor '";
+			msg += std::to_string(a) + "', esta fuera del Dominio.";
+			throw octetos::core::Exception(msg,__FILE__,__LINE__);
+		};
+
+		virtual T lim(T a)
+		{
+			return this->operator()(a);
+		};
+		virtual T D()
+		{
+		};
+		virtual T S()
+		{
+		};
+	private:
+		T base;
+	};
+
 	//Operations>>>>>>>>>>>>
 	template<class T>
 	class Operator : public Function<T>
 	{
 	public:
 		//
-		Operator(Function<T>& f, Function<T>& g, short dim) : Function<T>(NULL,dim)
+		Operator(Function<T>& f, Function<T>& g) : Function<T>(NULL,f.getDimension())
+		{
+			if(f.getDimension() != g.getDimension())
+			{
+				throw Exception("Ambas funciones deme ser de la misma dimension'",__FILE__,__LINE__);
+			}
+			fs.push_back(&f);			
+			fs.push_back(&g);
+		};
+		Operator(Function<T>& f, short dim) : Function<T>(NULL,f.getDimension())
 		{
 			fs.push_back(&f);
-			fs.push_back(&g);
 		};
 		virtual T lim(T a)
 		{
@@ -283,11 +330,63 @@ namespace math::funcs
 	};
 
 	template<class T>
+	class SecantLine : public Operator<T>
+	{
+	public:
+		/**
+		*\brief Optine la secuante para la fucion indicada
+		*\param x Valor hacia el que tiene la funcion, en la definion de derivada el valor hacia el que teine la variable
+		*\param d Mejor llamada delta, valor de incremento en cada llamada de la fucion
+		*\param delta = |x - x0| / div
+		**/
+		SecantLine(Function<T>& f,T into,std::list<math::Point<T>>& l,T divisor) : Operator<T>(f,f.getDimension()),in(into),list(l),div(divisor)
+		{
+		};
+		virtual T operator() (T a)
+		{
+			Function<T>& f = *(this->fs.at(0));
+			if(!f.check(a))
+			{
+				std::string msg = "El valor '";
+				msg += std::to_string(a) + "', esta fuera del Dominio.";
+				throw octetos::core::Exception(msg,__FILE__,__LINE__);
+			}
+			T temp = 0;
+			T h = in - a;
+			T x = 0;
+			for(short i = 0; i < 10; i++)
+			{
+				x = in - h;
+				//std::cout << "h = " << h << "\n";
+				temp = (f(in) - f(x)) / h;
+				//std::cout << "f(x) = " << temp << "\n";
+				h = h/div;
+				list.push_back(math::Point<T>(x,temp));
+			}
+			return temp;
+		};
+		virtual T lim(T a)
+		{
+			return this->operator()(a);
+		};
+		virtual T D()
+		{
+		};
+		virtual T S()
+		{
+		};
+	private:
+		T in;
+		std::list<math::Point<T>>& list;
+		T div;
+	};
+
+	template<class T>
 	class Sum : public Operator<T>
 	{
 	public:
 		//
-		Sum(Function<T>& f, Function<T>& g, short dim) : Operator<T>(f,g,dim)
+		Sum(Function<T>& f, Function<T>& g) : Operator<T>(f,g)
 		{
 		};
 		virtual T operator() (T a)
@@ -358,15 +457,13 @@ namespace math::funcs
 		};
 	private:
 	};
-
 	
-
 	template<class T>
 	class Composition : public Operator<T>
 	{//[1] pag 141
 	public:
 		//
-		Composition(Function<T>& f, Function<T>& g,short dim) : Operator<T>(f,g,dim)
+		Composition(Function<T>& f, Function<T>& g) : Operator<T>(f,g)
 		{
 		};
 		virtual T operator()(T a)
@@ -399,9 +496,11 @@ namespace math::funcs
 		};
 		virtual T D()
 		{
+			
 		};
 		virtual T S()
 		{
+			
 		};
 	private:
 	};

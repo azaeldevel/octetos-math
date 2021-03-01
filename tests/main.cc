@@ -24,7 +24,7 @@
 #include <metry.hh>
 
 #include <funcs.hh>
-
+#include <funcs-ext.hh>
 
 
 
@@ -403,7 +403,7 @@ void testDeveloping()
 	math::funcs::Parameters<double> N2(1.0,20.0,1.0);
 	math::funcs::Identity<double> FI2(N2,2);
 	math::funcs::Constant<double> FC2(N2,2.0,2);
-	math::funcs::Sum<double> FSum1(FI2,FC2,2);
+	math::funcs::Sum<double> FSum1(FI2,FC2);
 	double FSum1_y3 = FSum1(3);
 	if(FSum1_y3 - 5.0 < math::epsilon) CU_ASSERT(true)
 	else CU_ASSERT(false)
@@ -420,12 +420,44 @@ void testDeveloping()
 	coorG.insert(std::pair<double, double>(4.0, 1.0));
 	math::funcs::List<double> FCOOF(coorF,2);
 	math::funcs::List<double> FCOOG(coorG,2);
-	math::funcs::Composition<double> FCOMP1(FCOOF,FCOOG,2);
+	math::funcs::Composition<double> FCOMP1(FCOOF,FCOOG);
 	double FCOMP1_x = 3.0;
 	double FCOMP1_y = FCOMP1(FCOMP1_x);
 	if(FCOMP1_y - 4.0 < math::epsilon) CU_ASSERT(true)
 	else CU_ASSERT(false)
 	//std::cout << "FCOMP1(" << 4.0 << "," << << ") = "  << "\n";
+
+	math::Positives<double> P;
+	std::list<math::Point<double>> pairs1;
+	math::funcs::Parabolic<double> parabo1(P,2,2.0);
+	math::funcs::SecantLine<double> secL1(parabo1,10,pairs1,2);
+	double secL1_val = secL1(1);
+	if(secL1_val - 20.0 < math::epsilon) CU_ASSERT(true)
+	else CU_ASSERT(false)
+	for(auto p : pairs1)
+	{
+		//std::cout << "P" << (std::string)p << "\n";
+	}
+	//std::cout << "\n";
+	std::list<math::Point<double>> pairs2;
+	math::funcs::SecantLine<double> secL2(parabo1,10,pairs2,3);
+	double secL1_val2 =secL2(1);
+	if(secL1_val2 - 20.0 < math::epsilon) CU_ASSERT(true)
+	else CU_ASSERT(false)
+	for(auto p : pairs2)
+	{
+		//std::cout << "P" << (std::string)p << "\n";
+	}
+
+	std::list<math::Point<double>> pairs3;
+	math::funcs::ExerciesSecante<double> exercies(0,pairs3,2);
+	double secsen_val1 = exercies.secsen(0.5);
+	if(secsen_val1 - 1.0 < math::epsilon) CU_ASSERT(true)
+	else CU_ASSERT(false)
+	for(auto p : pairs3)
+	{
+		std::cout << "P" << (std::string)p << "\n";
+	}
 }
 
 
