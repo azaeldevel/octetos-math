@@ -93,6 +93,9 @@ namespace math::funcs
 			{
 				return 1;
 			}
+			std::string msg = "El valor '";
+			msg += std::to_string(a) + "', esta fuera del Dominio.";
+			throw Exception(msg,__FILE__,__LINE__);
 		};
 	};
 
@@ -127,6 +130,9 @@ namespace math::funcs
 			{
 				return 0;
 			}
+			std::string msg = "El valor '";
+			msg += std::to_string(a) + "', esta fuera del Dominio.";
+			throw Exception(msg,__FILE__,__LINE__);
 		};
 	private:
 		T c;
@@ -478,44 +484,73 @@ namespace math::funcs
 		virtual T D(T a)
 		{
 			if(Function<T>::check(a)) return 2 * a;
+			std::string msg = "El valor '";
+			msg += std::to_string(a) + "', esta fuera del Dominio.";
+			throw Exception(msg,__FILE__,__LINE__);
 		};
 	private:
 		T base;
 	};
 	
+
 	template<class T>
-	class Polinomio : public Function<T>
+	class Sin : public Function<T>
 	{
 	public:
 		//
-		Polinomio(Domain<T>& d, const std::vector<T>& coefs) : Function<T>(d)
-		{//[1] pag 139
-			grade = coefs.size() + 1;
+		Sin(Domain<T>& d): Function<T>(d,2)	
+		{
 		};
 		virtual T operator() (T a)
 		{
-			T temp = 0;
-
-			for(short i = 0 ; i < coefs.size(); i++)
+			if(!Function<T>::check(a))
 			{
-				temp += coefs[i] * (pow(a,i));
+				std::string msg = "El valor '";
+				msg += std::to_string(a) + "', esta fuera del Dominio.";
+				
+				throw Exception(msg,__FILE__,__LINE__);
 			}
-
-			return temp;
+			
+			return ::sin(a);
 		};
-
-		virtual T lim(T n)
+		virtual T lim(T a)
 		{
+			return this->operator()(a);
 		};
 		virtual T D(T a)
 		{
+			return ::cos(a);
 		};
-		virtual T S(T a)
+	};
+	
+	template<class T>
+	class Cos : public Function<T>
+	{
+	public:
+		//
+		Cos(Domain<T>& d): Function<T>(d,2)	
 		{
 		};
-	private:
-		const std::vector<T>& coefs;
-		short grade;
+		virtual T operator() (T a)
+		{
+			if(!Function<T>::check(a))
+			{
+				std::string msg = "El valor '";
+				msg += std::to_string(a) + "', esta fuera del Dominio.";
+				
+				throw Exception(msg,__FILE__,__LINE__);
+			}
+			
+			return ::cos(a);
+		};
+		virtual T lim(T a)
+		{
+			return this->operator()(a);
+		};
+		virtual T D(T a)
+		{
+			return -1 * ::sin(a);
+		};
 	};
 
 	template<class T>
@@ -554,7 +589,7 @@ namespace math::funcs
 		};
 		virtual T D(T a)
 		{
-			
+			return 0;
 		};
 	private:
 		const std::map<T,T>& coordenadas;
@@ -603,6 +638,12 @@ namespace math::funcs
 		};
 		virtual T D(T a)
 		{
+			Function<T>& f = *(this->fs.at(0));
+			if(f.check(a)) return 0;
+
+			std::string msg = "El valor '";
+			msg += std::to_string(a) + "', esta fuera del Dominio.";
+			throw octetos::core::Exception(msg,__FILE__,__LINE__);
 		};
 	private:
 		T in;

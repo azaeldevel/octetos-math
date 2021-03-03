@@ -369,12 +369,6 @@ namespace math
 			return true;
 		};
 		
-		//
-		T sin(T x){return ::sin(x);};
-		T cos(T x){return ::cos(x);};
-		T tan(T x){return ::tan(x);};
-		//
-		
 	private:
 		short dimension;
 		Domain<T>* domain;

@@ -524,6 +524,26 @@ void testDeveloping()
 	//std::cout << "pow1_D1 : " << pow1_D1 << "\n";
 	if(fabs(pow1_D1 - 864.0) < math::epsilon) CU_ASSERT(true)
 	else CU_ASSERT(false)
+
+	math::funcs::Sin<double> sin1(P);
+	double sin1_v1 = sin1(0.5);
+	//std::cout << "sin1_v1 : " << sin1_v1 << "\n";
+	if(fabs(sin1_v1 - 0.479425) < math::epsilon) CU_ASSERT(true)
+	else CU_ASSERT(false)
+	double sin1_D1 = sin1.D(0.5);
+	//std::cout << "sin1_D1 : " << sin1_D1 << "\n";
+	if(fabs(sin1_D1 - 0.877582) < math::epsilon) CU_ASSERT(true)
+	else CU_ASSERT(false)
+		
+	math::funcs::Cos<double> cos1(P);
+	double cos1_v1 = cos1(0.5);
+	//std::cout << "cos1_v1 : " << cos1_v1 << "\n";
+	if(fabs(cos1_v1 - 0.877582) < math::epsilon) CU_ASSERT(true)
+	else CU_ASSERT(false)
+	double cos1_D1 = cos1.D(0.5);
+	//std::cout << "sin1_D1 : " << sin1_D1 << "\n";
+	if(fabs(cos1_D1 + 0.479425) < math::epsilon) CU_ASSERT(true)
+	else CU_ASSERT(false)
 }
 
 

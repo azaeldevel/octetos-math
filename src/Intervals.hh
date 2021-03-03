@@ -32,7 +32,7 @@ namespace math
 		virtual bool check(T a) const
 		{
 			if(a < 0.0) return false;
-			else return true;
+			return true;
 		};
 	};
 

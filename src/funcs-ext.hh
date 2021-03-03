@@ -17,13 +17,15 @@ namespace math::funcs
 		};
 		virtual T operator() (T a)
 		{
-			;
+			return 0;
 		}
 		virtual T lim(T a)
 		{
+			return 0;
 		};
 		virtual T D(T a)
 		{
+			return 0;
 		};
 		T secsen(T a)
 		{			
