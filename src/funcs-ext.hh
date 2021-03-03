@@ -19,13 +19,10 @@ namespace math::funcs
 		{
 			;
 		}
-		virtual T lim(T n)
+		virtual T lim(T a)
 		{
 		};
-		virtual T D()
-		{
-		};
-		virtual T S()
+		virtual T D(T a)
 		{
 		};
 		T secsen(T a)

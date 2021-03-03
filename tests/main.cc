@@ -382,33 +382,28 @@ void testDeveloping()
 	//vector : 29
 	//line : 4
 
+	math::Positives<double> P;
 	math::Naturals<double> N;
-	math::funcs::Identity<double> FI1(N,2);
+	if(P.check(2.0)) CU_ASSERT(true)
+	else CU_ASSERT(false)
+	if(P.check(3.0)) CU_ASSERT(true)
+	else CU_ASSERT(false)
+	if(P.check(4.0)) CU_ASSERT(true)
+	else CU_ASSERT(false)		
+	if(P.check(-1.0)) CU_ASSERT(false)
+	else CU_ASSERT(true)
+	math::funcs::I<double> FI1(N,2);
 	//std::cout << "funtion FI1 : " << FI1(3) << "\n";
-
 	
-	math::funcs::Square<double> FS1(N,2);
-	double FS1_val = 0.0;
-	try
-	{
-		FS1_val = FS1(3);
-	}
-	catch(std::exception& e)
-	{
-		std::cout << e.what() << "\n";
-		return;
-	}
-	//std::cout << "funtion FS1 : " << FS1_val << "\n";
-
 	math::funcs::Parameters<double> N2(1.0,20.0,1.0);
-	math::funcs::Identity<double> FI2(N2,2);
-	math::funcs::Constant<double> FC2(N2,2.0,2);
+	math::funcs::I<double> FI2(N2,2);
+	math::funcs::C<double> FC2(N2,2,2.0);
 	math::funcs::Sum<double> FSum1(FI2,FC2);
 	double FSum1_y3 = FSum1(3);
 	if(FSum1_y3 - 5.0 < math::epsilon) CU_ASSERT(true)
 	else CU_ASSERT(false)
 	//std::cout << "FSum1(" << 3 << ") = " << FSum1(3) << "\n";
-
+	
 	std::map<double,double> coorF;
 	coorF.insert(std::pair<double, double>(1.0, 3.0));
 	coorF.insert(std::pair<double, double>(2.0, 4.0));
@@ -418,8 +413,8 @@ void testDeveloping()
 	coorG.insert(std::pair<double, double>(0.0, -3.0));
 	coorG.insert(std::pair<double, double>(3.0, 2.0));
 	coorG.insert(std::pair<double, double>(4.0, 1.0));
-	math::funcs::List<double> FCOOF(coorF,2);
-	math::funcs::List<double> FCOOG(coorG,2);
+	math::funcs::List<double> FCOOF(coorF);
+	math::funcs::List<double> FCOOG(coorG);
 	math::funcs::Composition<double> FCOMP1(FCOOF,FCOOG);
 	double FCOMP1_x = 3.0;
 	double FCOMP1_y = FCOMP1(FCOMP1_x);
@@ -427,18 +422,23 @@ void testDeveloping()
 	else CU_ASSERT(false)
 	//std::cout << "FCOMP1(" << 4.0 << "," << << ") = "  << "\n";
 
-	math::Positives<double> P;
+	math::funcs::I<double> FI3(P,2);
 	std::list<math::Point<double>> pairs1;
-	math::funcs::Parabolic<double> parabo1(P,2,2.0);
+	math::funcs::Parabolic<double> parabo1(FI3);
+	double parabo1_val1 = parabo1(2.0);
+	//std::cout << "parabo1_val1 " << parabo1_val1 << "\n";
+	if(fabs(parabo1_val1 - 4.0) < math::epsilon) CU_ASSERT(true)
+	else CU_ASSERT(false)
 	math::funcs::SecantLine<double> secL1(parabo1,10,pairs1,2);
 	double secL1_val = secL1(1);
-	if(secL1_val - 20.0 < math::epsilon) CU_ASSERT(true)
+	//std::cout << "secL1_val " << secL1_val << "\n";
+	if(fabs(secL1_val - 19.9824) < math::epsilon) CU_ASSERT(true)
 	else CU_ASSERT(false)
 	for(auto p : pairs1)
 	{
 		//std::cout << "P" << (std::string)p << "\n";
 	}
-	//std::cout << "\n";
+	
 	std::list<math::Point<double>> pairs2;
 	math::funcs::SecantLine<double> secL2(parabo1,10,pairs2,3);
 	double secL1_val2 =secL2(1);
@@ -448,7 +448,7 @@ void testDeveloping()
 	{
 		//std::cout << "P" << (std::string)p << "\n";
 	}
-
+	
 	std::list<math::Point<double>> pairs3;
 	math::funcs::ExerciesSecante<double> exercies(0,pairs3,2);
 	double secsen_val1 = exercies.secsen(0.5);
@@ -456,8 +456,74 @@ void testDeveloping()
 	else CU_ASSERT(false)
 	for(auto p : pairs3)
 	{
-		std::cout << "P" << (std::string)p << "\n";
+		//std::cout << "P" << (std::string)p << "\n";
 	}
+
+	math::funcs::I<double> FI4(P,2);
+	math::funcs::Parabolic<double> parabo2(FI4);
+	math::funcs::cF<double> cF1(3.0,parabo2);
+	double cF1_val1 = cF1(6.0);
+	//std::cout << "cF1_val1 : " << cF1_val1 << "\n";
+	if(fabs(cF1_val1 - 108.0) < math::epsilon) CU_ASSERT(true)
+	else CU_ASSERT(false)
+	double cF1_D1 = cF1.D(6.0);
+	//std::cout << "cF1_D1 : " << cF1_D1 << "\n";
+	if(fabs(cF1_D1 - 36.0) < math::epsilon) CU_ASSERT(true)
+	else CU_ASSERT(false)
+
+	//suma
+	math::funcs::Sum<double> sum1(FI3,FI3);
+	double sum1_v1 = sum1(6.0);
+	//std::cout << "sum1_v1 : " << sum1_v1 << "\n";
+	if(fabs(sum1_v1 - 12.0) < math::epsilon) CU_ASSERT(true)
+	else CU_ASSERT(false)
+	double sum1_D1 = sum1.D(6.0);
+	//std::cout << "sum1_D1 : " << sum1_D1 << "\n";
+	if(fabs(sum1_D1 - 2.0) < math::epsilon) CU_ASSERT(true)
+	else CU_ASSERT(false)
+		
+	//minus
+	math::funcs::Minus<double> min1(FI3,FI3);
+	double min1_v1 = min1(6.0);
+	//std::cout << "min1_v1 : " << min1_v1 << "\n";
+	if(fabs(min1_v1 - 0.0) < math::epsilon) CU_ASSERT(true)
+	else CU_ASSERT(false)
+	double min1_D1 = min1.D(6.0);
+	//std::cout << "min1_D1 : " << sum1_D1 << "\n";
+	if(fabs(min1_D1 - 0.0) < math::epsilon) CU_ASSERT(true)
+	else CU_ASSERT(false)
+		
+	//multi
+	math::funcs::Multiply<double> mul1(FI3,FI3);
+	double mul1_v1 = mul1(6.0);
+	//std::cout << "mul1_v1 : " << mul1_v1 << "\n";
+	if(fabs(mul1_v1 - 36.0) < math::epsilon) CU_ASSERT(true)
+	else CU_ASSERT(false)
+	double mul1_D1 = mul1.D(6.0);
+	//std::cout << "mul1_D1 : " << mul1_D1 << "\n";
+	if(fabs(mul1_D1 - 12.0) < math::epsilon) CU_ASSERT(true)
+	else CU_ASSERT(false)
+
+	//div
+	math::funcs::Divide<double> div1(FI3,FI3);
+	double div1_v1 = div1(6.0);
+	//std::cout << "div1_v1 : " << div1_v1 << "\n";
+	if(fabs(div1_v1 - 1.0) < math::epsilon) CU_ASSERT(true)
+	else CU_ASSERT(false)
+	double div1_D1 = div1.D(6.0);
+	//std::cout << "div1_D1 : " << div1_D1 << "\n";
+	if(fabs(div1_D1 - 0.0) < math::epsilon) CU_ASSERT(true)
+	else CU_ASSERT(false)
+
+	math::funcs::Power<double> pow1(FI3,4);
+	double pow1_v1 = pow1(6.0);
+	//std::cout << "pow1_v1 : " << pow1_v1 << "\n";
+	if(fabs(pow1_v1 - 1296.0) < math::epsilon) CU_ASSERT(true)
+	else CU_ASSERT(false)
+	double pow1_D1 = pow1.D(6.0);
+	//std::cout << "pow1_D1 : " << pow1_D1 << "\n";
+	if(fabs(pow1_D1 - 864.0) < math::epsilon) CU_ASSERT(true)
+	else CU_ASSERT(false)
 }
 
 

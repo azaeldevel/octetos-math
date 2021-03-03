@@ -355,8 +355,7 @@ namespace math
 		//funciones
 		virtual T operator() (T a) = 0;
 		virtual T lim(T n) = 0;
-		virtual T D() = 0;
-		virtual T S() = 0;
+		virtual T D(T a) = 0;
 		virtual void getPoint(Point<T>& p,T a)
 		{
 			p.setY(this->operator()(a));
@@ -367,7 +366,7 @@ namespace math
 		bool check(T a) const
 		{
 			if(domain) return domain->check(a);
-			return false;
+			return true;
 		};
 		
 		//
