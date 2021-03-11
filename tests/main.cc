@@ -544,6 +544,19 @@ void testDeveloping()
 	//std::cout << "sin1_D1 : " << sin1_D1 << "\n";
 	if(fabs(cos1_D1 + 0.479425) < math::epsilon) CU_ASSERT(true)
 	else CU_ASSERT(false)
+
+	//[ejer] pag 398
+	math::funcs::VolumenTubo<double> vt1(P,3.048,0.1016);
+	
+	double vt1_D1 = vt1.D(0.146304);
+	//std::cout << "vt1_D1 : " << vt1_D1 << "\n";
+	if(fabs(vt1_D1 - 0.972880635) < math::epsilon) CU_ASSERT(true)
+	else CU_ASSERT(false)
+	vt1_D1 = vt1_D1 * 0.0063499998984;
+	//std::cout << "vt1_D1 : " << vt1_D1 << "\n";
+	if(fabs(vt1_D1 - 0.00617778) < math::epsilon) CU_ASSERT(true)
+	else CU_ASSERT(false)
+	
 }
 
 

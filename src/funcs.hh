@@ -596,6 +596,8 @@ namespace math::funcs
 		
 	};
 
+	
+
 	template<class T>
 	class SecantLine : public Operator<T>
 	{

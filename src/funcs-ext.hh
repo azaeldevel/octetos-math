@@ -49,6 +49,49 @@ namespace math::funcs
 		std::list<math::Point<T>>& list;
 		T div;
 	};
+
+	template<class T>
+	class VolumenTubo : public Function<T>
+	{//[1] pag 398
+	public:
+		/*
+		*
+		*\param higth altura del tubo en metro
+		*\param diametro diametros exterior del tubo en metros
+		*/
+		VolumenTubo(Domain<T>& d, T higth, T diametro) : Function<T>(d,2), h(higth), d(diametro)
+		{
+			
+		};
+		
+		virtual T operator() (T a)
+		{
+			if(!Function<T>::check(a))
+			{
+				std::string msg = "El valor '";
+				msg += std::to_string(a) + "', esta fuera del Dominio.";
+				
+				throw Exception(msg,__FILE__,__LINE__);
+			}
+			
+			return h * M_PI * pow(a,2);
+		}
+		virtual T lim(T a)
+		{
+			return this->operator()(a);
+		};
+		//a es el radio interior
+		virtual T D(T a)
+		{
+			T r = d/2;
+			//std::cout << "h = " << h << "\n";
+			//std::cout << "r = " << r << "\n";
+			return 2 * h * M_PI * r;
+		};
+
+	private:
+		T h,d;
+	};
 }
 
 #endif 
