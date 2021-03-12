@@ -24,7 +24,7 @@
 #include <metry.hh>
 
 #include <Intervals.hh>
-#include <funcs.hh>
+#include <../src/funcs.hh>
 //#include <funcs-ext.hh>
 
 
@@ -387,16 +387,35 @@ void testDeveloping()
 	math::Point<double> point9(-3.0,0.0);
 	math::Positives<double> P;
 	//math::Naturals<double> N;
-	if(P.check(point8)) CU_ASSERT(true)
+	if(P.check(point8.getX())) CU_ASSERT(true)
 	else CU_ASSERT(false)		
-	if(P.check(point9)) CU_ASSERT(false)
+	if(P.check(point9.getX())) CU_ASSERT(false)
 	else CU_ASSERT(true)
-	/*math::funcs::I<double> FI1(N,2);
-	//std::cout << "funtion FI1 : " << FI1(3) << "\n";
+
+
+	math::funcs::C<double> FC1(10.0);
+	double FC1_v1 = FC1(5.0);
+	if(fabs(FC1_v1 - 10.0) < math::epsilon) CU_ASSERT(true)
+	else CU_ASSERT(false)
+	math::funcs::C<double>& DFC1 = FC1.D();
+	double DFC1_v1 = DFC1(5.0);
+	if(DFC1_v1 < math::epsilon) CU_ASSERT(true)//la derivada de una constante es 0
+	else CU_ASSERT(false)
+	delete &DFC1;
+	
+	math::funcs::I<double> FI1(P);
+	double FI1_v1 = FI1(5.0);
+	if(fabs(FI1_v1 - 5.0) < math::epsilon) CU_ASSERT(true)
+	else CU_ASSERT(false)
+	math::funcs::C<double>& DFI1 = FI1.D();
+	double DFI1_v1 = DFI1(5.0);
+	if(fabs(DFI1_v1 - 1.0) < math::epsilon) CU_ASSERT(true)//la derivada de una constante es 0
+	else CU_ASSERT(false)
+	delete &DFI1;
 	
 	math::funcs::Parameters<double> N2(1.0,20.0,1.0);
-	math::funcs::I<double> FI2(N2,2);
-	math::funcs::C<double> FC2(N2,2,2.0);
+	math::funcs::I<double> FI2(P);
+	math::funcs::C<double> FC2(P,2.0);
 	math::funcs::Sum<double> FSum1(FI2,FC2);
 	double FSum1_y3 = FSum1(3);
 	if(FSum1_y3 - 5.0 < math::epsilon) CU_ASSERT(true)
@@ -421,7 +440,7 @@ void testDeveloping()
 	else CU_ASSERT(false)
 	//std::cout << "FCOMP1(" << 4.0 << "," << << ") = "  << "\n";
 
-	math::funcs::I<double> FI3(P,2);
+	math::funcs::I<double> FI3(P);
 	std::list<math::Point<double>> pairs1;
 	math::funcs::Parabolic<double> parabo1(FI3);
 	double parabo1_val1 = parabo1(2.0);
@@ -438,7 +457,7 @@ void testDeveloping()
 		//std::cout << "P" << (std::string)p << "\n";
 	}
 	
-	std::list<math::Point<double>> pairs2;
+	/*std::list<math::Point<double>> pairs2;
 	math::funcs::SecantLine<double> secL2(parabo1,10,pairs2,3);
 	double secL1_val2 =secL2(1);
 	if(secL1_val2 - 20.0 < math::epsilon) CU_ASSERT(true)
@@ -575,7 +594,7 @@ void testDeveloping()
 	*/
 		
 	//[ejer] pag 398
-	math::funcs::VolumenTubo<double> vt1(P,10.0,4.0/12.0);	
+	/*math::funcs::VolumenTubo<double> vt1(P,10.0);	
 	math::Point<double> point6(1.0/6.0,0.0);
 	double vt1_D1 = vt1.D(point6);
 	//std::cout << "vt1_D1 : " << vt1_D1 << "\n";
@@ -588,7 +607,17 @@ void testDeveloping()
 	double vt1_p1 = vt1.peso(point6,1.0/48.0,450.0);//679.5094536
 	//std::cout << "vt1_p1 : " << vt1_p1 << "\n";
 	if(fabs(vt1_p1 - 98.1748) < math::epsilon) CU_ASSERT(true)
-	else CU_ASSERT(false)
+	else CU_ASSERT(false)*/
+
+	/*math::funcs::VolumenTubo<double> vt2(P,12.700);
+	math::Point<double> point10(8.890/2.0,0.0);
+	double vt2_dV = vt2.dV(point10,0.025);//0.005001465
+	//std::cout << "vt2_dV : " << vt2_dV << "\n";
+	if(fabs(vt2_dV - 8.86738) < math::epsilon) CU_ASSERT(true)//1.774
+	else CU_ASSERT(false)*/
+	
+	
+	
 	
 }
 

@@ -29,9 +29,9 @@ namespace math
 	class Positives : public Interval<T>
 	{
 	public:
-		virtual bool check(const Point<T>& p) const
+		virtual bool check(T p) const
 		{
-			if(p.getX() < 0.0) return false;
+			if(p < 0.0) return false;
 			return true;
 		};
 	};
@@ -57,10 +57,7 @@ namespace math
 		{
 		};
 		
-		virtual bool check(T i) const
-		{
-			return i >= this->a and i <= this->b;
-		}; 
+		 
 	};
 
 	template<class T>
@@ -70,33 +67,20 @@ namespace math
 		IntervalOpen(T a, T b) : Bounded<T>(a,b)
 		{
 		};
-		virtual bool check(T i) const
-		{
-			return i > this->a and i < this->b;
-		}; 
+		 
 	};
 
 	template<class T>
 	class Naturals : public Domain<T>
 	{
 	public:
-		virtual bool check(T i) const
-		{
-			long tmp = (long)i;
-			T n = tmp;
-			if( (i - n) <= math::epsilon) return true;
-			return false;
-		};
+		
 	};
 
 	template<class T>
 	class NotNegative : public Domain<T>
 	{
-		virtual bool check(T i) const
-		{
-			if( i < 0.0) return false;
-			return true;
-		};
+		
 	};
 
 } 

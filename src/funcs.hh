@@ -9,6 +9,7 @@
 
 namespace math::funcs
 {
+	template<class T> class Multiply;
 
 	template<class T>
 	class Parameters : public Domain<T>, public Set<T>
@@ -65,50 +66,16 @@ namespace math::funcs
 	};
 
 	
-
-	template<class T>
-	class I : public Function<T>
-	{
-	public:
-		//
-		I(Domain<T>& d, short dim) : Function<T>(d,dim)
-		{
-		};
-		virtual T operator() (T a)
-		{
-			if(Function<T>::check(a)) return a;
-			
-			std::string msg = "El valor '";
-			msg += std::to_string(a) + "', esta fuera del Dominio.";
-			throw Exception(msg,__FILE__,__LINE__);
-		};
-
-		virtual T lim(T a)
-		{
-			return this->operator()(a);
-		};
-		virtual T D(T a)
-		{
-			if(Function<T>::check(a))
-			{
-				return 1;
-			}
-			std::string msg = "El valor '";
-			msg += std::to_string(a) + "', esta fuera del Dominio.";
-			throw Exception(msg,__FILE__,__LINE__);
-		};
-	};
-
 	template<class T>
 	class C : public Function<T>
 	{
 	public:
 		//
-		C(T c, short dim) : Function<T>(NULL,dim)
+		C(Domain<T>& d,T c) : Function<T>(d)
 		{
 			this->c = c;
 		};
-		C(Domain<T>& d,short dim,T c) : Function<T>(d,dim)
+		C(T c) : Function<T>(NULL)
 		{
 			this->c = c;
 		};
@@ -120,23 +87,40 @@ namespace math::funcs
 			msg += std::to_string(a) + "', esta fuera del Dominio.";
 			throw Exception(msg,__FILE__,__LINE__);
 		};
-		virtual T lim(T a)
+		virtual C<T>& D()
 		{
-			return this->operator()(a);
-		};
-		virtual T D(T a)
-		{
-			if(Function<T>::check(a))
-			{
-				return 0;
-			}
-			std::string msg = "El valor '";
-			msg += std::to_string(a) + "', esta fuera del Dominio.";
-			throw Exception(msg,__FILE__,__LINE__);
+			return * new C<T>(0);
 		};
 	private:
 		T c;
 	};
+
+	template<class T>
+	class I : public Function<T>
+	{
+	public:
+		//
+		I(Domain<T>& d) : Function<T>(d)
+		{
+		};
+		I(Domain<T>* d) : Function<T>(d)
+		{
+		};
+		virtual T operator() (T a)
+		{
+			if(Function<T>::check(a)) return a;
+			
+			std::string msg = "El valor '";
+			msg += std::to_string(a) + "', esta fuera del Dominio.";
+			throw Exception(msg,__FILE__,__LINE__);
+		};
+		virtual C<T>& D()
+		{
+			return * new C<T>(1);
+		};
+	};
+
+	
 
 
 	//>>Operator
@@ -145,29 +129,25 @@ namespace math::funcs
 	{
 	public:
 		//
-		Operator(Function<T>& f, Function<T>& g) : Function<T>(NULL,f.getDimension())
+		Operator(Equation<T>& f, Equation<T>& g) : Function<T>(NULL)
 		{
-			if(f.getDimension() != g.getDimension())
-			{
-				throw Exception("Ambas funciones deme ser de la misma dimension'",__FILE__,__LINE__);
-			}
 			fs.push_back(&f);			
 			fs.push_back(&g);
 		};
-		Operator(Function<T>& f) : Function<T>(NULL,f.getDimension())
+		Operator(Equation<T>& f) : Function<T>(NULL)
 		{
 			fs.push_back(&f);
 		};
-		bool check(T a) const
+		virtual bool check(T a) const
 		{
-			for(Function<T>* f : fs)
+			for(Equation<T>* f : fs)
 			{
 				if(!f->check(a)) return false;
 			}
 			
 			return true;
 		}
-		void add(Function<T>& f)const
+		void add(Equation<T>& f)const
 		{
 			if(fs.size() > 0)
 			{
@@ -180,7 +160,7 @@ namespace math::funcs
 			fs.push_back(&f);
 		};
 	protected:
-		std::vector<Function<T>*> fs;
+		std::vector<Equation<T>*> fs;
 	};
 	
 
@@ -189,13 +169,13 @@ namespace math::funcs
 	{//[1] pag 141
 	public:
 		//
-		Composition(Function<T>& f, Function<T>& g) : Operator<T>(f,g)
+		Composition(Equation<T>& f, Equation<T>& g) : Operator<T>(f,g)
 		{
 		};
 		virtual T operator()(T a)
 		{
-			Function<T>& g = *(this->fs[1]);
-			Function<T>& f = *(this->fs[0]);
+			Equation<T>& g = *(this->fs[1]);
+			Equation<T>& f = *(this->fs[0]);
 			if(g.check(a))
 			{
 				if(f.check(g(a)))
@@ -220,21 +200,60 @@ namespace math::funcs
 		{
 			return this->operator()(a);
 		};
-		virtual T D(T a)
+		virtual Equation<T>& D()
 		{
-			Function<T>& g = *(this->fs[1]);
-			Function<T>& f = *(this->fs[0]);
-			return f.D(g(a))*g.D(a);
+			Equation<T>& g = *(this->fs[1]);
+			Equation<T>& f = *(this->fs[0]);
+			Composition<T> * comp1 = new Composition(f.D(),g);
+			Multiply<T>* mul1 = new Multiply<T>((Equation<T>&)*comp1,g.D());
+			return * mul1;
 		};
 	private:
 	};
+
+
+	template<class T>
+	class Sum : public Operator<T>
+	{
+	public:
+		//
+		Sum(Equation<T>& f, Equation<T>& g) : Operator<T>(f,g)
+		{
+		};
+		virtual T operator() (T a)
+		{
+			Equation<T>& f = *Operator<T>::fs[0];
+			Equation<T>& g = *Operator<T>::fs[1];
+
+			if(!f.check(a) and !g.check(a))
+			{
+					std::string msg = "El valor '";
+					msg += std::to_string(a) + "', esta fuera del Dominio.";
+					throw octetos::core::Exception(msg,__FILE__,__LINE__);
+			}
+			return f(a) + g(a);
+		};
+		virtual T lim(T a)
+		{
+			return this->operator()(a);
+		};
+		virtual Equation<T>& D()
+		{
+			Equation<T>& f = *Operator<T>::fs[0];
+			Equation<T>& g = *Operator<T>::fs[1];
+			
+			return * new Sum(f.D(),g.D());
+		};
+	private:
+	};
+
 
 	template<class T>
 	class cF : public Operator<T>
 	{
 	public:
 		//
-		cF(T cval, Function<T>& f) : Operator<T>(f),c(cval)
+		cF(T cval, Equation<T>& f) : Operator<T>(f),c(cval)
 		{
 		};
 		cF(Domain<T>& d,T cval, short dim) : Function<T>(d,dim),c(cval)
@@ -244,7 +263,7 @@ namespace math::funcs
 		{
 			if(Operator<T>::fs.size() > 0)
 			{
-				Function<T>& f = *(Operator<T>::fs[0]);
+				Equation<T>& f = *(Operator<T>::fs[0]);
 				if(f.check(a)) 
 				{
 					return c*f(a);
@@ -259,56 +278,18 @@ namespace math::funcs
 		{
 			return this->operator()(a);
 		};
-		virtual T D(T a)
+		virtual Equation<T>& D()
 		{
-			Function<T>& f = *(Operator<T>::fs[0]);
-			if(f.check(a))
-			{
-				return c * f.D(a);
-			}
-
-			std::string msg = "El valor '";
-			msg += std::to_string(a) + "', esta fuera del Dominio.";
-			throw Exception(msg,__FILE__,__LINE__);
+			Equation<T>& f = *(Operator<T>::fs[0]);
+			cF<T>* newcf = new cF<T>(c,f.D());
+			return * newcf;
 		};
 	private:
 		T c;
 	};
 	
 
-	template<class T>
-	class Sum : public Operator<T>
-	{
-	public:
-		//
-		Sum(Function<T>& f, Function<T>& g) : Operator<T>(f,g)
-		{
-		};
-		virtual T operator() (T a)
-		{
-			Function<T>& f = *Operator<T>::fs[0];
-			Function<T>& g = *Operator<T>::fs[1];
-
-			if(!f.check(a) and !g.check(a))
-			{
-					std::string msg = "El valor '";
-					msg += std::to_string(a) + "', esta fuera del Dominio.";
-					throw octetos::core::Exception(msg,__FILE__,__LINE__);
-			}
-			return f(a) + g(a);
-		};
-		virtual T lim(T a)
-		{
-			return this->operator()(a);
-		};
-		virtual T D(T a)
-		{
-			Function<T>& f = *Operator<T>::fs[0];
-			Function<T>& g = *Operator<T>::fs[1];
-			return f.D(a) + g.D(a);
-		};
-	private:
-	};
+	
 
 	template<class T>
 	class Minus : public Operator<T>
@@ -349,13 +330,13 @@ namespace math::funcs
 	{
 	public:
 		//
-		Multiply(Function<T>& f, Function<T>& g): Operator<T>(f,g)	
+		Multiply(Equation<T>& f, Equation<T>& g): Operator<T>(f,g)	
 		{
 		};
 		virtual T operator() (T a)
 		{
-			Function<T>& f = *Operator<T>::fs[0];
-			Function<T>& g = *Operator<T>::fs[1];
+			Equation<T>& f = *Operator<T>::fs[0];
+			Equation<T>& g = *Operator<T>::fs[1];
 
 			if(!f.check(a) and !g.check(a))
 			{
@@ -365,15 +346,14 @@ namespace math::funcs
 			}
 			return f(a) * g(a);
 		};
-		virtual T lim(T a)
+		virtual Equation<T>& D()
 		{
-			return this->operator()(a);
-		};
-		virtual T D(T a)
-		{
-			Function<T>& f = *Operator<T>::fs[0];
-			Function<T>& g = *Operator<T>::fs[1];
-			return (f(a)*g.D(a)) + (g(a) * f.D(a));
+			Equation<T>& f = *Operator<T>::fs[0];
+			Equation<T>& g = *Operator<T>::fs[1];
+			Multiply<T>* comp1 = new Multiply<T>(f,g.D());
+			Multiply<T>* comp2 = new Multiply<T>(g,f.D());
+			Sum<T>* sum1 = new Sum<T>(*comp1,*comp2);
+			return (Equation<T>&) * sum1;
 		};
 	private:
 	};
@@ -418,12 +398,12 @@ namespace math::funcs
 	{
 	public:
 		//
-		Power(Function<T>& d, T p) : Operator<T>(d),power(p)
+		Power(Equation<T>& d, T p) : Operator<T>(d),power(p)
 		{
 		};
 		virtual T operator() (T a)
 		{
-			Function<T>& f = *Operator<T>::fs[0];
+			Equation<T>& f = *(Operator<T>::fs[0]);
 			if(f.check(a))
 			{
 				return pow(f(a),power);
@@ -433,28 +413,12 @@ namespace math::funcs
 			throw Exception(msg,__FILE__,__LINE__);
 		};
 
-		virtual T lim(T a)
+		virtual Equation<T>& D()
 		{
-			return this->operator()(a);
-		};
-		virtual T D(T a)
-		{
-			Function<T>& f = *Operator<T>::fs[0];
-			if(f.check(a))
-			{
-				if(power == 2)
-				{
-					return power * f(a);
-				}
-				else if(power > 2)
-				{	
-					Power<T> newF(f,power-1);
-					return power * newF(a);
-				}
-			}
-			std::string msg = "El valor '";
-			msg += std::to_string(a) + "', esta fuera del Dominio.";
-			throw Exception(msg,__FILE__,__LINE__);
+			Equation<T>* f = Operator<T>::fs[0];			
+			Power<T>* newF = new Power<T>(*f,power-1);
+			cF<T>* cfnew = new cF<T>(power,*newF);
+			return *cfnew;
 		};
 	private:
 		T power;
@@ -481,12 +445,9 @@ namespace math::funcs
 		{
 			return this->operator()(a);
 		};
-		virtual T D(T a)
+		virtual cF<T>& D()
 		{
-			if(Function<T>::check(a)) return 2 * a;
-			std::string msg = "El valor '";
-			msg += std::to_string(a) + "', esta fuera del Dominio.";
-			throw Exception(msg,__FILE__,__LINE__);
+			return * new cF<T>(2.0,*new I<T>(Equation<T>::getDomain()));
 		};
 	private:
 		T base;
@@ -576,20 +537,17 @@ namespace math::funcs
 		};
 	public:
 		//
-		List(const std::map<T,T>& c) : Function<T>(new Valid<T>(c),2),coordenadas(c)
+		List(const std::map<T,T>& c) : Function<T>(new Valid<T>(c)),coordenadas(c)
 		{
+			
 		};
 		virtual T operator() (T a)
 		{
 			return coordenadas.at(a);
 		};
-		virtual T lim(T a)
+		virtual Equation<T>& D()
 		{
-			return this->operator()(a);
-		};
-		virtual T D(T a)
-		{
-			return 0;
+			
 		};
 	private:
 		const std::map<T,T>& coordenadas;
@@ -613,7 +571,7 @@ namespace math::funcs
 		};
 		virtual T operator() (T a)
 		{
-			Function<T>& f = *(this->fs.at(0));
+			Equation<T>& f = *(this->fs.at(0));
 			if(!f.check(a))
 			{
 				std::string msg = "El valor '";
@@ -638,14 +596,9 @@ namespace math::funcs
 		{
 			return this->operator()(a);
 		};
-		virtual T D(T a)
+		virtual Equation<T>& D()
 		{
-			Function<T>& f = *(this->fs.at(0));
-			if(f.check(a)) return 0;
-
-			std::string msg = "El valor '";
-			msg += std::to_string(a) + "', esta fuera del Dominio.";
-			throw octetos::core::Exception(msg,__FILE__,__LINE__);
+			
 		};
 	private:
 		T in;

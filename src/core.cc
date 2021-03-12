@@ -11,7 +11,7 @@ namespace math
 
 
 
-	template<> bool Measure<double>::operator == (const Measure<double>& obj)const
+	/*template<> bool Measure<double>::operator == (const Measure<double>& obj)const
 	{
 		if(fabs(u - obj.u) < epsilon)
 		{
@@ -40,7 +40,7 @@ namespace math
 	{
 		if(fabs(v - value) < epsilon) return true;
 		return false;
-	}
+	}*/
 
 
 
