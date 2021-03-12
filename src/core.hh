@@ -9,8 +9,12 @@
 #include <cmath>
 #include <map>
 #include <type_traits>
+#include <iostream>
+
 
 #include "defines.hh"
+
+
 
 #define OCTETOS_MATH_CX 0
 #define OCTETOS_MATH_CY 1
@@ -28,6 +32,290 @@ namespace math
 	public:
 		Exception(const std::string& msg,const char* fn,int line);
 		Exception(const std::string& msg);
+	};
+	
+	enum Unit
+	{
+		NotUnit,
+		
+		//distance
+		Feet,
+		Inch,
+		Meter,
+		Centimeter,
+		Miliemter,
+		Feet2,
+		Inch2,
+		Meter2,
+		Centimeter2,
+		Miliemter2,
+		Feet3,
+		Inch3,
+		Meter3,
+		Centimeter3,
+		Miliemter3,
+
+		//velumen
+		KilogramByMeter3,
+		PoundByFeet3,
+
+		//peso
+		Pound,
+		Kilogram,
+	};
+	
+	template<class T>
+	class Measure 
+	{
+	public:
+		Measure(Unit unit, T value): u(unit),v(value)
+		{
+		};
+		Measure(Unit unit): u(unit)
+		{
+		};
+		
+		//operators
+		bool operator == (const Measure& obj)const
+		{
+			if(u != obj.u)
+			{
+				throw Exception("Los tipos de unidades no coincide.");
+			}
+			if(v == obj.v) return true;
+			return false;
+		};
+		bool operator == (T v)const
+		{
+			if(v == v) return true;
+			return false;
+		};
+		bool operator < (const Measure& obj)const
+		{
+			if(u != obj.u)
+			{
+				throw Exception("Los tipos de unidades no coincide.");
+			}
+			if(v < obj.v) return true;
+			return false;
+		};
+		bool operator <= (const Measure& obj)const
+		{
+			if(u != obj.u)
+			{
+				throw Exception("Los tipos de unidades no coincide.");
+			}
+			if(v <= obj.v) return true;
+			return false;
+		};
+		bool operator > (const Measure& obj)const
+		{
+			if(u != obj.u)
+			{
+				throw Exception("Los tipos de unidades no coincide.");
+			}
+			if(v > obj.v) return true;
+			return false;
+		};
+		bool operator >= (const Measure& obj)const
+		{
+			if(u != obj.u)
+			{
+				throw Exception("Los tipos de unidades no coincide.");
+			}
+			if(v >= obj.v) return true;
+			return false;
+		};
+		
+		const Measure& operator = (const Measure& obj)
+		{
+			u = obj.u;
+			v = obj.v;
+			
+			return *this;
+		};
+		const Measure& operator = (T v)
+		{
+			this->v = v;
+			
+			return *this;
+		};
+		operator T()const
+		{
+			return v;
+		}
+
+		
+		void convert(const Measure& obj)
+		{	
+			//std::cout << " u = " << u << "\n";
+			//std::cout << " Meter = " << Meter << "\n";
+			switch(u)
+			{
+				case Unit::Feet:
+					converToFeet(obj);
+					break;
+				case Unit::Meter:
+					converToMeter(obj);
+					break;
+				case Unit::Inch:				
+					converToInch(obj);
+					break;
+
+				case Unit::Feet2:
+					converToFeet2(obj);
+					break;
+				case Unit::Meter2:
+					converToMeter2(obj);
+					break;
+				case Unit::Inch2:				
+					converToInch2(obj);
+					break;
+				
+				case Unit::Pound:
+					converToPound(obj);
+					break;
+				case Unit::Kilogram:				
+					convertToKilogram(obj);
+					break;
+
+				default:
+					throw Exception("Unidad de conversion no implemetada o desconocida",__FILE__,__LINE__);
+			};
+		};
+	private:
+		Unit u;
+		T v;
+		
+		//
+		void converToFeet(const Measure& obj)
+		{
+			switch(obj.u)
+			{
+				case Unit::Feet:
+					v = obj.v;
+					break;
+				case Unit::Meter:
+					v = 0.3048000097536 * obj.v;
+					break;																
+				case Unit::Inch:
+					v = 12.000000383999999798 * obj.v;
+					break;
+				default:
+					throw Exception("Unidad de conversion no implemetada o desconocida",__FILE__,__LINE__);
+			};
+		};
+		void converToMeter(const Measure& obj)
+		{
+			switch(obj.u)
+			{
+				case Unit::Feet:
+					v = obj.v / 3.2808399999999999785;
+					break;
+				case Unit::Meter:
+					v = obj.v;
+					break;
+				case Unit::Inch:
+					v = obj.v / 39.3701;
+					break;
+				default:
+					throw Exception("Unidad de conversion no implemetada o desconocida",__FILE__,__LINE__);
+			};
+		};
+		void converToInch(const Measure& obj)
+		{
+			switch(obj.u)
+			{
+				case Unit::Feet:
+					v = 0.08333333599999999397 * obj.v;
+					break;
+				case Unit::Meter:
+					v = 0.025400000812799999883 * obj.v;
+					break;																
+				case Unit::Inch:
+					v = obj.v;
+					break;
+				default:
+						throw Exception("Unidad de conversion no implemetada o desconocida",__FILE__,__LINE__);
+			};
+		};
+
+		void converToFeet2(const Measure& obj)
+		{
+			switch(obj.u)
+			{
+				case Unit::Feet:
+					v = obj.v;
+					break;
+				case Unit::Meter:
+					v = 0.3048000097536 * obj.v;
+					break;																
+				case Unit::Inch:
+					v = 12.000000383999999798 * obj.v;
+					break;
+				default:
+					throw Exception("Unidad de conversion no implemetada o desconocida",__FILE__,__LINE__);
+			};
+		};
+		void converToMeter2(const Measure& obj)
+		{
+			switch(obj.u)
+			{
+				case Unit::Feet:
+					v = obj.v / 3.2808399999999999785;
+					break;
+				case Unit::Meter:
+					v = obj.v;
+					break;
+				case Unit::Inch:
+					v = obj.v / 39.3701;
+					break;
+				default:
+					throw Exception("Unidad de conversion no implemetada o desconocida",__FILE__,__LINE__);
+			};
+		};
+		void converToInch2(const Measure& obj)
+		{
+			switch(obj.u)
+			{
+				case Unit::Feet:
+					v = 0.08333333599999999397 * obj.v;
+					break;
+				case Unit::Meter:
+					v = 0.025400000812799999883 * obj.v;
+					break;																
+				case Unit::Inch:
+					v = obj.v;
+					break;
+				default:
+						throw Exception("Unidad de conversion no implemetada o desconocida",__FILE__,__LINE__);
+			};
+		};
+
+		
+
+		void converToPound(const Measure& obj)
+		{
+			switch(obj.u)
+			{
+				case Unit::Pound:
+					v = obj.v;
+					break;																
+				case Unit::Kilogram:
+					v = obj.v / 0.453592;
+					break;
+				default:
+					throw Exception("Unidad de conversion no implemetada o desconocida",__FILE__,__LINE__);
+			};
+		};
+		void convertToKilogram(const Measure& obj)
+		{
+			switch(obj.u)
+			{
+				default:
+					throw Exception("Unidad de conversion no implemetada o desconocida",__FILE__,__LINE__);
+			};
+		};
 	};
 	
 

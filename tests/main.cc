@@ -545,17 +545,52 @@ void testDeveloping()
 	if(fabs(cos1_D1 + 0.479425) < math::epsilon) CU_ASSERT(true)
 	else CU_ASSERT(false)
 
-	//[ejer] pag 398
-	math::funcs::VolumenTubo<double> vt1(P,3.048,0.1016);
+	math::Measure<double> num1_lenm(math::Unit::Meter);
+	math::Measure<double> num1_lenfeet(math::Unit::Feet,10.0);
+	num1_lenm.convert(num1_lenfeet);//longitud de el tubo en metros
+	//std::cout << "num1_lenm : " << num1_lenm << "\n";
+	if(fabs(num1_lenm - 3.048) < math::epsilon) CU_ASSERT(true)
+	else CU_ASSERT(false)
+
+	math::Measure<double> num2_lenm(math::Unit::Meter);
+	math::Measure<double> num2_lenplg(math::Unit::Inch,2.0);
+	num2_lenm.convert(num2_lenplg);//longitud de el radio exterior en metros
+	//std::cout << "num2_lenm : " << num2_lenm << "\n";
+	if(fabs(num2_lenm - 0.0508) < math::epsilon) CU_ASSERT(true)
+	else CU_ASSERT(false)
+
+	math::Measure<double> num3_lenm(math::Unit::Meter);
+	math::Measure<double> num3_lenf(math::Unit::Feet,1.0/48.0);
+	num3_lenm.convert(num3_lenf);//longitud de el radio exterior en metros
+	//std::cout << "num3_lenm : " << num3_lenm << "\n";
+	if(fabs(num3_lenm - 0.00635) < math::epsilon) CU_ASSERT(true)
+	else CU_ASSERT(false)
 	
-	double vt1_D1 = vt1.D(0.146304);
+
+	//math::Measure<double> num4_k(math::Unit::KilogramByMeter3);
+	//math::Measure<double> num4_lb(math::Unit::PoundByFeet3,450.0);
+	//num4_k.convert(num4_lb);
+	//std::cout << "num4_k : " << num4_k << "\n";
+	//double pesoporm3 = num4_k * 3.28084;
+	//std::cout << "pesoporm3 : " << pesoporm3 << "\n";
+		
+	//[ejer] pag 398
+	math::funcs::VolumenTubo<double> vt1(P,num1_lenm,0.1016);
+	
+	double vt1_D1 = vt1.D(num2_lenm);
 	//std::cout << "vt1_D1 : " << vt1_D1 << "\n";
 	if(fabs(vt1_D1 - 0.972880635) < math::epsilon) CU_ASSERT(true)
 	else CU_ASSERT(false)
-	vt1_D1 = vt1_D1 * 0.0063499998984;
-	//std::cout << "vt1_D1 : " << vt1_D1 << "\n";
-	if(fabs(vt1_D1 - 0.00617778) < math::epsilon) CU_ASSERT(true)
+	//vt1_D1 = vt1_D1 * 0.0063499998984;
+	double vt1_dV = vt1.dV(num2_lenm,num3_lenm);
+	//std::cout << "vt1_dV : " << vt1_dV << "\n";
+	if(fabs(vt1_dV - 0.00617778) < math::epsilon) CU_ASSERT(true)
 	else CU_ASSERT(false)
+	//double vt1_p1 = vt1.peso(num2_lenm,num3_lenm,num4_k);//679.5094536
+	//std::cout << "vt1_p1 : " << vt1_p1 << "\n";
+	//if(fabs(vt1_p1 - 44.5314309) < math::epsilon) CU_ASSERT(true)
+	//else CU_ASSERT(false)
+
 	
 }
 

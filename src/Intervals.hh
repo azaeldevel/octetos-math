@@ -36,7 +36,6 @@ namespace math
 		};
 	};
 
-
 	template<class T>
 	class Bounded : public Unbounded<T>
 	{

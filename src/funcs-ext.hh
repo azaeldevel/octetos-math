@@ -83,11 +83,19 @@ namespace math::funcs
 		//a es el radio interior
 		virtual T D(T a)
 		{
-			T r = d/2;
+			//T r = d/2;
 			//std::cout << "h = " << h << "\n";
 			//std::cout << "r = " << r << "\n";
-			return 2 * h * M_PI * r;
+			return 2 * h * M_PI * a;
 		};
+		T dV(T a, T dr)
+		{
+			return D(a) * dr;
+		}
+		T peso(T a, T dr,T p)
+		{
+			return dV(a,dr) * p;
+		}
 
 	private:
 		T h,d;
