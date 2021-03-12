@@ -45,14 +45,5 @@ namespace math
 
 
 
-	template<> bool Positives<int>::check(int a) const
-	{
-		if(a < 0) return false;
-		return true;
-	}
-	template<> bool Positives<long>::check(long a) const
-	{
-		if(a < 0) return false;
-		return true;
-	}
+	
 }

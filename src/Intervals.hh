@@ -29,9 +29,9 @@ namespace math
 	class Positives : public Interval<T>
 	{
 	public:
-		virtual bool check(T a) const
+		virtual bool check(const Point<T>& p) const
 		{
-			if(a < 0.0) return false;
+			if(p.getX() < 0.0) return false;
 			return true;
 		};
 	};

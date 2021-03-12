@@ -580,7 +580,7 @@ namespace math
 	class Domain
 	{
 	public:
-		virtual bool check(T a) const = 0;
+		virtual bool check(const Point<T>& p) const = 0;
 	};
 	
 	template<class T>
@@ -623,42 +623,32 @@ namespace math
 	{
 	public:
 		//
-		Function(Domain<T>& d,short dim) : domain(&d), dimension(dim)
+		Function(Domain<T>& d) : domain(&d)
 		{
 		};
-		Function(Domain<T>* d,short dim) : domain(d), dimension(dim)
+		Function(Domain<T>* d) : domain(d)
 		{
 		};
-		Function(short dim) : domain(NULL),dimension(dim)
+		Function(short dim) : domain(NULL)
 		{
 		};
 		
 		//getter
-		short getDimension() const
-		{
-			return dimension;
-		}
 		
-		
-		//funciones
-		virtual T operator() (T a) = 0;
-		virtual T lim(T n) = 0;
-		virtual T D(T a) = 0;
-		virtual void getPoint(Point<T>& p,T a)
-		{
-			p.setY(this->operator()(a));
-			p.setX(a);
-		};
+		/**
+		*\brief 
+		*\param p toma los primero n-1 pametros y asigna el n-esimo
+		**/
+		virtual T operator() (Point<T>& p) = 0;
 
 		//
-		bool check(T a) const
+		bool check(const Point<T>& p) const
 		{
-			if(domain) return domain->check(a);
+			if(domain) return domain->check(p);
 			return true;
 		};
 		
 	private:
-		short dimension;
 		Domain<T>* domain;
 	};
 	

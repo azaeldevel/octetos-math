@@ -23,8 +23,9 @@
 #include <typeinfo>
 #include <metry.hh>
 
+#include <Intervals.hh>
 #include <funcs.hh>
-#include <funcs-ext.hh>
+//#include <funcs-ext.hh>
 
 
 
@@ -378,21 +379,19 @@ int clean(void)
 
 void testDeveloping()
 {
-	//point : 5
+	//point : 10
 	//vector : 29
-	//line : 4
+	//line : 6
 
+	math::Point<double> point8(3.0,0.0);
+	math::Point<double> point9(-3.0,0.0);
 	math::Positives<double> P;
-	math::Naturals<double> N;
-	if(P.check(2.0)) CU_ASSERT(true)
-	else CU_ASSERT(false)
-	if(P.check(3.0)) CU_ASSERT(true)
-	else CU_ASSERT(false)
-	if(P.check(4.0)) CU_ASSERT(true)
+	//math::Naturals<double> N;
+	if(P.check(point8)) CU_ASSERT(true)
 	else CU_ASSERT(false)		
-	if(P.check(-1.0)) CU_ASSERT(false)
+	if(P.check(point9)) CU_ASSERT(false)
 	else CU_ASSERT(true)
-	math::funcs::I<double> FI1(N,2);
+	/*math::funcs::I<double> FI1(N,2);
 	//std::cout << "funtion FI1 : " << FI1(3) << "\n";
 	
 	math::funcs::Parameters<double> N2(1.0,20.0,1.0);
@@ -573,24 +572,23 @@ void testDeveloping()
 	//std::cout << "num4_k : " << num4_k << "\n";
 	//double pesoporm3 = num4_k * 3.28084;
 	//std::cout << "pesoporm3 : " << pesoporm3 << "\n";
+	*/
 		
 	//[ejer] pag 398
-	math::funcs::VolumenTubo<double> vt1(P,num1_lenm,0.1016);
-	
-	double vt1_D1 = vt1.D(num2_lenm);
+	math::funcs::VolumenTubo<double> vt1(P,10.0,4.0/12.0);	
+	math::Point<double> point6(1.0/6.0,0.0);
+	double vt1_D1 = vt1.D(point6);
 	//std::cout << "vt1_D1 : " << vt1_D1 << "\n";
-	if(fabs(vt1_D1 - 0.972880635) < math::epsilon) CU_ASSERT(true)
+	if(fabs(vt1_D1 - 10.472) < math::epsilon) CU_ASSERT(true)
 	else CU_ASSERT(false)
-	//vt1_D1 = vt1_D1 * 0.0063499998984;
-	double vt1_dV = vt1.dV(num2_lenm,num3_lenm);
+	double vt1_dV = vt1.dV(point6,1.0/48.0);
 	//std::cout << "vt1_dV : " << vt1_dV << "\n";
-	if(fabs(vt1_dV - 0.00617778) < math::epsilon) CU_ASSERT(true)
+	if(fabs(vt1_dV - 0.218166) < math::epsilon) CU_ASSERT(true)
 	else CU_ASSERT(false)
-	//double vt1_p1 = vt1.peso(num2_lenm,num3_lenm,num4_k);//679.5094536
+	double vt1_p1 = vt1.peso(point6,1.0/48.0,450.0);//679.5094536
 	//std::cout << "vt1_p1 : " << vt1_p1 << "\n";
-	//if(fabs(vt1_p1 - 44.5314309) < math::epsilon) CU_ASSERT(true)
-	//else CU_ASSERT(false)
-
+	if(fabs(vt1_p1 - 98.1748) < math::epsilon) CU_ASSERT(true)
+	else CU_ASSERT(false)
 	
 }
 
