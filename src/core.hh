@@ -94,6 +94,14 @@ namespace math
 		Equation(Domain<T>* d) : domain(d)
 		{
 		};
+		virtual ~Equation()
+		{
+			for(Equation<T>* e : toDelete)
+			{
+				delete e;
+			}			
+		};
+
 		
 		//getter
 		Domain<T>& getDomain()const
@@ -113,9 +121,15 @@ namespace math
 			if(domain)return domain->check(t);
 			return true;
 		}
-
+	protected:
+		void addDeletes(Equation<T>* e)
+		{
+			toDelete.push_back(e);
+		};
 	private:
 		Domain<T>* domain;
+		std::list<Equation<T>*> toDelete;
+		
 	};
 
 	template<class T>
@@ -128,6 +142,9 @@ namespace math
 		};
 		Function(Domain<T>* d) : Equation<T>(d)
 		{
+		};
+		virtual ~Function()
+		{			
 		};
 	};
 	

@@ -401,7 +401,7 @@ void testDeveloping()
 	double DFC1_v1 = DFC1(5.0);
 	if(DFC1_v1 < math::epsilon) CU_ASSERT(true)//la derivada de una constante es 0
 	else CU_ASSERT(false)
-	delete &DFC1;
+	
 	
 	math::funcs::I<double> FI1(P);
 	double FI1_v1 = FI1(5.0);
@@ -411,7 +411,7 @@ void testDeveloping()
 	double DFI1_v1 = DFI1(5.0);
 	if(fabs(DFI1_v1 - 1.0) < math::epsilon) CU_ASSERT(true)//la derivada de una constante es 0
 	else CU_ASSERT(false)
-	delete &DFI1;
+	
 	
 	math::funcs::Parameters<double> N2(1.0,20.0,1.0);
 	math::funcs::I<double> FI2(P);
@@ -457,7 +457,7 @@ void testDeveloping()
 		//std::cout << "P" << (std::string)p << "\n";
 	}
 	
-	/*std::list<math::Point<double>> pairs2;
+	std::list<math::Point<double>> pairs2;
 	math::funcs::SecantLine<double> secL2(parabo1,10,pairs2,3);
 	double secL1_val2 =secL2(1);
 	if(secL1_val2 - 20.0 < math::epsilon) CU_ASSERT(true)
@@ -467,7 +467,7 @@ void testDeveloping()
 		//std::cout << "P" << (std::string)p << "\n";
 	}
 	
-	std::list<math::Point<double>> pairs3;
+	/*std::list<math::Point<double>> pairs3;
 	math::funcs::ExerciesSecante<double> exercies(0,pairs3,2);
 	double secsen_val1 = exercies.secsen(0.5);
 	if(secsen_val1 - 1.0 < math::epsilon) CU_ASSERT(true)
@@ -475,19 +475,9 @@ void testDeveloping()
 	for(auto p : pairs3)
 	{
 		//std::cout << "P" << (std::string)p << "\n";
-	}
+	}*/
 
-	math::funcs::I<double> FI4(P,2);
-	math::funcs::Parabolic<double> parabo2(FI4);
-	math::funcs::cF<double> cF1(3.0,parabo2);
-	double cF1_val1 = cF1(6.0);
-	//std::cout << "cF1_val1 : " << cF1_val1 << "\n";
-	if(fabs(cF1_val1 - 108.0) < math::epsilon) CU_ASSERT(true)
-	else CU_ASSERT(false)
-	double cF1_D1 = cF1.D(6.0);
-	//std::cout << "cF1_D1 : " << cF1_D1 << "\n";
-	if(fabs(cF1_D1 - 36.0) < math::epsilon) CU_ASSERT(true)
-	else CU_ASSERT(false)
+
 
 	//suma
 	math::funcs::Sum<double> sum1(FI3,FI3);
@@ -495,20 +485,21 @@ void testDeveloping()
 	//std::cout << "sum1_v1 : " << sum1_v1 << "\n";
 	if(fabs(sum1_v1 - 12.0) < math::epsilon) CU_ASSERT(true)
 	else CU_ASSERT(false)
-	double sum1_D1 = sum1.D(6.0);
-	//std::cout << "sum1_D1 : " << sum1_D1 << "\n";
-	if(fabs(sum1_D1 - 2.0) < math::epsilon) CU_ASSERT(true)
+	math::Equation<double>& sum1_D1 = sum1.D();
+	double Dsum1_v1 = sum1_D1(6.0);
+	if(fabs(Dsum1_v1 - 2.0) < math::epsilon) CU_ASSERT(true)
 	else CU_ASSERT(false)
 		
 	//minus
 	math::funcs::Minus<double> min1(FI3,FI3);
 	double min1_v1 = min1(6.0);
 	//std::cout << "min1_v1 : " << min1_v1 << "\n";
-	if(fabs(min1_v1 - 0.0) < math::epsilon) CU_ASSERT(true)
+	if(min1_v1 < math::epsilon) CU_ASSERT(true)
 	else CU_ASSERT(false)
-	double min1_D1 = min1.D(6.0);
+	math::funcs::Minus<double>& min1_D1 = min1.D();
+	double min1_Dv1 = min1_D1(6.0);
 	//std::cout << "min1_D1 : " << sum1_D1 << "\n";
-	if(fabs(min1_D1 - 0.0) < math::epsilon) CU_ASSERT(true)
+	if( min1_Dv1 < math::epsilon) CU_ASSERT(true)
 	else CU_ASSERT(false)
 		
 	//multi
@@ -517,9 +508,10 @@ void testDeveloping()
 	//std::cout << "mul1_v1 : " << mul1_v1 << "\n";
 	if(fabs(mul1_v1 - 36.0) < math::epsilon) CU_ASSERT(true)
 	else CU_ASSERT(false)
-	double mul1_D1 = mul1.D(6.0);
+	math::Equation<double>& mul1_D1 = mul1.D();
+	double mul1_vD1 = mul1_D1(6.0);
 	//std::cout << "mul1_D1 : " << mul1_D1 << "\n";
-	if(fabs(mul1_D1 - 12.0) < math::epsilon) CU_ASSERT(true)
+	if(fabs(mul1_vD1 - 12.0) < math::epsilon) CU_ASSERT(true)
 	else CU_ASSERT(false)
 
 	//div
@@ -528,9 +520,10 @@ void testDeveloping()
 	//std::cout << "div1_v1 : " << div1_v1 << "\n";
 	if(fabs(div1_v1 - 1.0) < math::epsilon) CU_ASSERT(true)
 	else CU_ASSERT(false)
-	double div1_D1 = div1.D(6.0);
+	math::Equation<double>& div1_D1 = div1.D();
+	double div1_v1D = div1_D1(10.0);
 	//std::cout << "div1_D1 : " << div1_D1 << "\n";
-	if(fabs(div1_D1 - 0.0) < math::epsilon) CU_ASSERT(true)
+	if(div1_v1D < math::epsilon) CU_ASSERT(true)
 	else CU_ASSERT(false)
 
 	math::funcs::Power<double> pow1(FI3,4);
@@ -538,9 +531,10 @@ void testDeveloping()
 	//std::cout << "pow1_v1 : " << pow1_v1 << "\n";
 	if(fabs(pow1_v1 - 1296.0) < math::epsilon) CU_ASSERT(true)
 	else CU_ASSERT(false)
-	double pow1_D1 = pow1.D(6.0);
-	//std::cout << "pow1_D1 : " << pow1_D1 << "\n";
-	if(fabs(pow1_D1 - 864.0) < math::epsilon) CU_ASSERT(true)
+	math::Equation<double>& pow1_D1 = pow1.D();
+	double pow1_Dv1 = pow1_D1(6.0);
+	//std::cout << "pow1_Dv1 : " << pow1_Dv1 << "\n";
+	if(fabs(pow1_Dv1 - 864.0) < math::epsilon) CU_ASSERT(true)
 	else CU_ASSERT(false)
 
 	math::funcs::Sin<double> sin1(P);
@@ -548,9 +542,10 @@ void testDeveloping()
 	//std::cout << "sin1_v1 : " << sin1_v1 << "\n";
 	if(fabs(sin1_v1 - 0.479425) < math::epsilon) CU_ASSERT(true)
 	else CU_ASSERT(false)
-	double sin1_D1 = sin1.D(0.5);
+	math::Equation<double>& sin1_D1 = sin1.D();
 	//std::cout << "sin1_D1 : " << sin1_D1 << "\n";
-	if(fabs(sin1_D1 - 0.877582) < math::epsilon) CU_ASSERT(true)
+	double sin1_v1D = sin1_D1(0.5);
+	if(fabs(sin1_v1D - 0.877582) < math::epsilon) CU_ASSERT(true)
 	else CU_ASSERT(false)
 		
 	math::funcs::Cos<double> cos1(P);
@@ -558,40 +553,14 @@ void testDeveloping()
 	//std::cout << "cos1_v1 : " << cos1_v1 << "\n";
 	if(fabs(cos1_v1 - 0.877582) < math::epsilon) CU_ASSERT(true)
 	else CU_ASSERT(false)
-	double cos1_D1 = cos1.D(0.5);
+	math::Equation<double>& cos1_D1 = cos1.D();
+	double cos1_vD1 = cos1_D1(0.5);
 	//std::cout << "sin1_D1 : " << sin1_D1 << "\n";
-	if(fabs(cos1_D1 + 0.479425) < math::epsilon) CU_ASSERT(true)
+	if(fabs(cos1_vD1 + 0.479425) < math::epsilon) CU_ASSERT(true)
 	else CU_ASSERT(false)
 
-	math::Measure<double> num1_lenm(math::Unit::Meter);
-	math::Measure<double> num1_lenfeet(math::Unit::Feet,10.0);
-	num1_lenm.convert(num1_lenfeet);//longitud de el tubo en metros
-	//std::cout << "num1_lenm : " << num1_lenm << "\n";
-	if(fabs(num1_lenm - 3.048) < math::epsilon) CU_ASSERT(true)
-	else CU_ASSERT(false)
-
-	math::Measure<double> num2_lenm(math::Unit::Meter);
-	math::Measure<double> num2_lenplg(math::Unit::Inch,2.0);
-	num2_lenm.convert(num2_lenplg);//longitud de el radio exterior en metros
-	//std::cout << "num2_lenm : " << num2_lenm << "\n";
-	if(fabs(num2_lenm - 0.0508) < math::epsilon) CU_ASSERT(true)
-	else CU_ASSERT(false)
-
-	math::Measure<double> num3_lenm(math::Unit::Meter);
-	math::Measure<double> num3_lenf(math::Unit::Feet,1.0/48.0);
-	num3_lenm.convert(num3_lenf);//longitud de el radio exterior en metros
-	//std::cout << "num3_lenm : " << num3_lenm << "\n";
-	if(fabs(num3_lenm - 0.00635) < math::epsilon) CU_ASSERT(true)
-	else CU_ASSERT(false)
 	
-
-	//math::Measure<double> num4_k(math::Unit::KilogramByMeter3);
-	//math::Measure<double> num4_lb(math::Unit::PoundByFeet3,450.0);
-	//num4_k.convert(num4_lb);
-	//std::cout << "num4_k : " << num4_k << "\n";
-	//double pesoporm3 = num4_k * 3.28084;
-	//std::cout << "pesoporm3 : " << pesoporm3 << "\n";
-	*/
+	
 		
 	//[ejer] pag 398
 	/*math::funcs::VolumenTubo<double> vt1(P,10.0);	

@@ -10,6 +10,8 @@
 namespace math::funcs
 {
 	template<class T> class Multiply;
+	template<class T> class Power;
+	template<class T> class Cos;
 
 	template<class T>
 	class Parameters : public Domain<T>, public Set<T>
@@ -79,6 +81,9 @@ namespace math::funcs
 		{
 			this->c = c;
 		};
+		virtual ~C()
+		{			
+		};
 		virtual T operator() (T a)
 		{
 			if(Function<T>::check(a)) return c;
@@ -89,7 +94,9 @@ namespace math::funcs
 		};
 		virtual C<T>& D()
 		{
-			return * new C<T>(0);
+			Equation<T>* e = new C<T>(0);
+			this->addDeletes(e);
+			return (C<T>&)*e;
 		};
 	private:
 		T c;
@@ -106,6 +113,9 @@ namespace math::funcs
 		I(Domain<T>* d) : Function<T>(d)
 		{
 		};
+		virtual ~I()
+		{			
+		};
 		virtual T operator() (T a)
 		{
 			if(Function<T>::check(a)) return a;
@@ -116,7 +126,9 @@ namespace math::funcs
 		};
 		virtual C<T>& D()
 		{
-			return * new C<T>(1);
+			Equation<T>* t = new C<T>(1);
+			this->addDeletes(t);
+			return (C<T>&)* t;
 		};
 	};
 
@@ -137,6 +149,9 @@ namespace math::funcs
 		Operator(Equation<T>& f) : Function<T>(NULL)
 		{
 			fs.push_back(&f);
+		};
+		virtual ~Operator()
+		{			
 		};
 		virtual bool check(T a) const
 		{
@@ -172,6 +187,9 @@ namespace math::funcs
 		Composition(Equation<T>& f, Equation<T>& g) : Operator<T>(f,g)
 		{
 		};
+		virtual ~Composition()
+		{			
+		};
 		virtual T operator()(T a)
 		{
 			Equation<T>& g = *(this->fs[1]);
@@ -202,10 +220,13 @@ namespace math::funcs
 		};
 		virtual Equation<T>& D()
 		{
+			
 			Equation<T>& g = *(this->fs[1]);
 			Equation<T>& f = *(this->fs[0]);
 			Composition<T> * comp1 = new Composition(f.D(),g);
 			Multiply<T>* mul1 = new Multiply<T>((Equation<T>&)*comp1,g.D());
+			this->addDeletes(comp1);
+			this->addDeletes(mul1);
 			return * mul1;
 		};
 	private:
@@ -219,6 +240,9 @@ namespace math::funcs
 		//
 		Sum(Equation<T>& f, Equation<T>& g) : Operator<T>(f,g)
 		{
+		};
+		virtual ~Sum()
+		{			
 		};
 		virtual T operator() (T a)
 		{
@@ -241,8 +265,9 @@ namespace math::funcs
 		{
 			Equation<T>& f = *Operator<T>::fs[0];
 			Equation<T>& g = *Operator<T>::fs[1];
-			
-			return * new Sum(f.D(),g.D());
+			Equation<T>* e = new Sum(f.D(),g.D());
+			this->addDeletes(e);		
+			return * e;
 		};
 	private:
 	};
@@ -258,6 +283,9 @@ namespace math::funcs
 		};
 		cF(Domain<T>& d,T cval, short dim) : Function<T>(d,dim),c(cval)
 		{
+		};
+		virtual ~cF()
+		{			
 		};
 		virtual T operator() (T a)
 		{
@@ -282,6 +310,7 @@ namespace math::funcs
 		{
 			Equation<T>& f = *(Operator<T>::fs[0]);
 			cF<T>* newcf = new cF<T>(c,f.D());
+			this->addDeletes(newcf);
 			return * newcf;
 		};
 	private:
@@ -296,13 +325,16 @@ namespace math::funcs
 	{
 	public:
 		//
-		Minus(Function<T>& f, Function<T>& g) : Operator<T>(f,g)
+		Minus(Equation<T>& f, Equation<T>& g) : Operator<T>(f,g)
 		{
+		};
+		virtual ~Minus()
+		{			
 		};
 		virtual T operator() (T a)
 		{
-			Function<T>& f = *Operator<T>::fs[0];
-			Function<T>& g = *Operator<T>::fs[1];
+			Equation<T>& f = *Operator<T>::fs[0];
+			Equation<T>& g = *Operator<T>::fs[1];
 
 			if(!f.check(a) and !g.check(a))
 			{
@@ -312,15 +344,13 @@ namespace math::funcs
 			}
 			return f(a) - g(a);
 		};
-		virtual T lim(T a)
+		virtual Minus<T>& D()
 		{
-			return this->operator()(a);
-		};
-		virtual T D(T a)
-		{
-			Function<T>& f = *Operator<T>::fs[0];
-			Function<T>& g = *Operator<T>::fs[1];
-			return f.D(a) - g.D(a);
+			Equation<T>& f = *Operator<T>::fs[0];
+			Equation<T>& g = *Operator<T>::fs[1];
+			Minus<T>* e = new Minus(f.D(),g.D());
+			this->addDeletes(e);		
+			return * e;
 		};
 	private:
 	};
@@ -332,6 +362,9 @@ namespace math::funcs
 		//
 		Multiply(Equation<T>& f, Equation<T>& g): Operator<T>(f,g)	
 		{
+		};
+		virtual ~Multiply()
+		{			
 		};
 		virtual T operator() (T a)
 		{
@@ -363,13 +396,16 @@ namespace math::funcs
 	{
 	public:
 		//
-		Divide(Function<T>& f, Function<T>& g): Operator<T>(f,g)	
+		Divide(Equation<T>& f, Equation<T>& g): Operator<T>(f,g)	
 		{
+		};
+		virtual ~Divide()
+		{			
 		};
 		virtual T operator() (T a)
 		{
-			Function<T>& f = *Operator<T>::fs[0];
-			Function<T>& g = *Operator<T>::fs[1];
+			Equation<T>& f = *Operator<T>::fs[0];
+			Equation<T>& g = *Operator<T>::fs[1];
 
 			if(!f.check(a) and !g.check(a))
 			{
@@ -384,11 +420,21 @@ namespace math::funcs
 		{
 			return this->operator()(a);
 		};
-		virtual T D(T a)
+		virtual Equation<T>& D()
 		{
-			Function<T>& f = *Operator<T>::fs[0];
-			Function<T>& g = *Operator<T>::fs[1];
-			return ((f(a)*g.D(a)) - (g(a) * f.D(a)))/pow(g(a),2);
+			Equation<T>& f = *Operator<T>::fs[0];
+			Equation<T>& g = *Operator<T>::fs[1];
+			Multiply<T>* comp1 = new Multiply<T>(f.D(),g);
+			Multiply<T>* comp2 = new Multiply<T>(g,f.D());
+			Minus<T>* min1 = new Minus<T>(*comp1,*comp2);
+			Power<T>* pow1 = new Power<T>(g,2.0);
+			Divide<T>* dic1 = new Divide<T>(*min1,*pow1);
+			this->addDeletes(comp1);
+			this->addDeletes(comp2);
+			this->addDeletes(min1);
+			this->addDeletes(pow1);
+			this->addDeletes(dic1);
+			return (Equation<T>&) * dic1;
 		};
 	private:
 	};
@@ -400,6 +446,9 @@ namespace math::funcs
 		//
 		Power(Equation<T>& d, T p) : Operator<T>(d),power(p)
 		{
+		};
+		virtual ~Power()
+		{			
 		};
 		virtual T operator() (T a)
 		{
@@ -418,6 +467,8 @@ namespace math::funcs
 			Equation<T>* f = Operator<T>::fs[0];			
 			Power<T>* newF = new Power<T>(*f,power-1);
 			cF<T>* cfnew = new cF<T>(power,*newF);
+			this->addDeletes(newF);
+			this->addDeletes(cfnew);
 			return *cfnew;
 		};
 	private:
@@ -432,6 +483,9 @@ namespace math::funcs
 		Parabolic(Function<T>& d) : Power<T>(d,2)
 		{
 		};
+		virtual ~Parabolic()
+		{			
+		};
 		virtual T operator() (T a)
 		{
 			if(Power<T>::check(a)) return Power<T>::operator()(a);
@@ -440,14 +494,13 @@ namespace math::funcs
 			msg += std::to_string(a) + "', esta fuera del Dominio.";
 			throw octetos::core::Exception(msg,__FILE__,__LINE__);
 		};
-
-		virtual T lim(T a)
-		{
-			return this->operator()(a);
-		};
 		virtual cF<T>& D()
 		{
-			return * new cF<T>(2.0,*new I<T>(Equation<T>::getDomain()));
+			Equation<T>* e1 = new I<T>(Equation<T>::getDomain());
+			Equation<T>* e2 = new cF<T>(2.0,* e1);
+			this->addDeletes(e1);
+			this->addDeletes(e2);
+			return (cF<T>&)*e2;
 		};
 	private:
 		T base;
@@ -459,8 +512,11 @@ namespace math::funcs
 	{
 	public:
 		//
-		Sin(Domain<T>& d): Function<T>(d,2)	
+		Sin(Domain<T>& d): Function<T>(d)	
 		{
+		};
+		virtual ~Sin()
+		{			
 		};
 		virtual T operator() (T a)
 		{
@@ -478,9 +534,11 @@ namespace math::funcs
 		{
 			return this->operator()(a);
 		};
-		virtual T D(T a)
+		virtual Equation<T>& D()
 		{
-			return ::cos(a);
+			Equation<T>* e1 = new Cos<T>(this->getDomain());
+			this->addDeletes(e1);
+			return *e1;
 		};
 	};
 	
@@ -489,7 +547,10 @@ namespace math::funcs
 	{
 	public:
 		//
-		Cos(Domain<T>& d): Function<T>(d,2)	
+		Cos(Domain<T>& d): Function<T>(d)	
+		{
+		};
+		virtual ~Cos()
 		{
 		};
 		virtual T operator() (T a)
@@ -504,13 +565,13 @@ namespace math::funcs
 			
 			return ::cos(a);
 		};
-		virtual T lim(T a)
+		virtual Equation<T>& D()
 		{
-			return this->operator()(a);
-		};
-		virtual T D(T a)
-		{
-			return -1 * ::sin(a);
+			Equation<T>* e1 = new Sin<T>(this->getDomain());
+			cF<T>* e2 = new cF<T>(-1.0,*e1);
+			this->addDeletes(e1);
+			this->addDeletes(e2);
+			return *e2;
 		};
 	};
 
@@ -549,13 +610,15 @@ namespace math::funcs
 		{
 			
 		};
+		virtual ~List()
+		{			
+		};
 	private:
 		const std::map<T,T>& coordenadas;
 		
 	};
-
 	
-
+	
 	template<class T>
 	class SecantLine : public Operator<T>
 	{
@@ -568,6 +631,9 @@ namespace math::funcs
 		**/
 		SecantLine(Function<T>& f,T into,std::list<math::Point<T>>& l,T divisor) : Operator<T>(f),in(into),list(l),div(divisor)
 		{
+		};
+		virtual ~SecantLine()
+		{			
 		};
 		virtual T operator() (T a)
 		{
@@ -598,7 +664,6 @@ namespace math::funcs
 		};
 		virtual Equation<T>& D()
 		{
-			
 		};
 	private:
 		T in;
