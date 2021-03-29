@@ -24,8 +24,8 @@
 #include <metry.hh>
 
 #include <Intervals.hh>
-#include <../src/funcs.hh>
-//#include <funcs-ext.hh>
+#include "../src/funcs.hh"
+#include "../src/funcs-ext.hh"
 
 
 
@@ -558,35 +558,32 @@ void testDeveloping()
 	//std::cout << "sin1_D1 : " << sin1_D1 << "\n";
 	if(fabs(cos1_vD1 + 0.479425) < math::epsilon) CU_ASSERT(true)
 	else CU_ASSERT(false)
-
 	
-	
-		
 	//[ejer] pag 398
-	/*math::funcs::VolumenTubo<double> vt1(P,10.0);	
-	math::Point<double> point6(1.0/6.0,0.0);
-	double vt1_D1 = vt1.D(point6);
+	math::funcs::VolumenTubo<double> vt1(P,10.0);	
+	//math::Point<double> point6(1.0/6.0,0.0);
+	math::Equation<double>& vt1_D1 = vt1.D();
+	double vt1_D1v = vt1_D1(1.0/6.0);
 	//std::cout << "vt1_D1 : " << vt1_D1 << "\n";
-	if(fabs(vt1_D1 - 10.472) < math::epsilon) CU_ASSERT(true)
+	if(fabs(vt1_D1v - 10.472) < math::epsilon) CU_ASSERT(true)
 	else CU_ASSERT(false)
-	double vt1_dV = vt1.dV(point6,1.0/48.0);
+	double vt1_dV = vt1.dV(1.0/6.0,1.0/48.0);
 	//std::cout << "vt1_dV : " << vt1_dV << "\n";
 	if(fabs(vt1_dV - 0.218166) < math::epsilon) CU_ASSERT(true)
 	else CU_ASSERT(false)
-	double vt1_p1 = vt1.peso(point6,1.0/48.0,450.0);//679.5094536
+	double vt1_p1 = vt1.peso(1.0/6.0,1.0/48.0,450.0);//679.5094536
 	//std::cout << "vt1_p1 : " << vt1_p1 << "\n";
 	if(fabs(vt1_p1 - 98.1748) < math::epsilon) CU_ASSERT(true)
-	else CU_ASSERT(false)*/
+	else CU_ASSERT(false)
 
-	/*math::funcs::VolumenTubo<double> vt2(P,12.700);
-	math::Point<double> point10(8.890/2.0,0.0);
-	double vt2_dV = vt2.dV(point10,0.025);//0.005001465
+	math::funcs::VolumenTubo<double> vt2(P,12.700);
+	//math::Point<double> point10(8.890/2.0,0.0);
+	double vt2_dV = vt2.dV(8.890/2.0,0.025);//0.005001465
 	//std::cout << "vt2_dV : " << vt2_dV << "\n";
 	if(fabs(vt2_dV - 8.86738) < math::epsilon) CU_ASSERT(true)//1.774
-	else CU_ASSERT(false)*/
-	
-	
-	
+	else CU_ASSERT(false)
+			
+	//[1] : ejerc pag 404
 	
 }
 

@@ -50,18 +50,17 @@ namespace math::funcs
 		T div;
 	};
 
-	template<class T>
+	/*template<class T>
 	class VolumenTubo : public Function<T>
 	{//[1] pag 398
-	public:
+	public:*/
 		/*
 		*
 		*\param higth altura del tubo en metro
 		*\param diametro diametros exterior del tubo en metros
 		*/
-		VolumenTubo(Domain<T>& d, T higth, T diametro) : Function<T>(d,2), h(higth), d(diametro)
+		/*VolumenTubo(Domain<T>& d, T higth, T diametro) : Function<T>(d), h(higth), d(diametro)
 		{
-			
 		};
 		
 		virtual T operator() (T a)
@@ -76,17 +75,17 @@ namespace math::funcs
 			
 			return h * M_PI * pow(a,2);
 		}
-		virtual T lim(T a)
-		{
-			return this->operator()(a);
-		};
 		//a es el radio interior
-		virtual T D(T a)
+		virtual Equation<T>& D()
 		{
 			//T r = d/2;
 			//std::cout << "h = " << h << "\n";
 			//std::cout << "r = " << r << "\n";
-			return 2 * h * M_PI * a;
+			Equation<T>* FI = new I<T>(this->getDomain());
+			cF<T>* e2 = new cF<T>(2 * h * M_PI,*FI);
+			this->addDeletes(FI);
+			this->addDeletes(e2);
+			return (Equation<T>&)* e2;
 		};
 		T dV(T a, T dr)
 		{
@@ -99,6 +98,45 @@ namespace math::funcs
 
 	private:
 		T h,d;
+	};*/
+
+	template<class T>
+	class VolumenTubo : public Function<T>
+	{//[1] pag 398
+	public:
+		/*
+		*
+		*\param h altura del tubo
+		*/
+		VolumenTubo(Domain<T>& d, T higth) : Function<T>(d), h(higth)
+		{
+		};
+		
+		virtual T operator() (T a)
+		{
+			return h * M_PI * pow(a,2);
+		}
+		//a es el radio interior
+		virtual Equation<T>& D()
+		{
+			Equation<T>* FI = new I<T>(this->getDomain());
+			cF<T>* e2 = new cF<T>(2 * h * M_PI,*FI);
+			this->addDeletes(FI);
+			this->addDeletes(e2);
+			return (Equation<T>&)* e2;
+		};
+		T dV(T a, T dr)
+		{
+			return D()(a) * dr;
+		}
+		T peso(T a, T dr,T m)
+		{
+			return dV(a,dr) * m;
+		}
+
+
+	private:
+		T h;
 	};
 }
 
