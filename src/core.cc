@@ -1,6 +1,6 @@
 
 #include <core.hh>
-#include <Intervals.hh>
+
 
 namespace math
 {
@@ -43,7 +43,4 @@ namespace math
 	}*/
 
 
-
-
-	
 }

@@ -29,7 +29,6 @@
 
 
 
-
 void testVector()
 {
 	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -391,8 +390,7 @@ void testDeveloping()
 	else CU_ASSERT(false)		
 	if(P.check(point9.getX())) CU_ASSERT(false)
 	else CU_ASSERT(true)
-
-
+		
 	math::funcs::C<double> FC1(10.0);
 	double FC1_v1 = FC1(5.0);
 	if(fabs(FC1_v1 - 10.0) < math::epsilon) CU_ASSERT(true)
@@ -401,7 +399,6 @@ void testDeveloping()
 	double DFC1_v1 = DFC1(5.0);
 	if(DFC1_v1 < math::epsilon) CU_ASSERT(true)//la derivada de una constante es 0
 	else CU_ASSERT(false)
-	
 	
 	math::funcs::I<double> FI1(P);
 	double FI1_v1 = FI1(5.0);
@@ -476,9 +473,7 @@ void testDeveloping()
 	{
 		//std::cout << "P" << (std::string)p << "\n";
 	}*/
-
-
-
+	
 	//suma
 	math::funcs::Sum<double> sum1(FI3,FI3);
 	double sum1_v1 = sum1(6.0);

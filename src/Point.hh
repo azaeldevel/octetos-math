@@ -5,9 +5,6 @@
 #include "core.hh"
 
 
-
-
-
 namespace math
 {
 	template<class T>

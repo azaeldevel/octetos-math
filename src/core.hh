@@ -21,6 +21,7 @@
 #define OCTETOS_MATH_CY 1
 #define OCTETOS_MATH_CZ 2
 
+
 namespace math
 {
 	typedef OCTETOS_MATH_DECIMAL decimal;
@@ -147,7 +148,17 @@ namespace math
 		{			
 		};
 	};
+
 	
+	template<class T>
+	class Sets : public std::vector<T>
+	{
+	public:
+		
+		//
+		const Sets& operator || (const Sets&);//union
+		const Sets& operator && (const Sets&);//interseccion
+	};
 } 
 
 
