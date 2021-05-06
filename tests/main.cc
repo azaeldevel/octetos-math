@@ -26,7 +26,7 @@
 #include <Intervals.hh>
 #include "../src/funcs.hh"
 #include "../src/funcs-ext.hh"
-
+#include "../src/Prime.hh"
 
 
 void testVector()
@@ -579,7 +579,19 @@ void testDeveloping()
 	else CU_ASSERT(false)
 			
 	//[1] : ejerc pag 404
-	
+
+	//numeros primos
+	math::Prime prime;
+	/*for(int i = 1; i <= 100; i++)
+	{
+		if(prime.isPrime(i)) std::cout << "Numero : " << i << "\n";
+	}*/
+	math::Prime prime2;
+	if(prime2.isPrime(97)) CU_ASSERT(true)
+	else CU_ASSERT(false)		
+	math::Prime prime3;
+	if(!prime3.isPrime(100)) CU_ASSERT(true)
+	else CU_ASSERT(false)
 }
 
 
