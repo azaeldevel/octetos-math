@@ -84,54 +84,90 @@ namespace oct::math
 		}
 		void setX(T val)
 		{
-			if(Point<T>::getDimension() == 0)
+			/*if(Point<T>::getDimension() == 0)
 			{
 				Point<T>::push_back(val);
 			}
-			else if(Point<T>::getDimension() >= 1)
+			else */if(Point<T>::getDimension() >= 1)
 			{
 				Point<T>::at(OCTETOS_MATH_CX) = val;
 			}
 			else
-			{
-				throw octetos::core::Exception("Error desconocido",__FILE__,__LINE__);
+			{	
+				std::string msg = "El tamano del areglo es ";
+				msg += std::to_string(Point<T>::getDimension());
+				throw octetos::core::Exception(msg,__FILE__,__LINE__);
 			}
 		}
 		void setY(T val)
 		{
-			if(Point<T>::getDimension() == 0)
+			/*if(Point<T>::getDimension() == 0)
 			{
 				Point<T>::push_back(0);
 				Point<T>::push_back(val);
 			}
-			else if(Point<T>::getDimension() >= 2)
+			else */if(Point<T>::getDimension() >= 2)
 			{
 				Point<T>::at(OCTETOS_MATH_CY) = val;
 			}
 			else
 			{
-				throw octetos::core::Exception("El obejto actual no tiene elemento Y",__FILE__,__LINE__);
+				std::string msg = "El tamano del areglo es ";
+				msg += std::to_string(Point<T>::getDimension());
+				throw octetos::core::Exception(msg,__FILE__,__LINE__);
 			}
 		}
-#if OCTETOS_MATH_DIMENSION >= 3
+
 		void setZ(T val)
 		{
-			if(Point<T>::getDimension() == 0)
+			/*if(Point<T>::getDimension() == 0)
 			{
 				Point<T>::push_back(0);
 				Point<T>::push_back(0);
 				Point<T>::push_back(val);
 			}
-			else if(Point<T>::getDimension() >= 3)
+			else */if(Point<T>::getDimension() >= 3)
 			{
 				Point<T>::at(OCTETOS_MATH_CZ) = val;
 			}
 			else
 			{
-				throw octetos::core::Exception("El obejto actual no tiene elemento Z",__FILE__,__LINE__);
+				std::string msg = "El tamano del areglo es ";
+				msg += std::to_string(Point<T>::getDimension());
+				throw octetos::core::Exception(msg,__FILE__,__LINE__);
 			}
 		}
-#endif
+
+		void set(T x, T y)
+		{
+			if(Point<T>::getDimension() < 2) Point<T>::resize(2);
+			if(Point<T>::getDimension() >= 2)
+			{
+				Point<T>::at(OCTETOS_MATH_CX) = x;
+				Point<T>::at(OCTETOS_MATH_CY) = y;
+			}
+			else
+			{
+				std::string msg = "El tamano del areglo es ";
+				msg += std::to_string(Point<T>::getDimension());
+				throw octetos::core::Exception(msg,__FILE__,__LINE__);
+			}
+		}
+		void set(T x, T y, T z)
+		{
+			if(Point<T>::getDimension() < 3) Point<T>::resize(3);
+			if(Point<T>::getDimension() >= 3)
+			{
+				Point<T>::at(OCTETOS_MATH_CX) = x;
+				Point<T>::at(OCTETOS_MATH_CY) = y;
+			}
+			else
+			{
+				std::string msg = "El tamano del areglo es ";
+				msg += std::to_string(Point<T>::getDimension());
+				throw octetos::core::Exception(msg,__FILE__,__LINE__);
+			}
+		}
 		//operators
 		operator std::string() const
 		{
