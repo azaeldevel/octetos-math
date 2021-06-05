@@ -288,11 +288,11 @@ void testPoint()
 	if(point5.getY() == 11) CU_ASSERT(true)
 	else CU_ASSERT(false)
 
-	oct::math::Point<double> point6;
-	point6.setX(10);
+	//oct::math::Point<double> point6;
+	//point6.setX(10);
 		
-	oct::math::Point<double> point7;
-	point7.setY(10);
+	//oct::math::Point<double> point7;
+	//point7.set(0,10);
 
 	oct::math::Point<float> point8(5.3,2.9);
 	if(fabs(point8.getX() - 5.3) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
