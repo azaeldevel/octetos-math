@@ -19,26 +19,21 @@ namespace oct::math
 		{
 			Point<T>::at(OCTETOS_MATH_CX) = obj[OCTETOS_MATH_CX];
 			Point<T>::at(OCTETOS_MATH_CY) = obj[OCTETOS_MATH_CY];
-#if OCTETOS_MATH_DIMENSION >= 3
-			Point<T>::at(OCTETOS_MATH_CZ) = obj[OCTETOS_MATH_CZ];
-#endif
+			if(getDimension() > 2) Point<T>::at(OCTETOS_MATH_CZ) = obj[OCTETOS_MATH_CZ];
+
 		}
 		Point(T x, T y) : std::vector<T>(2)
 		{
 			Point<T>::at(OCTETOS_MATH_CX) = x;
 			Point<T>::at(OCTETOS_MATH_CY) = y;
-	#if OCTETOS_MATH_DIMENSION >= 3
-			Point<T>::at(OCTETOS_MATH_CZ) = 0.0;
-	#endif
 		}
-#if OCTETOS_MATH_DIMENSION >= 3
 		Point(T x, T y, T z) : std::vector<T>(3)
 		{
 			Point<T>::at(OCTETOS_MATH_CX) = x;
 			Point<T>::at(OCTETOS_MATH_CY) = y;
 			Point<T>::at(OCTETOS_MATH_CZ) = z;
 		}
-#endif
+
 		inline bool checkType()
 		{
 			if(std::is_same<T, double>::value)
@@ -71,13 +66,13 @@ namespace oct::math
 			if(Point<T>::getDimension() < 2) throw octetos::core::Exception("EL obejto no contiene coordenada Y.",__FILE__,__LINE__);
 			return Point<T>::at(OCTETOS_MATH_CY);
 		}
-#if OCTETOS_MATH_DIMENSION >= 3
+
 		T getZ() const
 		{
 			if(Point<T>::getDimension() < 3) throw octetos::core::Exception("EL obejto no contiene coordenada Z.",__FILE__,__LINE__);
 			return Point<T>::at(OCTETOS_MATH_CZ);
 		}
-#endif
+
 		int getDimension()const
 		{
 			return Point<T>::size();
@@ -174,9 +169,7 @@ namespace oct::math
 			std::string str = "(";
 			str += std::to_string(Point<T>::at(OCTETOS_MATH_CX)) ;
 			str = str + "," + std::to_string(Point<T>::at(OCTETOS_MATH_CY));
-#if OCTETOS_MATH_DIMENSION >= 3
-			str = str + "," + std::to_string(Point<T>::at(OCTETOS_MATH_CZ));
-#endif
+			if(getDimension() > 2) str = str + "," + std::to_string(Point<T>::at(OCTETOS_MATH_CZ));
 			str += ")";
 			return str;
 		}
@@ -186,17 +179,14 @@ namespace oct::math
 			{
 				Point<T>::push_back(obj.getX());
 				Point<T>::push_back(obj.getY());
-#if OCTETOS_MATH_DIMENSION >= 3
-				Point<T>::push_back(obj.getZ());
-#endif
+				if(getDimension() > 2) Point<T>::push_back(obj.getZ());
+
 			}
 			else if(Point<T>::size() == obj.size())
 			{
 				Point<T>::at(OCTETOS_MATH_CX) = obj.getX();
 				Point<T>::at(OCTETOS_MATH_CY) = obj.getY();
-#if OCTETOS_MATH_DIMENSION >= 3
-				Point<T>::at(OCTETOS_MATH_CZ) = obj.getZ();
-#endif
+				if(getDimension() > 2) Point<T>::at(OCTETOS_MATH_CZ) = obj.getZ();
 			}
 			else
 			{
@@ -213,9 +203,8 @@ namespace oct::math
 
 			if(fabs(Point<double>::getX() - obj.getX()) > OCTETOS_MATH_EPSILON) return false;
 			if(fabs(Point<double>::getY() - obj.getY()) > OCTETOS_MATH_EPSILON) return false;
-#if OCTETOS_MATH_DIMENSION >= 3
-			if(fabs(Point<double>::getZ() - obj.getZ()) > OCTETOS_MATH_EPSILON) return false;
-#endif
+			if(getDimension() > 2) if(fabs(Point<double>::getZ() - obj.getZ()) > OCTETOS_MATH_EPSILON) return false;
+
 			return true;
 		}
 		bool operator ==(const Point<float>& obj)
@@ -224,9 +213,8 @@ namespace oct::math
 
 			if(fabs(Point<float>::getX() - obj.getX()) > OCTETOS_MATH_EPSILON) return false;
 			if(fabs(Point<float>::getY() - obj.getY()) > OCTETOS_MATH_EPSILON) return false;
-#if OCTETOS_MATH_DIMENSION >= 3
-			if(fabs(Point<float>::getZ() - obj.getZ()) > OCTETOS_MATH_EPSILON) return false;
-#endif
+			if(getDimension() > 2) if(fabs(Point<float>::getZ() - obj.getZ()) > OCTETOS_MATH_EPSILON) return false;
+
 			return true;
 		}			
 		bool operator ==(const Point<long>& obj)
@@ -235,9 +223,8 @@ namespace oct::math
 
 			if(Point<long>::getX() != obj.getX()) return false;
 			if(Point<long>::getY() != obj.getY()) return false;
-#if OCTETOS_MATH_DIMENSION >= 3
-			if(Point<long>::getZ() != obj.getZ()) return false;
-#endif
+			if(getDimension() > 2) if(Point<long>::getZ() != obj.getZ()) return false;
+
 			return true;
 		}	
 		bool operator ==(const Point<int>& obj)
@@ -246,9 +233,8 @@ namespace oct::math
 
 			if(Point<int>::getX() != obj.getX()) return false;
 			if(Point<int>::getY() != obj.getY()) return false;
-#if OCTETOS_MATH_DIMENSION >= 3
-			if(Point<int>::getZ() != obj.getZ()) return false;
-#endif
+			if(getDimension() > 2) if(Point<int>::getZ() != obj.getZ()) return false;
+
 			return true;
 		}
 
@@ -259,10 +245,11 @@ namespace oct::math
 			OCTETOS_MATH_DECIMAL lengx = p[OCTETOS_MATH_CX] - Point<T>::at(OCTETOS_MATH_CX);
 			OCTETOS_MATH_DECIMAL lengy = p[OCTETOS_MATH_CY] - Point<T>::at(OCTETOS_MATH_CY);
 			OCTETOS_MATH_DECIMAL leng = pow(lengx,2) + pow(lengy,2);
-#if OCTETOS_MATH_DIMENSION >= 3
-			OCTETOS_MATH_DECIMAL lengz = p[OCTETOS_MATH_CZ] - Point<T>::at(OCTETOS_MATH_CZ);
-			leng += pow(lengz,2);
-#endif
+			if(getDimension() > 2) 
+			{
+				OCTETOS_MATH_DECIMAL lengz = p[OCTETOS_MATH_CZ] - Point<T>::at(OCTETOS_MATH_CZ);
+				leng += pow(lengz,2);
+			}
 			leng = sqrt(leng);
 			return leng;
 		}
