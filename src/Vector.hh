@@ -46,9 +46,9 @@ namespace oct::math
 		{
 			Vector v(obj.getDimension());
 			//v.begin = begin;
-			v.push_back(Vector<T>::getX() + obj.getX());
-			v.push_back(Vector<T>::getY() + obj.getY());
-			if(Vector<T>::getDimension() > 2) v.push_back(Vector<T>::getZ() + obj.getZ());
+			v.setX(Vector<T>::getX() + obj.getX());
+			v.setY(Vector<T>::getY() + obj.getY());
+			if(Vector<T>::getDimension() > 2) v.setZ(Vector<T>::getZ() + obj.getZ());
 
 			return v;
 		}
