@@ -24,11 +24,10 @@ namespace oct::math
 		Vector(T x, T y): Point<T>(x,y)
 		{
 		}
-#if OCTETOS_MATH_DIMENSION >= 3
+
 		Vector(T x, T y, T z): Point<T>(x,y,z)
 		{
 		}
-#endif
 			
 		//getter
 		OCTETOS_MATH_DECIMAL operator*(const Vector& obj)const
@@ -36,55 +35,51 @@ namespace oct::math
 			OCTETOS_MATH_DECIMAL v1 = Vector<T>::getX() * obj.getX();
 			OCTETOS_MATH_DECIMAL v2 = Vector<T>::getY() * obj.getY();
 			OCTETOS_MATH_DECIMAL v = v1 + v2;
-#if OCTETOS_MATH_DIMENSION >= 3
-			OCTETOS_MATH_DECIMAL v3 = Vector<T>::getZ() * obj.getZ();
-			v += v3;
-#endif
+			if(Vector<T>::getDimension() > 2)
+			{
+				OCTETOS_MATH_DECIMAL v3 = Vector<T>::getZ() * obj.getZ();
+				v += v3;
+			}
 			return v;
 		}
 		Vector operator+(const Vector& obj)const
 		{
-			Vector v;
+			Vector v(obj.getDimension());
 			//v.begin = begin;
 			v.push_back(Vector<T>::getX() + obj.getX());
 			v.push_back(Vector<T>::getY() + obj.getY());
-#if OCTETOS_MATH_DIMENSION >= 3
-			v.push_back(Vector<T>::getZ() + obj.getZ());
-#endif
+			if(Vector<T>::getDimension() > 2) v.push_back(Vector<T>::getZ() + obj.getZ());
+
 			return v;
 		}
 		Vector operator-(const Vector& obj)const
 		{
-			Vector v;
+			Vector v(obj.getDimension());
 			//v.begin = begin;
-			v.push_back(Vector<T>::getX() - obj.getX());
-			v.push_back(Vector<T>::getY() - obj.getY());
-#if OCTETOS_MATH_DIMENSION >= 3
-			v.push_back(Vector<T>::getZ() - obj.getZ());
-#endif
+			v.setX(Vector<T>::getX() - obj.getX());
+			v.setY(Vector<T>::getY() - obj.getY());
+			if(Vector<T>::getDimension() > 2) v.setZ(Vector<T>::getZ() - obj.getZ());
+
 			return v;
 		}
 		Vector operator*(T r)const
 		{
-			Vector v;
+			Vector v(Vector<T>::getDimension());
 			//v.begin = begin;
-			v.push_back(Vector<T>::getX() * r);
-			v.push_back(Vector<T>::getY() * r);
-#if OCTETOS_MATH_DIMENSION >= 3
-			v.push_back(Vector<T>::getZ() * r);
-#endif
+			v.setX(Vector<T>::getX() * r);
+			v.setY(Vector<T>::getY() * r);
+			if(Vector<T>::getDimension() > 2) v.setZ(Vector<T>::getZ() * r);
 				
 			return v;
 		}
 		Vector operator/(T r)const
 		{
-			Vector v;
+			Vector v(Vector<T>::getDimension());
 			//v.begin = begin;
-			v.push_back(Vector<T>::getX() / r);
-			v.push_back(Vector<T>::getY() / r);
-#if OCTETOS_MATH_DIMENSION >= 3
-			v.push_back(Vector<T>::getZ() / r);
-#endif
+			v.setX(Vector<T>::getX() / r);
+			v.setY(Vector<T>::getY() / r);
+			if(Vector<T>::getDimension() > 2) v.setZ(Vector<T>::getZ() / r);
+
 				
 			return v;
 		}		
@@ -92,35 +87,34 @@ namespace oct::math
 		//funtions
 		Vector orthogonal() const
 		{
-			Vector v;
+			Vector v(Vector<T>::getDimension());
 			//v.begin = begin;
-			v.push_back(Point<T>::getY() * -1);
-			v.push_back(Point<T>::getX());
-#if OCTETOS_MATH_DIMENSION >= 3
-			throw octetos::core::Exception("Aun no esta implemeteda esta funcion en 3D",__FILE__,__LINE__);
-#endif
+			v.setX(Point<T>::getY() * -1);
+			v.setY(Point<T>::getX());
+
+			//if(Vector<T>::getDimension() > 2) throw octetos::core::Exception("Aun no esta implemeteda esta funcion en 3D",__FILE__,__LINE__);
+
 			return v;
 		}
 		bool isParallel(const Vector& obj) const
 		{//se comparan la pendientes de ambos vectores
 			OCTETOS_MATH_DECIMAL mdyxt = fabs(Point<T>::getY()/Point<T>::getX());
-#if OCTETOS_MATH_DIMENSION >= 3
-			throw octetos::core::Exception("Aun no esta implemeteda esta funcion en 3D",__FILE__,__LINE__);
-#endif
+
+			if(Vector<T>::getDimension() > 2) throw octetos::core::Exception("Aun no esta implemeteda esta funcion en 3D",__FILE__,__LINE__);
+
 
 			//objeto
 			OCTETOS_MATH_DECIMAL mdyxo = fabs(obj.getY()/obj.getX());
-#if OCTETOS_MATH_DIMENSION >= 3
-			OCTETOS_MATH_DECIMAL mdzyo = fabs(obj.getY()/obj.getZ());
-#endif
+
+			if(Vector<T>::getDimension() > 2) OCTETOS_MATH_DECIMAL mdzyo = fabs(obj.getY()/obj.getZ());
+
 
 			if(fabs(mdyxt - mdyxo) > OCTETOS_MATH_EPSILON) 
 			{
 				return false;//no tiene la misma pendiente
 			}
-#if OCTETOS_MATH_DIMENSION >= 3
-			throw octetos::core::Exception("Un no es implemeteta esta fucionen 3D",__FILE__,__LINE__);
-#endif
+
+			if(Vector<T>::getDimension() > 2) throw octetos::core::Exception("Un no es implemeteta esta fucionen 3D",__FILE__,__LINE__);
 			
 			return true;
 		}
@@ -148,9 +142,9 @@ namespace oct::math
 			
 		    Point<T>::at(OCTETOS_MATH_CX) = Point<T>::at(OCTETOS_MATH_CX)/lenvect;
 			Point<T>::at(OCTETOS_MATH_CY) = Point<T>::at(OCTETOS_MATH_CY)/lenvect;
-#if OCTETOS_MATH_DIMENSION >= 3
-			Point<T>::at(OCTETOS_MATH_CZ) = Point<T>::at(OCTETOS_MATH_CZ)/lenvect;
-#endif
+
+			if(Vector<T>::getDimension() > 2)  Point<T>::at(OCTETOS_MATH_CZ) = Point<T>::at(OCTETOS_MATH_CZ)/lenvect;
+
 
 		    lenvect = O.distance(*this);
 		    if(fabs(lenvect - 1.0) > OCTETOS_MATH_EPSILON)
@@ -168,9 +162,8 @@ namespace oct::math
 		OCTETOS_MATH_DECIMAL length()const
 		{
 			OCTETOS_MATH_DECIMAL leng = pow(Point<T>::at(OCTETOS_MATH_CX),2) + pow(Point<T>::at(OCTETOS_MATH_CY),2);
-#if OCTETOS_MATH_DIMENSION >= 3
-			leng += pow(Point<T>::at(OCTETOS_MATH_CZ),2);
-#endif
+			if(Vector<T>::getDimension() > 2) leng += pow(Point<T>::at(OCTETOS_MATH_CZ),2);
+
 			leng = sqrt(leng);
 			return leng;
 		}
@@ -235,9 +228,8 @@ namespace oct::math
 		{
 			Point<T>::setX(Point<T>::getX() + b.getX());
 			Point<T>::setY(Point<T>::getY() + b.getY());
-#if OCTETOS_MATH_DIMENSION >= 3
-			Point<T>::setZ(Point<T>::getZ() + b.getZ());
-#endif
+			if(Vector<T>::getDimension() > 2) Point<T>::setZ(Point<T>::getZ() + b.getZ());
+
 			return true;
 		}
 		bool rotate(const Vector& b)
@@ -251,9 +243,9 @@ namespace oct::math
 			OCTETOS_MATH_DECIMAL y = (b.getY() * Point<T>::getX()) + (b.getX() * Point<T>::getY());
 			Point<T>::setX(x);
 			Point<T>::setY(y);
-#if OCTETOS_MATH_DIMENSION >= 3
-			throw octetos::core::Exception("Aun no esta implemeteda esta funcion en 3D",__FILE__,__LINE__);
-#endif
+
+			if(Vector<T>::getDimension() > 2) throw octetos::core::Exception("Aun no esta implemeteda esta funcion en 3D",__FILE__,__LINE__);
+
 			return true;
 		}
 		bool reflect(const Vector& b)
@@ -267,9 +259,9 @@ namespace oct::math
 			OCTETOS_MATH_DECIMAL y = (b.getY() * Point<T>::getX()) - (b.getX() * Point<T>::getY());
 			Point<T>::setX(x);
 			Point<T>::setY(y);
-#if OCTETOS_MATH_DIMENSION >= 3
-			throw octetos::core::Exception("Aun no esta implemeteda esta funcion en 3D",__FILE__,__LINE__);
-#endif
+
+			if(Vector<T>::getDimension() > 2) throw octetos::core::Exception("Aun no esta implemeteda esta funcion en 3D",__FILE__,__LINE__);
+
 			return true;
 		}
 		/**
@@ -341,9 +333,9 @@ namespace oct::math
 		{
 			Point<T>::setX(::cos(theta) * length);
 			Point<T>::setY(::sin(theta) * length);
-#if OCTETOS_MATH_DIMENSION >= 3
-			throw octetos::core::Exception("Aun no esta implemeteda esta funcion en 3D",__FILE__,__LINE__);
-#endif
+
+			if(Vector<T>::getDimension() > 2) throw octetos::core::Exception("Aun no esta implemeteda esta funcion en 3D",__FILE__,__LINE__);
+
 			return true;
 		}
 		/**

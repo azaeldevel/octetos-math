@@ -14,6 +14,9 @@ namespace oct::math
 		//contructor		
 		Point() : std::vector<T>()
 		{
+		}	
+		Point(unsigned short dimension) : std::vector<T>(dimension)
+		{
 		}
 		Point(const Point& obj) : std::vector<T>(obj.size())
 		{
