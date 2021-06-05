@@ -175,23 +175,11 @@ namespace oct::math
 		}
 		const Point& operator= (const Point& obj)
 		{
-			if(Point<T>::size() == 0)
-			{
-				Point<T>::push_back(obj.getX());
-				Point<T>::push_back(obj.getY());
-				if(getDimension() > 2) Point<T>::push_back(obj.getZ());
+			if(getDimension() != obj.getDimension()) Point<T>::resize(obj.getDimension());
 
-			}
-			else if(Point<T>::size() == obj.size())
-			{
-				Point<T>::at(OCTETOS_MATH_CX) = obj.getX();
-				Point<T>::at(OCTETOS_MATH_CY) = obj.getY();
-				if(getDimension() > 2) Point<T>::at(OCTETOS_MATH_CZ) = obj.getZ();
-			}
-			else
-			{
-
-			}
+			Point<T>::at(OCTETOS_MATH_CX) = obj.getX();
+			Point<T>::at(OCTETOS_MATH_CY) = obj.getY();
+			if(getDimension() > 2) Point<T>::at(OCTETOS_MATH_CZ) = obj.getZ();
 
 			return *this;
 		}
