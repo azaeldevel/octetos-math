@@ -3,7 +3,7 @@
 #define OCTETOS_MATH_ALGEBRA_HH
 
 
-namespace math:: equs
+namespace oct::math
 {
 	
 	

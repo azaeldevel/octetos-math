@@ -2,7 +2,7 @@
 #include <core.hh>
 
 
-namespace math
+namespace oct::math
 {
 	Exception::Exception(const std::string& msg,const char* fn,int line) : octetos::core::Exception(msg,fn,line)
 	{}

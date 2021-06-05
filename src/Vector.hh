@@ -4,7 +4,7 @@
 
 #include "Point.hh"
 
-namespace math
+namespace oct::math
 {
 	
 	template<class T>

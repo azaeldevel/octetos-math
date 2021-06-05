@@ -5,7 +5,7 @@
 #include <Vector.hh>
 
 
-namespace math
+namespace oct::math
 {
 	template<class T>
 	class Line

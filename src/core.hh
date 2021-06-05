@@ -22,7 +22,7 @@
 #define OCTETOS_MATH_CZ 2
 
 
-namespace math
+namespace oct::math
 {
 	typedef OCTETOS_MATH_DECIMAL decimal;
 	typedef OCTETOS_MATH_INTEGER integer;

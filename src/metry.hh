@@ -4,7 +4,7 @@
 
 #include "Line.hh"
 
-namespace math
+namespace oct::math
 {
 
 } 

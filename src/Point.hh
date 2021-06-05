@@ -5,7 +5,7 @@
 #include "core.hh"
 
 
-namespace math
+namespace oct::math
 {
 	template<class T>
 	class Point : public std::vector<T>

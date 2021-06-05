@@ -7,7 +7,7 @@
 #include "Intervals.hh"
 
 
-namespace math::funcs
+namespace oct::math::funcs
 {
 	template<class T> class Multiply;
 	template<class T> class Power;

@@ -1,7 +1,7 @@
 
 #include "algebra.hh"
 
-namespace math
+namespace oct::math
 {
 
 	

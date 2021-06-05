@@ -6,7 +6,7 @@
 #include "funcs.hh"
 
 
-namespace math::funcs
+namespace oct::math::funcs
 {
 	template<class T>
 	class ExerciesSecante : public Function<T>
