@@ -89,7 +89,7 @@ namespace oct::math
 		{
 			Vector v(Vector<T>::getDimension());
 			//v.begin = begin;
-			v.setX(Point<T>::getY() * -1);
+			v.setX(Point<T>::getY() * T(-1));
 			v.setY(Point<T>::getX());
 
 			//if(Vector<T>::getDimension() > 2) throw octetos::core::Exception("Aun no esta implemeteda esta funcion en 3D",__FILE__,__LINE__);
@@ -123,14 +123,11 @@ namespace oct::math
 			Point<T> O(*this);
 			if(O.getDimension() == 2)
 			{
-				O[0] = 0.0;
-				O[1] = 0.0;
+				O.set(0,0);
 			}
 			else if(O.getDimension() == 3)
 			{
-				O[0] = 0.0;
-				O[1] = 0.0;
-				O[2] = 0.0;
+				O.set(0,0,0);
 			}
 			OCTETOS_MATH_DECIMAL lenvect = O.distance(*this);
 		    if(fabs(lenvect - OCTETOS_MATH_EPSILON) >= lenvect)

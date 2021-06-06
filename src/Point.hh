@@ -7,37 +7,60 @@
 
 namespace oct::math
 {
+	
 	template<class T>
-	class Point : public std::vector<T>
+	class Point : protected std::vector<T>
 	{
 	public:
+		enum Type
+		{
+			RECTANGULAR,
+			SPHERICAL,
+			NONE
+		};		
+
+	public:
 		//contructor		
-		Point() : std::vector<T>()
+		Point() : type(NONE), std::vector<T>()
 		{
 		}	
-		Point(unsigned short dimension) : std::vector<T>(dimension)
+		Point(unsigned short dimension) : type(NONE), std::vector<T>(dimension)
 		{
+		}	
+		Point(unsigned short dimension, Type t) : type(t), std::vector<T>(dimension)
+		{			
 		}
 		Point(const Point& obj) : std::vector<T>(obj.size())
 		{
 			Point<T>::at(OCTETOS_MATH_CX) = obj[OCTETOS_MATH_CX];
 			Point<T>::at(OCTETOS_MATH_CY) = obj[OCTETOS_MATH_CY];
 			if(getDimension() > 2) Point<T>::at(OCTETOS_MATH_CZ) = obj[OCTETOS_MATH_CZ];
-
+			type = obj.type;
 		}
-		Point(T x, T y) : std::vector<T>(2)
+		Point(T a, T  b) : type(RECTANGULAR),  std::vector<T>(2)
 		{
-			Point<T>::at(OCTETOS_MATH_CX) = x;
-			Point<T>::at(OCTETOS_MATH_CY) = y;
+			Point<T>::at(OCTETOS_MATH_CX) = a;
+			Point<T>::at(OCTETOS_MATH_CY) = b;
 		}
-		Point(T x, T y, T z) : std::vector<T>(3)
+		Point(T a, T b, T c) : type(RECTANGULAR), std::vector<T>(3)
 		{
-			Point<T>::at(OCTETOS_MATH_CX) = x;
-			Point<T>::at(OCTETOS_MATH_CY) = y;
-			Point<T>::at(OCTETOS_MATH_CZ) = z;
+			Point<T>::at(OCTETOS_MATH_CX) = a;
+			Point<T>::at(OCTETOS_MATH_CY) = b;
+			Point<T>::at(OCTETOS_MATH_CZ) = c;
+		}
+		Point(T a, T  b, Type t) : type(t),  std::vector<T>(2)
+		{
+			Point<T>::at(OCTETOS_MATH_CX) = a;
+			Point<T>::at(OCTETOS_MATH_CY) = b;
+		}
+		Point(T a, T b, T c, Type t) : type(t), std::vector<T>(3)
+		{
+			Point<T>::at(OCTETOS_MATH_CX) = a;
+			Point<T>::at(OCTETOS_MATH_CY) = b;
+			Point<T>::at(OCTETOS_MATH_CZ) = c;
 		}
 
-		inline bool checkType()
+		bool checkType()
 		{
 			if(std::is_same<T, double>::value)
 			{
@@ -69,13 +92,26 @@ namespace oct::math
 			if(Point<T>::getDimension() < 2) throw octetos::core::Exception("EL obejto no contiene coordenada Y.",__FILE__,__LINE__);
 			return Point<T>::at(OCTETOS_MATH_CY);
 		}
-
 		T getZ() const
 		{
 			if(Point<T>::getDimension() < 3) throw octetos::core::Exception("EL obejto no contiene coordenada Z.",__FILE__,__LINE__);
 			return Point<T>::at(OCTETOS_MATH_CZ);
 		}
-
+		T getR() const//radio
+		{
+			if(Point<T>::getDimension() < 1) throw octetos::core::Exception("Obejto vacio",__FILE__,__LINE__);
+			return Point<T>::at(OCTETOS_MATH_CX);
+		}
+		T getT() const//angulo thetha
+		{
+			if(Point<T>::getDimension() < 2) throw octetos::core::Exception("EL obejto no contiene coordenada Theta.",__FILE__,__LINE__);
+			return Point<T>::at(OCTETOS_MATH_CY);
+		}
+		T getF() const//angulo fi
+		{
+			if(Point<T>::getDimension() < 3) throw octetos::core::Exception("EL obejto no contiene coordenada Fi.",__FILE__,__LINE__);
+			return Point<T>::at(OCTETOS_MATH_CZ);
+		}
 		int getDimension()const
 		{
 			return Point<T>::size();
@@ -178,6 +214,7 @@ namespace oct::math
 		}
 		const Point& operator= (const Point& obj)
 		{
+			if(type != obj.type) if(type != NONE) throw octetos::core::Exception("No son puntos del mismo tipo",__FILE__,__LINE__);
 			if(getDimension() != obj.getDimension()) Point<T>::resize(obj.getDimension());
 
 			Point<T>::at(OCTETOS_MATH_CX) = obj.getX();
@@ -190,6 +227,7 @@ namespace oct::math
 		//operator ==
 		bool operator ==(const Point<double>& obj)
 		{
+			if(type != obj.type) throw octetos::core::Exception("No son puntos del mismo tipo",__FILE__,__LINE__);
 			if(Point<double>::size() != obj.size()) return false;
 
 			if(fabs(Point<double>::getX() - obj.getX()) > OCTETOS_MATH_EPSILON) return false;
@@ -200,6 +238,7 @@ namespace oct::math
 		}
 		bool operator ==(const Point<float>& obj)
 		{
+			if(type != obj.type) throw octetos::core::Exception("No son puntos del mismo tipo",__FILE__,__LINE__);
 			if(Point<float>::size() != obj.size()) return false;
 
 			if(fabs(Point<float>::getX() - obj.getX()) > OCTETOS_MATH_EPSILON) return false;
@@ -210,6 +249,7 @@ namespace oct::math
 		}			
 		bool operator ==(const Point<long>& obj)
 		{
+			if(type != obj.type) throw octetos::core::Exception("No son puntos del mismo tipo",__FILE__,__LINE__);
 			if(Point<long>::size() != obj.size()) return false;
 
 			if(Point<long>::getX() != obj.getX()) return false;
@@ -220,6 +260,7 @@ namespace oct::math
 		}	
 		bool operator ==(const Point<int>& obj)
 		{
+			if(type != obj.type) throw octetos::core::Exception("No son puntos del mismo tipo",__FILE__,__LINE__);
 			if(Point<int>::size() != obj.size()) return false;
 
 			if(Point<int>::getX() != obj.getX()) return false;
@@ -246,7 +287,7 @@ namespace oct::math
 		}
 		
 	private:
-		
+		Type type;
 	};
 } 
 
