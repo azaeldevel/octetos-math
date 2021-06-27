@@ -718,6 +718,18 @@ void testDeveloping()
 	rowTF++;
 	CU_ASSERT((*rowTF).frec == 3);
 	
+	frecTab.frecageater();
+	/*for(const oct::math::Frecuency<int>& row : frecTab)
+	{
+		std::cout << row.frecageater << "\n";
+	}*/
+	
+	frecTab.frecp();
+	frecTab.frecpageater();
+	for(const oct::math::Frecuency<int>& row : frecTab)
+	{
+		std::cout << row.frecpagreater << "\n";
+	}
 }
 
 
