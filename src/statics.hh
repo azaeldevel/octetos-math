@@ -24,21 +24,36 @@ public:
 		std::list<T>::push_back(e);
 	};
 	
-	unsigned int getCounter()const
+	unsigned int counter()const
 	{
 		return std::list<T>::size();
 	}
-	T getMax() const
+	T max() const
 	{
+		if(not sorted) throw octetos::core::Exception("El conjunto de datos no esta ordenado");
 		return *std::list<T>::begin();
 	}
-	T getMin() const
+	T min() const
 	{
+		if(not sorted) throw octetos::core::Exception("El conjunto de datos no esta ordenado");
 		return *(--std::list<T>::end());
 	}
 	bool getSorted()const
 	{
 		return sorted;
+	}	
+
+	T range() const
+	{
+		return max()-min();
+	}	
+	unsigned int categories()const
+	{
+		return round(1 + (3.3 * log10(counter())));
+	}
+	unsigned int amplitude()const
+	{
+		return range()/categories();
 	}
 
 	void sort()

@@ -681,14 +681,18 @@ void testDeveloping()
 	dt.add(12);
 
 	//std::cout << "Count : " << dt.getCounter() << "\n";
-	CU_ASSERT(dt.getCounter() == 80);
+	CU_ASSERT(dt.counter() == 80);
 	
 	dt.sort();
-	CU_ASSERT(dt.getMax() == 32);
+	CU_ASSERT(dt.max() == 32);
 	//std::cout << "Max : " << dt.getMax() << "\n";
-	CU_ASSERT(dt.getMin() == 3)
+	CU_ASSERT(dt.min() == 3)
 	//std::cout << "Min : " << dt.getMin() << "\n";
 	
+	CU_ASSERT(dt.categories() == 7);
+	//std::cout << "Cat : " << dt.getCategories() << "\n";
+	
+	CU_ASSERT(dt.amplitude() == 4);
 }
 
 
