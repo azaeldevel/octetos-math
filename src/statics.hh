@@ -9,7 +9,7 @@
 namespace oct::math
 {
 
-
+typedef unsigned int categorie;
 
 template<typename T>
 class Dataset : public std::list<T>
@@ -47,7 +47,7 @@ public:
 	{
 		return max()-min();
 	}	
-	unsigned int categories()const
+	categorie categories()const
 	{
 		return round(1 + (3.3 * log10(counter())));
 	}
@@ -71,6 +71,38 @@ private:
 	bool sorted;
 };
 
+
+template<typename T>
+struct Frecuency
+{
+	T min;
+	T max;
+	unsigned int frec;
+};
+
+template<typename T>
+class FrecuencyTable : public std::list<Frecuency<T>>
+{
+public:
+	FrecuencyTable(const Dataset<T>& data)
+	{
+		categorie next = data.min();
+		//for(categorie cat = 1 ; cat <= data.categories(); cat++)
+		while(next < data.max())
+		{
+			Frecuency<T> row;
+			row.min = next;
+			row.max = next + data.amplitude();
+			row.frec = 0;
+			for(T d : data)
+			{
+				if(d >= row.min and d < row.max) row.frec++;
+			}
+			std::list<Frecuency<T>>::push_back(row);
+			next += data.amplitude();
+		}
+	};
+};
 }
 
 #endif

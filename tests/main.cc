@@ -693,6 +693,31 @@ void testDeveloping()
 	//std::cout << "Cat : " << dt.getCategories() << "\n";
 	
 	CU_ASSERT(dt.amplitude() == 4);
+	
+	oct::math::FrecuencyTable<int> frecTab(dt);
+	/*for(const oct::math::Frecuency<int>& row : frecTab)
+	{
+		std::cout << row.frec << "\n";
+	}*/
+	CU_ASSERT(frecTab.size() == 8);
+	oct::math::FrecuencyTable<int>::iterator rowTF;
+	rowTF = frecTab.begin();
+	CU_ASSERT((*rowTF).frec == 9);
+	rowTF++;
+	CU_ASSERT((*rowTF).frec == 18);
+	rowTF++;
+	CU_ASSERT((*rowTF).frec == 18);
+	rowTF++;
+	CU_ASSERT((*rowTF).frec == 10);
+	rowTF++;
+	CU_ASSERT((*rowTF).frec == 9);
+	rowTF++;
+	CU_ASSERT((*rowTF).frec == 8);
+	rowTF++;
+	CU_ASSERT((*rowTF).frec == 5);
+	rowTF++;
+	CU_ASSERT((*rowTF).frec == 3);
+	
 }
 
 
