@@ -17,6 +17,8 @@ template<typename T>
 class Dataset : public std::list<T>
 {
 public:
+	
+public:
 	Dataset()
 	{
 		sorted = true;
@@ -53,7 +55,7 @@ public:
 	{
 		return round(1 + (3.3 * log10(counter())));
 	}
-	unsigned int amplitude()const
+	unsigned int amplitudeClass()const
 	{
 		return range()/categories();
 	}
@@ -63,6 +65,87 @@ public:
 		std::list<T>::sort(cmpDesc);
 		sorted = true;
 	};
+
+
+	double mean() const
+	{
+		double m = 0;
+		for(T t : *this)
+		{
+			m += double(t);
+		}
+		m /= double(counter());
+
+		return m;
+	}
+	T median() const
+	{
+		if(not sorted) throw octetos::core::Exception("El conjunto de datos no esta ordenado");
+
+		bool par = (counter() % 2) == 0;
+
+		if(par)
+		{
+			unsigned int m = counter()/2;
+			auto it1 = std::list<T>::begin();
+			std::advance(it1,m);
+			auto it2 = std::list<T>::begin();
+			std::advance(it2,m + 1);
+
+			return (*it1 + *it2)/2.0;
+		}
+		else
+		{
+			auto it = std::list<T>::begin();
+			std::advance(it,(counter()+1)/2);
+			return *it;
+		}
+	}
+
+	T mode() const
+	{
+		struct Frec
+		{
+			T data;
+			unsigned int frec;
+		};
+		std::list<Frec> frecList;
+		T m = 0;
+		for(T t : *this)
+		{
+			 
+		}
+	}
+
+	double md() const
+	{
+		double d = 0, m = mean();
+
+		for(T t : *this)
+		{
+			d += std::abs(double(t) - m);
+		}
+		d /= double(counter());
+
+		return d;
+	}
+
+	double variance(bool population) const
+	{
+		double d = 0, m = mean();
+
+		for(T t : *this)
+		{
+			d += pow(double(t) - m,2.0);
+		}
+		return population ? d / double(counter()) : d / double(counter() - 1.0);
+	}
+
+	double sd() const
+	{
+		return sqrt(md());
+	}
+	
 private:
 	static bool cmpDesc(const T f, const T s)
 	{
@@ -105,7 +188,7 @@ public:
 		{
 			Frecuency<T> row;
 			row.min = next;
-			row.max = next + data.amplitude();
+			row.max = next + data.amplitudeClass();
 			row.frec = 0;
 			row.frecr = 0;
 			row.frecp = 0;
@@ -117,7 +200,7 @@ public:
 			}
 			row.frecr = row.frec / data.counter();
 			std::list<Frecuency<T>>::push_back(row);
-			next += data.amplitude();
+			next += data.amplitudeClass();
 		}
 	};
 
@@ -177,6 +260,8 @@ public:
 			}
 		);		
 	}
+
+
 	
 private:
 	const Dataset<T>& data;

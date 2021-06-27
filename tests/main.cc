@@ -692,7 +692,7 @@ void testDeveloping()
 	CU_ASSERT(dt.categories() == 7);
 	//std::cout << "Cat : " << dt.getCategories() << "\n";
 	
-	CU_ASSERT(dt.amplitude() == 4);
+	CU_ASSERT(dt.amplitudeClass() == 4);
 	
 	oct::math::FrecuencyTable<int> frecTab(dt);
 	/*for(const oct::math::Frecuency<int>& row : frecTab)
@@ -726,10 +726,22 @@ void testDeveloping()
 	
 	frecTab.frecp();
 	frecTab.frecpageater();
-	for(const oct::math::Frecuency<int>& row : frecTab)
+	/*for(const oct::math::Frecuency<int>& row : frecTab)
 	{
 		std::cout << row.frecpagreater << "\n";
-	}
+	}*/
+	
+	//std::cout << "media : " << dt.mean() << "\n";
+	CU_ASSERT(15.15 - dt.mean() < oct::math::epsilon);
+	
+	//std::cout << "mediana : " << dt.median() << "\n";
+	CU_ASSERT(13 == dt.median());
+	
+	//std::cout << "desviacion media : " << dt.dm() << "\n";
+	CU_ASSERT(6.50125 - dt.md() < oct::math::epsilon);
+	
+	//std::cout << "varianza : " << dt.variance(true) << "\n";
+	CU_ASSERT(59.3525 - dt.variance(true) < oct::math::epsilon);
 }
 
 
