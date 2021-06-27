@@ -680,6 +680,15 @@ void testDeveloping()
 	dt.add(26);
 	dt.add(12);
 
+	//std::cout << "Count : " << dt.getCounter() << "\n";
+	CU_ASSERT(dt.getCounter() == 80);
+	
+	dt.sort();
+	CU_ASSERT(dt.getMax() == 32);
+	//std::cout << "Max : " << dt.getMax() << "\n";
+	CU_ASSERT(dt.getMin() == 3)
+	//std::cout << "Min : " << dt.getMin() << "\n";
+	
 }
 
 
