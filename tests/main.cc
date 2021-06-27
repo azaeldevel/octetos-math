@@ -27,6 +27,7 @@
 #include "../src/funcs.hh"
 #include "../src/funcs-ext.hh"
 #include "../src/Prime.hh"
+#include "../src/statics.hh"
 
 
 void testVector()
@@ -592,6 +593,93 @@ void testDeveloping()
 	math::Prime prime3;
 	if(!prime3.isPrime(100)) CU_ASSERT(true)
 	else CU_ASSERT(false)
+	
+	
+	
+	//statics
+	
+	oct::math::Dataset<int> dt;
+	dt.add(12);
+	dt.add(3);
+	dt.add(25);
+	dt.add(28);
+	dt.add(14);
+	dt.add(14);
+	dt.add(5);
+	dt.add(27);
+	dt.add(30);
+	dt.add(16);
+	dt.add(9);
+	dt.add(10);
+	dt.add(22);
+	dt.add(25);
+	dt.add(11);
+	dt.add(10);
+	dt.add(8);
+	dt.add(7);
+	dt.add(21);
+	dt.add(18);
+	dt.add(8);
+	dt.add(7);
+	dt.add(12);
+	dt.add(15);
+	dt.add(21);
+	dt.add(26);
+	dt.add(7);
+	dt.add(12);
+	dt.add(15);
+	dt.add(8);
+	dt.add(27);
+	dt.add(6);
+	dt.add(13);
+	dt.add(16);
+	dt.add(9);
+	dt.add(14);
+	dt.add(13);
+	dt.add(19);
+	dt.add(21);
+	dt.add(10);
+	dt.add(13);
+	dt.add(12);
+	dt.add(18);
+	dt.add(20);
+	dt.add(9);
+	dt.add(14);
+	dt.add(21);
+	dt.add(17);
+	dt.add(14);
+	dt.add(9);
+	dt.add(7);
+	dt.add(6);
+	dt.add(4);
+	dt.add(9);
+	dt.add(8);
+	dt.add(6);
+	dt.add(4);
+	dt.add(12);
+	dt.add(18);
+	dt.add(32);
+	dt.add(11);
+	dt.add(12);
+	dt.add(20);
+	dt.add(16);
+	dt.add(14);
+	dt.add(4);
+	dt.add(31);
+	dt.add(22);
+	dt.add(5);
+	dt.add(24);
+	dt.add(23);
+	dt.add(8);
+	dt.add(26);
+	dt.add(31);
+	dt.add(7);
+	dt.add(25);
+	dt.add(30);
+	dt.add(18);
+	dt.add(26);
+	dt.add(12);
+
 }
 
 
