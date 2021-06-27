@@ -67,6 +67,34 @@ namespace oct::math
 		{
 			return this->push_back(t);
 		};
+
+		Set<T> U(const Set<T>& obj)
+		{
+			Set<T> u(*this);//copia el actual
+			
+			for(T t : obj)
+			{
+				if(find(u.begin(),u.end(), t) == u.end())
+				{
+					u.push_back(t);
+				}
+			}
+			return u;
+		};
+
+
+		Set<T> I(const Set<T>& obj)
+		{
+			Set<T> u;
+
+			for(T t : *this)
+			{
+				if(find(obj.begin(),obj.end(), t) != obj.end())
+				{
+					u.push_back(t);
+				}
+			}
+		};
 	};
 
 	/**
