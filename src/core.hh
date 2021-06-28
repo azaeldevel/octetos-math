@@ -178,15 +178,7 @@ namespace oct::math
 	};
 
 	
-	template<class T>
-	class Sets : public std::vector<T>
-	{
-	public:
-		
-		//
-		const Sets& operator || (const Sets&);//union
-		const Sets& operator && (const Sets&);//interseccion
-	};
+	
 } 
 
 
