@@ -92,6 +92,22 @@ namespace oct::math::funcs
 			msg += std::to_string(a) + "', esta fuera del Dominio.";
 			throw Exception(msg,__FILE__,__LINE__);
 		};
+		virtual void operator ()(std::vector<T>& v)
+		{
+			if(v.size() < 2)
+			{
+				std::string msg = "Se requiere al menos 2 varibles para esta funcion";
+				throw Exception(msg,__FILE__,__LINE__);	
+			}
+			if(not Function<T>::check(v))
+			{		
+				std::string msg = "El valor x'";
+				msg += "', esta fuera del Dominio.";
+				throw Exception(msg,__FILE__,__LINE__);		
+			}
+
+			v[v.size()-1] = c;	
+		};
 		virtual C<T>& D()
 		{
 			Equation<T>* e = new C<T>(0);
@@ -123,6 +139,26 @@ namespace oct::math::funcs
 			std::string msg = "El valor '";
 			msg += std::to_string(a) + "', esta fuera del Dominio.";
 			throw Exception(msg,__FILE__,__LINE__);
+		};
+		virtual void operator ()(std::vector<T>& v)
+		{
+			if(v.size() < 2)
+			{
+				std::string msg = "Se requiere al menos 2 varibles para esta funcion";
+				throw Exception(msg,__FILE__,__LINE__);	
+			}
+			if(not Function<T>::check(v))
+			{
+				std::string msg = "El valor x'";
+				msg += "', esta fuera del Dominio.";
+				throw Exception(msg,__FILE__,__LINE__);		
+			}
+
+			T value = v[0];
+			for(T& t : v)
+			{
+				t = value;
+			}
 		};
 		virtual C<T>& D()
 		{

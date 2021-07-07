@@ -36,6 +36,13 @@ namespace oct::math
 		Exception(const std::string& msg);
 	};
 	
+	/*template<class T>
+	class vector : public std::vector<T>
+	{
+	public:
+		
+	};*/
+	
 	template<class T>
 	class Measure 
 	{
@@ -110,6 +117,7 @@ namespace oct::math
 		*
 		*/
 		virtual bool check(T) const = 0;
+		virtual bool check(std::vector<T>&) const {return true;};
 	};
 	
 	template<class T>
@@ -144,12 +152,17 @@ namespace oct::math
 		**/
 		virtual Equation<T>& D() = 0;
 		virtual T operator ()(T) = 0;
+		virtual void operator ()(std::vector<T>&){};
 
 		virtual bool check(T t) const
 		{
 			if(domain)return domain->check(t);
 			return true;
 		}
+		virtual bool check(std::vector<T>&) const 
+		{
+			return true;
+		};
 	protected:
 		void addDeletes(Equation<T>* e)
 		{

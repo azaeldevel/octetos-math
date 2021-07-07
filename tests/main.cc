@@ -28,6 +28,7 @@
 #include "../src/funcs-ext.hh"
 #include "../src/Prime.hh"
 #include "../src/statics.hh"
+#include "../src/matrix.hh"
 
 
 void testVector()
@@ -742,6 +743,33 @@ void testDeveloping()
 	
 	//std::cout << "varianza : " << dt.variance(true) << "\n";
 	CU_ASSERT(59.3525 - dt.variance(true) < oct::math::epsilon);
+	
+	
+	//
+	oct::math::Matrix<float> m1(3,4);
+	CU_ASSERT(m1.size() == 3);
+	
+	m1[0][0] = 2;
+	m1[0][1] = 1;
+	m1[0][2] = -4;
+	m1[0][3] = -3;
+	//
+	m1[1][0] = 0;
+	m1[1][1] = -1;
+	m1[1][2] = 0;
+	m1[1][3] = -1;
+	//
+	m1[2][0] = -1;
+	m1[2][1] = 2;
+	m1[2][2] = -2;
+	m1[2][3] = 1;
+	
+	m1.print(std::cout);
+	
+	oct::math::Matrix<float> m2;
+	m1.transposed(m2);
+	std::cout << "\n";
+	m2.print(std::cout);
 }
 
 
