@@ -764,12 +764,46 @@ void testDeveloping()
 	m1[2][2] = -2;
 	m1[2][3] = 1;
 	
-	m1.print(std::cout);
+	//m1.print(std::cout);
 	
 	oct::math::Matrix<float> m2;
 	m1.transposed(m2);
-	std::cout << "\n";
-	m2.print(std::cout);
+	//std::cout << "\n";
+	//m2.print(std::cout);
+	CU_ASSERT(m2[0][0] == 2);
+	CU_ASSERT(m2[0][1] == 0);
+	CU_ASSERT(m2[0][2] == -1);
+	
+	CU_ASSERT_FALSE(m1.isSquared());
+	CU_ASSERT_FALSE(m2.isSquared());
+	oct::math::Matrix<float> m3(3);
+	CU_ASSERT(m3.isSquared());
+	
+	oct::math::Matrix<float> m4(4);	
+	m4[0][0] = 1;
+	m4[0][1] = 0;
+	m4[0][2] = 0;
+	m4[0][3] = 0;
+	//
+	m4[1][0] = 0;
+	m4[1][1] = 1;
+	m4[1][2] = 0;
+	m4[1][3] = 0;
+	//
+	m4[2][0] = 0;
+	m4[2][1] = 0;
+	m4[2][2] = 1;
+	m4[2][3] = 0;
+	//
+	m4[3][0] = 0;
+	m4[3][1] = 0;
+	m4[3][2] = 0;
+	m4[3][3] = 1;
+	//m4.print(std::cout);
+	CU_ASSERT(m4.isDiagonal());
+	
+	//
+	
 }
 
 
