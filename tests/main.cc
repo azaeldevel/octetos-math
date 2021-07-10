@@ -747,7 +747,7 @@ void testDeveloping()
 	
 	//
 	oct::math::Matrix<float> m1(3,4);
-	CU_ASSERT(m1.size() == 3);
+	CU_ASSERT(m1.rows() == 3);
 	
 	m1[0][0] = 2;
 	m1[0][1] = 1;
@@ -803,6 +803,29 @@ void testDeveloping()
 	CU_ASSERT(m4.isDiagonal());
 	
 	//
+	oct::math::Matrix<float> m5 = m1;
+	//std::cout << "\n";
+	//m1.print(std::cout);
+	//std::cout << "\n";
+	oct::math::Matrix<float> m6 = m1 + m5;
+	CU_ASSERT(m6[0][0] == 4);
+	CU_ASSERT(m6[0][1] == 2);
+	CU_ASSERT(m6[0][2] == -8);
+	CU_ASSERT(m6[0][3] == -6);
+	//std::cout << "\n";
+	//m6.print(std::cout);
+	oct::math::Matrix<float> m7 = m6 - m1;
+	CU_ASSERT(m7[0][0] == 2);
+	CU_ASSERT(m7[0][1] == 1);
+	CU_ASSERT(m7[0][2] == -4);
+	CU_ASSERT(m7[0][3] == -3);
+	//std::cout << "\n";
+	//m7.print(std::cout);
+	oct::math::Matrix<float> m8 = m1 * m2;
+	//std::cout << "\n";
+	//m8.print(std::cout);
+
+	CU_ASSERT(m1 == m5);
 	
 }
 

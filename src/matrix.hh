@@ -60,6 +60,72 @@ public:
 		}
 	}
 
+	Matrix<T> operator +(const Matrix<T>& o)
+	{
+		if(columns() != o.columns()) throw octetos::core::Exception("Dimensiones de las amtrices no compatibles",__FILE__,__LINE__);
+		if(rows() != o.rows()) throw octetos::core::Exception("Dimensiones de las amtrices no compatibles",__FILE__,__LINE__);
+
+		Matrix<T> mat(rows(),columns());
+		for(unsigned short i = 0; i < Matrix<T>::size() ; i++)
+		{
+			for(unsigned short j = 0; j < Matrix<T>::at(i).size() ; j++)
+			{
+				mat[i][j] = Matrix<T>::at(i).at(j) + o.at(i).at(j);
+			}
+		}
+
+		return mat;
+	}
+	Matrix<T> operator -(const Matrix<T>& o)
+	{
+		if(columns() != o.columns()) throw octetos::core::Exception("Dimensiones de las amtrices no compatibles",__FILE__,__LINE__);
+		if(rows() != o.rows()) throw octetos::core::Exception("Dimensiones de las amtrices no compatibles",__FILE__,__LINE__);
+
+		Matrix<T> mat(rows(),columns());
+		for(unsigned short i = 0; i < Matrix<T>::size() ; i++)
+		{
+			for(unsigned short j = 0; j < Matrix<T>::at(i).size() ; j++)
+			{
+				mat[i][j] = Matrix<T>::at(i).at(j) - o.at(i).at(j);
+			}
+		}
+
+		return mat;
+	}
+	Matrix<T> operator * (const Matrix<T>& o)
+	{
+		if(columns() != o.rows()) throw octetos::core::Exception("Dimensiones de las matrices no compatibles",__FILE__,__LINE__);
+		
+		Matrix<T> mat(rows(),o.columns());
+		for(unsigned short i = 0; i < Matrix<T>::size() ; i++)
+		{
+			for(unsigned short j = 0; j < o.at(i).size() ; j++)
+			{
+				for(unsigned short k = 0; k < Matrix<T>::at(i).size() ; k++)
+				{
+					mat[i][j] += Matrix<T>::at(i).at(k) * o.at(k).at(j);
+				}
+			}
+		}
+
+		return mat;
+	}
+	bool operator == (const Matrix<T>& o)
+	{
+		if(columns() != o.columns()) throw octetos::core::Exception("Dimensiones de las matrices no compatibles",__FILE__,__LINE__);
+		if(rows() != o.rows()) throw octetos::core::Exception("Dimensiones de las matrices no compatibles",__FILE__,__LINE__);
+		
+		for(unsigned short i = 0; i < Matrix<T>::size() ; i++)
+		{
+			for(unsigned short j = 0; j < o.at(i).size() ; j++)
+			{
+				if(Matrix<T>::at(i).at(j) != o.at(i).at(j)) return false;
+			}
+		}
+
+		return true;
+	}
+
 	std::vector<T>& operator [](unsigned short i)
 	{
 		return std::vector<Row<T>>::operator[](i);
@@ -133,11 +199,19 @@ public:
 		return true;
 	}
 
-	unsigned short size()const
+	unsigned short rows() const
 	{
 		return std::vector<Row<T>>::size();
 	}
+	unsigned short columns() const
+	{
+		if(std::vector<Row<T>>::size() == 0) return 0;
+		return std::vector<Row<T>>::at(0).size();
+	}
+	
 };
+
+
 
 }
 
