@@ -21,7 +21,7 @@ public:
 public:
 	Dataset()
 	{
-		sorted = true;
+		sorted = false;
 	};
 	void add(T e)
 	{
