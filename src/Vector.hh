@@ -12,10 +12,10 @@ namespace oct::math
 	{
 	public:
 		//contructor
-		Vector(): Point<T>()
+		Vector()
 		{
 		}
-		Vector(short dimension): Point<T>(dimension)
+		Vector(unsigned short dimension): Point<T>(dimension)
 		{
 		}
 		Vector(const Point<T>& p): Point<T>(p)
