@@ -9,7 +9,7 @@ namespace oct::math
 {
 	
 	template<class T>
-	class Point : protected std::vector<T>
+	class Point : public std::vector<T>
 	{
 	public:
 		enum Type
