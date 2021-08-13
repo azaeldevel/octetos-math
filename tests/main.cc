@@ -244,6 +244,22 @@ void testVector()
 	else CU_ASSERT(false)
 	if(fabs(s - (5.0/3.0)) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
 	else CU_ASSERT(false)
+	
+	std::list<oct::math::Vector<double>> listvect;
+	listvect.push_back(vec29);
+	listvect.push_back(vec28);
+	
+	double vec30_d1 = 1.0;
+	double vec30_d2 = 2.0;
+	std::vector<double*> vec30(2);
+	vec30[0] = &vec30_d1;
+	vec30[1] = &vec30_d2;
+	
+	oct::math::Vector<double> vec31(vec30);
+	if(std::abs(vec31[0] - 1.0) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
+	else CU_ASSERT(false)
+	if(std::abs(vec31[1] - 2.0) < OCTETOS_MATH_EPSILON) CU_ASSERT(true)
+	else CU_ASSERT(false)
 }
 
 void testPoint()

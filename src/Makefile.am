@@ -11,7 +11,7 @@ lib_LTLIBRARIES = liboctetos-math.la
 
 liboctetos_math_la_SOURCES = core.cc metry.cc Prime.cc
 liboctetos_math_la_LIBADD = $(OCTETOS_CORE_LIBS)
-liboctetos_math_la_CXXFLAGS = $(OCTETOS_MATH_DEFINES) $(OCTETOS_CORE_CFLAGS) 
+liboctetos_math_la_CXXFLAGS = $(OCTETOS_CORE_CFLAGS) 
 
 octetos_math_includedir = $(includedir)/octetos/math
 octetos_math_include_HEADERS = core.hh Point.hh Vector.hh defines.hh matrix.hh

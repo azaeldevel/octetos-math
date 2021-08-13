@@ -8,6 +8,9 @@
 namespace oct::math
 {
 	
+	typedef unsigned short Index;
+
+
 	template<class T>
 	class Point : public std::vector<T>
 	{
@@ -58,6 +61,14 @@ namespace oct::math
 			Point<T>::at(OCTETOS_MATH_CX) = a;
 			Point<T>::at(OCTETOS_MATH_CY) = b;
 			Point<T>::at(OCTETOS_MATH_CZ) = c;
+		}
+		Point(const std::vector<T*>& obj)
+		{
+			std::vector<T>::resize(obj.size());
+			for(Index i = 0; i < obj.size(); i++)
+			{
+				std::vector<T>::at(i) = *obj[i];
+			}
 		}
 
 		bool checkType()

@@ -6,7 +6,8 @@
 
 namespace oct::math
 {
-	
+
+
 	template<class T>
 	class Vector : public Point<T>
 	{
@@ -15,7 +16,7 @@ namespace oct::math
 		Vector()
 		{
 		}
-		Vector(unsigned short dimension): Point<T>(dimension)
+		Vector(Index dimension): Point<T>(dimension)
 		{
 		}
 		Vector(const Point<T>& p): Point<T>(p)
@@ -24,8 +25,10 @@ namespace oct::math
 		Vector(T x, T y): Point<T>(x,y)
 		{
 		}
-
 		Vector(T x, T y, T z): Point<T>(x,y,z)
+		{
+		}
+		Vector(const std::vector<T*>& obj) : Point<T>(obj)
 		{
 		}
 			
