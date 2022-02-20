@@ -189,8 +189,6 @@ namespace oct::math
 		{			
 		};
 	};
-
-	
 	
 } 
 

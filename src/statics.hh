@@ -13,6 +13,12 @@ namespace oct::math
 
 typedef unsigned int categorie;
 
+template<typename T> class IData
+{
+public:
+	virtual operator T() = 0;
+};
+
 template<typename T>
 class Dataset : public std::list<T>
 {

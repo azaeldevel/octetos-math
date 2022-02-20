@@ -29,6 +29,11 @@
 #include "../src/Prime.hh"
 #include "../src/statics.hh"
 #include "../src/matrix.hh"
+#include "../src/Bendford.hh"
+
+
+void test_sta_ops();
+
 
 
 void testVector()
@@ -843,8 +848,12 @@ void testDeveloping()
 
 	CU_ASSERT(m1 == m5);
 	
+	oct::math::Bendford<int> dt2;
+	for(unsigned int i = 0; i < 1000; i++)
+	{
+		dt2.add(oct::core::randNumber(1,1000));
+	}
 }
-
 
 
 int main()
@@ -878,6 +887,12 @@ int main()
 	}
 	
 	if ((NULL == CU_add_test(pSuite, "Test for developing", testDeveloping)))
+	{
+		CU_cleanup_registry();
+		return CU_get_error();
+	}
+	
+	if ((NULL == CU_add_test(pSuite, "Test for Statics", test_sta_ops)))
 	{
 		CU_cleanup_registry();
 		return CU_get_error();
