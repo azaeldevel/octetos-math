@@ -67,8 +67,18 @@ void test_sta_ops()
 		
 	double vtall_var = variation(vtall);
 	CU_ASSERT(vtall_var - 0.205524 < 0.00001);
-	//std::cout << "Desviacion estandar de altura : " << vtall_var << "\n";
-	
-	
+	//std::cout << "Variacion de altura : " << vtall_var << "\n";
+				
+	double vtall_desv = desviation(vtall);
+	CU_ASSERT(vtall_desv - 0.453348 < 0.00001);
+	//std::cout << "Desviacion estandar de altura : " << vtall_desv << "\n";
+		
+	double ltall_var = variation(ltall);
+	CU_ASSERT(ltall_var - 0.205524 < 0.00001);
+	//std::cout << "Variacion de altura : " << vtall_var << "\n";
+				
+	double ltall_desv = desviation(ltall);
+	CU_ASSERT(ltall_desv - 0.453348 < 0.00001);
+	//std::cout << "Desviacion estandar de altura : " << vtall_desv << "\n";
 	
 }
