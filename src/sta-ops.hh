@@ -8,7 +8,7 @@ namespace oct::sta
 {
 
 	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>mean
-	template <typename D,typename T = D> T mean(const std::vector<D>& c)
+	template <typename D,typename T = D> T mean(std::vector<D>& c)
 	{
 		T m = 0;
 
@@ -20,11 +20,11 @@ namespace oct::sta
 		m /= T(c.size());
 		return m;
 	}
-	template <typename D,typename T> T mean(const std::vector<D>& c,T (*getter)(const D&))
+	template <typename D,typename T> T mean(std::vector<D>& c,T (*getter)(D&))
 	{
 		T m = 0;
 
-		for(typename std::vector<D>::const_iterator it = c.begin(); it != c.end(); it++)
+		for(typename std::vector<D>::iterator it = c.begin(); it != c.end(); it++)
 		{
 			m += getter(*it);
 		}
@@ -44,11 +44,11 @@ namespace oct::sta
 		m /= T(c.size());
 		return m;
 	}*/
-	template <typename D,typename T = D> T mean(const std::list<D>& c)
+	template <typename D,typename T = D> T mean(std::list<D>& c)
 	{
 		T m = 0;
 
-		for(typename std::list<D>::const_iterator it = c.begin(); it != c.end(); it++)
+		for(typename std::list<D>::iterator it = c.begin(); it != c.end(); it++)
 		{
 			m += *it;
 		}
@@ -56,11 +56,11 @@ namespace oct::sta
 		m /= T(c.size());
 		return m;
 	}
-	template <typename D,typename T> T mean(const std::list<D>& c,T (*getter)(const D&))
+	template <typename D,typename T> T mean(std::list<D>& c,T (*getter)(D&))
 	{
 		T m = 0;
 
-		for(typename std::list<D>::const_iterator it = c.begin(); it != c.end(); it++)
+		for(typename std::list<D>::iterator it = c.begin(); it != c.end(); it++)
 		{
 			m += getter(*it);
 		}
@@ -86,11 +86,11 @@ namespace oct::sta
 
 
 	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>variation
-	template <typename D,typename T = D> T variation(const std::vector<D>& c,T mean)
+	template <typename D,typename T = D> T variation(std::vector<D>& c,T mean)
 	{
 		T s = 0;
 
-		for(typename std::vector<D>::const_iterator it = c.begin(); it != c.end(); it++)
+		for(typename std::vector<D>::iterator it = c.begin(); it != c.end(); it++)
 		{
 			s += std::pow(*it - mean,T(2));
 		}
@@ -98,11 +98,11 @@ namespace oct::sta
 		s /= T(c.size());
 		return s;
 	}
-	template <typename D,typename T = D> T variation(const std::vector<D>& c,T mean,T (*getter)(const D&))
+	template <typename D,typename T = D> T variation(std::vector<D>& c,T mean,T (*getter)(D&))
 	{
 		T s = 0;
 
-		for(typename std::vector<D>::const_iterator it = c.begin(); it != c.end(); it++)
+		for(typename std::vector<D>::iterator it = c.begin(); it != c.end(); it++)
 		{
 			s += std::pow(getter(*it) - mean,T(2));
 		}
@@ -110,11 +110,11 @@ namespace oct::sta
 		s /= T(c.size());
 		return s;
 	}
-	template <typename D,typename T = D> T variation_sample(const std::vector<D>& c,T mean)
+	template <typename D,typename T = D> T variation_sample(std::vector<D>& c,T mean)
 	{
 		T s = 0;
 
-		for(typename std::vector<D>::const_iterator it = c.begin(); it != c.end(); it++)
+		for(typename std::vector<D>::iterator it = c.begin(); it != c.end(); it++)
 		{
 			s += std::pow(*it - mean,T(2));
 		}
@@ -122,11 +122,11 @@ namespace oct::sta
 		s /= T(c.size() - 1);
 		return s;
 	}	
-	template <typename D,typename T = D> T variation(const std::list<D>& c,T mean)
+	template <typename D,typename T = D> T variation(std::list<D>& c,T mean)
 	{
 		T s = 0;
 
-		for(typename std::list<D>::const_iterator it = c.begin(); it != c.end(); it++)
+		for(typename std::list<D>::iterator it = c.begin(); it != c.end(); it++)
 		{
 			s += std::pow(*it - mean,T(2));
 		}
@@ -134,11 +134,11 @@ namespace oct::sta
 		s /= T(c.size());
 		return s;
 	}
-	template <typename D,typename T = D> T variation(const std::list<D>& c,T mean,T (*getter)(const D&))
+	template <typename D,typename T = D> T variation(std::list<D>& c,T mean,T (*getter)(D&))
 	{
 		T s = 0;
 
-		for(typename std::list<D>::const_iterator it = c.begin(); it != c.end(); it++)
+		for(typename std::list<D>::iterator it = c.begin(); it != c.end(); it++)
 		{
 			s += std::pow(getter(*it) - mean,T(2));
 		}

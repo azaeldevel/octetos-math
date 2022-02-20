@@ -115,11 +115,11 @@ void test_sta_ops()
 	CU_ASSERT(std::abs(ltall_mean - 1.541) < 0.00001);
 	//std::cout << "Promedio de altura : " << ltall_mean << "\n";
 	
-	double vperson_mean = mean<Person,double>(vperson,[](const Person& p)->double{return p.tall;});
+	double vperson_mean = mean<Person,double>(vperson,[](Person& p)->double{return p.tall;});
 	CU_ASSERT(std::abs(vperson_mean - 1.541) < 0.00001);
 	//std::cout << "Promedio de altura : " << vperson_mean << "\n";
 			
-	double lperson_mean = mean<Person,double>(lperson,[](const Person& p)->double{return p.tall;});
+	double lperson_mean = mean<Person,double>(lperson,[](Person& p)->double{return p.tall;});
 	CU_ASSERT(std::abs(lperson_mean - 1.541) < 0.00001);
 	//std::cout << "List Promedio de altura : " << lperson_mean << "\n";
 	
@@ -131,11 +131,11 @@ void test_sta_ops()
 	CU_ASSERT(std::abs(ltall_var - 0.102259) < 0.00001);
 	//std::cout << "Variacion de altura : " << vtall_var << "\n";
 		
-	double vperson_variation = variation<Person,double>(vperson,vtall_mean,[](const Person& p)->double{return p.tall;});
+	double vperson_variation = variation<Person,double>(vperson,vtall_mean,[](Person& p)->double{return p.tall;});
 	CU_ASSERT(std::abs(vperson_variation - 0.102259) < 0.00001);
 	//std::cout << "Promedio de altura : " << vperson_variation << "\n";
 		
-	double lperson_variation = variation<Person,double>(lperson,ltall_mean,[](const Person& p)->double{return p.tall;});
+	double lperson_variation = variation<Person,double>(lperson,ltall_mean,[](Person& p)->double{return p.tall;});
 	CU_ASSERT(std::abs(lperson_variation - 0.102259) < 0.00001);
 	//std::cout << "Promedio de altura : " << lperson_variation << "\n";
 	
