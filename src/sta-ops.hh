@@ -8,11 +8,11 @@ namespace oct::sta
 {
 
 	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>mean
-	template <typename T> T mean(const std::vector<T>& c)
+	template <typename D,typename T = D> T mean(const std::vector<D>& c)
 	{
 		T m = 0;
 
-		for(typename std::vector<T>::const_iterator it = c.begin(); it != c.end(); it++)
+		for(typename std::vector<D>::const_iterator it = c.begin(); it != c.end(); it++)
 		{
 			m += *it;
 		}
@@ -20,11 +20,11 @@ namespace oct::sta
 		m /= T(c.size());
 		return m;
 	}
-	template <typename D,typename T> T mean(const std::vector<D>& c,const T& (*getter)(const D&))
+	template <typename D,typename T = D> T mean(const std::vector<D>& c,const T& (*getter)(const D&))
 	{
 		T m = 0;
 
-		for(typename std::vector<T>::const_iterator it = c.begin(); it != c.end(); it++)
+		for(typename std::vector<D>::const_iterator it = c.begin(); it != c.end(); it++)
 		{
 			m += getter(*it);
 		}
@@ -32,11 +32,11 @@ namespace oct::sta
 		m /= T(c.size());
 		return m;
 	}
-	template <typename T> T mean(const std::list<T>& c)
+	template <typename D,typename T = D> T mean(const std::list<D>& c)
 	{
 		T m = 0;
 
-		for(typename std::list<T>::const_iterator it = c.begin(); it != c.end(); it++)
+		for(typename std::list<D>::const_iterator it = c.begin(); it != c.end(); it++)
 		{
 			m += *it;
 		}
@@ -44,11 +44,11 @@ namespace oct::sta
 		m /= T(c.size());
 		return m;
 	}
-	template <typename D,typename T> T mean(const std::list<D>& c,const T& (*getter)(const D&))
+	template <typename D,typename T = D> T mean(const std::list<D>& c,const T& (*getter)(const D&))
 	{
 		T m = 0;
 
-		for(typename std::list<T>::const_iterator it = c.begin(); it != c.end(); it++)
+		for(typename std::list<D>::const_iterator it = c.begin(); it != c.end(); it++)
 		{
 			m += getter(*it);
 		}
@@ -61,7 +61,20 @@ namespace oct::sta
 
 
 
-	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>mode
+	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>sigma
+	template <typename D,typename T = D> T variation(const std::vector<D>& c)
+	{
+		T m = mean(c);
+		T s = 0;
+
+		for(typename std::vector<D>::const_iterator it = c.begin(); it != c.end(); it++)
+		{
+			s += std::pow(*it - m,T(2));
+		}
+
+		s /= T(c.size());
+		return s;
+	}
 }
 
 #endif

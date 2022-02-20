@@ -64,5 +64,11 @@ void test_sta_ops()
 	double ltall_mean = mean(ltall);
 	CU_ASSERT(ltall_mean - 1.541 < EPSILON);
 	//std::cout << "Promedio de altura : " << ltall_mean << "\n";
+		
+	double vtall_var = variation(vtall);
+	CU_ASSERT(vtall_var - 0.205524 < 0.00001);
+	//std::cout << "Desviacion estandar de altura : " << vtall_var << "\n";
+	
+	
 	
 }
