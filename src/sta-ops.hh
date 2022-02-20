@@ -6,7 +6,6 @@
 
 namespace oct::sta
 {
-	template <typename D,typename T> const T& (*getter_funtion)(const D&);
 
 	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>mean
 	template <typename D,typename T = D> T mean(const std::vector<D>& c)
@@ -21,7 +20,7 @@ namespace oct::sta
 		m /= T(c.size());
 		return m;
 	}
-	template <typename D,typename T> T mean(const std::vector<D>& c,const T& (*getter)(const D&))
+	template <typename D,typename T> T mean(const std::vector<D>& c,const T (*getter)(const D&))
 	{
 		T m = 0;
 
@@ -33,7 +32,7 @@ namespace oct::sta
 		m /= T(c.size());
 		return m;
 	}
-	template <typename D,typename T> T mean(const std::vector<D*>& c,const T& (*getter)(const D*))
+	template <typename D,typename T> T mean(const std::vector<D*>& c,const T (*getter)(const D*))
 	{
 		T m = 0;
 
@@ -57,7 +56,7 @@ namespace oct::sta
 		m /= T(c.size());
 		return m;
 	}
-	template <typename D,typename T> T mean(const std::list<D>& c,const T& (*getter)(const D&))
+	template <typename D,typename T> T mean(const std::list<D>& c,const T (*getter)(const D&))
 	{
 		T m = 0;
 
@@ -69,7 +68,7 @@ namespace oct::sta
 		m /= T(c.size());
 		return m;
 	}
-	template <typename D,typename T> T mean(const std::list<D*>& c,const T& (*getter)(const D*))
+	template <typename D,typename T> T mean(const std::list<D*>& c,const T (*getter)(const D*))
 	{
 		T m = 0;
 

@@ -115,11 +115,11 @@ void test_sta_ops()
 	CU_ASSERT(ltall_mean - 1.541 < EPSILON);
 	//std::cout << "Promedio de altura : " << ltall_mean << "\n";
 	
-	double vperson_mean = mean<Person,double>(vperson,[](const Person& p)->const double&{return p.tall;});
+	double vperson_mean = mean<Person,double>(vperson,[](const Person& p)->const double{return p.tall;});
 	CU_ASSERT(vperson_mean - 1.541 < EPSILON);
 	//std::cout << "Promedio de altura : " << vperson_mean << "\n";
 			
-	double lperson_mean = mean<Person,double>(lperson,[](const Person& p)->const double&{return p.tall;});
+	double lperson_mean = mean<Person,double>(lperson,[](const Person& p)->const double{return p.tall;});
 	CU_ASSERT(lperson_mean - 1.541 < EPSILON);
 	//std::cout << "List Promedio de altura : " << lperson_mean << "\n";
 	
