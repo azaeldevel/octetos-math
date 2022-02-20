@@ -20,7 +20,7 @@ namespace oct::sta
 		m /= T(c.size());
 		return m;
 	}
-	template <typename D,typename T> T mean(const std::vector<D>& c,const T (*getter)(const D&))
+	template <typename D,typename T> T mean(const std::vector<D>& c,T (*getter)(const D&))
 	{
 		T m = 0;
 
@@ -56,7 +56,7 @@ namespace oct::sta
 		m /= T(c.size());
 		return m;
 	}
-	template <typename D,typename T> T mean(const std::list<D>& c,const T (*getter)(const D&))
+	template <typename D,typename T> T mean(const std::list<D>& c,T (*getter)(const D&))
 	{
 		T m = 0;
 
@@ -98,7 +98,7 @@ namespace oct::sta
 		s /= T(c.size());
 		return s;
 	}
-	template <typename D,typename T = D> T variation(const std::vector<D>& c,T mean,const T& (*getter)(const D&))
+	template <typename D,typename T = D> T variation(const std::vector<D>& c,T mean,T (*getter)(const D&))
 	{
 		T s = 0;
 
@@ -134,7 +134,7 @@ namespace oct::sta
 		s /= T(c.size());
 		return s;
 	}
-	template <typename D,typename T = D> T variation(const std::list<D>& c,T mean,const T& (*getter)(const D&))
+	template <typename D,typename T = D> T variation(const std::list<D>& c,T mean,T (*getter)(const D&))
 	{
 		T s = 0;
 

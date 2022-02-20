@@ -108,28 +108,37 @@ void test_sta_ops()
 	CU_ASSERT(lperson.size() == 20);
 	//
 	double vtall_mean = mean(vtall);
-	CU_ASSERT(vtall_mean - 1.541 < EPSILON);
+	CU_ASSERT(std::abs(vtall_mean - 1.541) < 0.00001);
 	//std::cout << "Promedio de altura : " << vtall_mean << "\n";
 	
 	double ltall_mean = mean(ltall);
-	CU_ASSERT(ltall_mean - 1.541 < EPSILON);
+	CU_ASSERT(std::abs(ltall_mean - 1.541) < 0.00001);
 	//std::cout << "Promedio de altura : " << ltall_mean << "\n";
 	
-	double vperson_mean = mean<Person,double>(vperson,[](const Person& p)->const double{return p.tall;});
-	CU_ASSERT(vperson_mean - 1.541 < EPSILON);
+	double vperson_mean = mean<Person,double>(vperson,[](const Person& p)->double{return p.tall;});
+	CU_ASSERT(std::abs(vperson_mean - 1.541) < 0.00001);
 	//std::cout << "Promedio de altura : " << vperson_mean << "\n";
 			
-	double lperson_mean = mean<Person,double>(lperson,[](const Person& p)->const double{return p.tall;});
-	CU_ASSERT(lperson_mean - 1.541 < EPSILON);
+	double lperson_mean = mean<Person,double>(lperson,[](const Person& p)->double{return p.tall;});
+	CU_ASSERT(std::abs(lperson_mean - 1.541) < 0.00001);
 	//std::cout << "List Promedio de altura : " << lperson_mean << "\n";
 	
 	double vtall_var = variation(vtall,vtall_mean);
-	CU_ASSERT(vtall_var - 0.205524 < 0.00001);
+	CU_ASSERT(std::abs(vtall_var - 0.102259) < 0.00001);
 	//std::cout << "Variacion de altura : " << vtall_var << "\n";
 			
 	double ltall_var = variation(ltall,ltall_mean);
-	CU_ASSERT(ltall_var - 0.205524 < 0.00001);
+	CU_ASSERT(std::abs(ltall_var - 0.102259) < 0.00001);
 	//std::cout << "Variacion de altura : " << vtall_var << "\n";
+		
+	double vperson_variation = variation<Person,double>(vperson,vtall_mean,[](const Person& p)->double{return p.tall;});
+	CU_ASSERT(std::abs(vperson_variation - 0.102259) < 0.00001);
+	//std::cout << "Promedio de altura : " << vperson_variation << "\n";
+		
+	double lperson_variation = variation<Person,double>(lperson,ltall_mean,[](const Person& p)->double{return p.tall;});
+	CU_ASSERT(std::abs(lperson_variation - 0.102259) < 0.00001);
+	//std::cout << "Promedio de altura : " << lperson_variation << "\n";
+	
 	
 	
 }
