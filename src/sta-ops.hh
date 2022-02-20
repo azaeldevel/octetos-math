@@ -114,6 +114,19 @@ namespace oct::sta
 		s /= T(c.size());
 		return s;
 	}
+	template <typename D,typename T = D> T variation(const std::list<D>& c,const T& (*getter)(const D&))
+	{
+		T m = mean(c);
+		T s = 0;
+
+		for(typename std::list<D>::const_iterator it = c.begin(); it != c.end(); it++)
+		{
+			s += std::pow(getter(*it) - m,T(2));
+		}
+
+		s /= T(c.size());
+		return s;
+	}
 
 
 
