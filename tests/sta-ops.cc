@@ -8,6 +8,13 @@
 
 using namespace oct::sta;
 
+struct Person
+{
+	double tall;
+	
+	Person(){}
+	Person(double t): tall(t){}
+};
 
 void test_sta_ops()
 {
@@ -21,7 +28,7 @@ void test_sta_ops()
 	vtall[6] = 1.96;
 	vtall[7] = 1.11;
 	vtall[8] = 1.80;
-	vtall[5] = 1.85;
+	vtall[9] = 1.85;
 	vtall[10] = 1.80;
 	vtall[11] = 1.75;
 	vtall[12] = 1.70;
@@ -54,8 +61,51 @@ void test_sta_ops()
 	ltall.push_back(1.13);
 	ltall.push_back(1.50);
 	ltall.push_back(1.40);
-	CU_ASSERT(ltall.size() == 20);
-	
+	CU_ASSERT(ltall.size() == 20);	
+	std::vector<Person> vperson(20);
+	vperson[0].tall = 1.60;
+	vperson[1].tall = 1.30;
+	vperson[2].tall = 1.15;
+	vperson[3].tall = 1.02;
+	vperson[4].tall = 1.20;
+	vperson[5].tall = 1.9;
+	vperson[6].tall = 1.96;
+	vperson[7].tall = 1.11;
+	vperson[8].tall = 1.80;
+	vperson[9].tall = 1.85;
+	vperson[10].tall = 1.80;
+	vperson[11].tall = 1.75;
+	vperson[12].tall = 1.70;
+	vperson[13].tall = 1.72;
+	vperson[14].tall = 1.95;
+	vperson[15].tall = 1.85;
+	vperson[16].tall = 1.13;
+	vperson[17].tall = 1.13;
+	vperson[18].tall = 1.50;
+	vperson[19].tall = 1.40;
+	CU_ASSERT(vperson.size() == 20);
+	std::list<Person> lperson;
+	lperson.push_back(Person(1.60));
+	lperson.push_back(Person(1.30));
+	lperson.push_back(Person(1.15));
+	lperson.push_back(Person(1.02));
+	lperson.push_back(Person(1.20));
+	lperson.push_back(Person(1.9));
+	lperson.push_back(Person(1.96));
+	lperson.push_back(Person(1.11));
+	lperson.push_back(Person(1.80));
+	lperson.push_back(Person(1.85));
+	lperson.push_back(Person(1.80));
+	lperson.push_back(Person(1.75));
+	lperson.push_back(Person(1.70));
+	lperson.push_back(Person(1.72));
+	lperson.push_back(Person(1.95));
+	lperson.push_back(Person(1.85));
+	lperson.push_back(Person(1.13));
+	lperson.push_back(Person(1.13));
+	lperson.push_back(Person(1.50));
+	lperson.push_back(Person(1.40));
+	CU_ASSERT(lperson.size() == 20);
 	//
 	double vtall_mean = mean(vtall);
 	CU_ASSERT(vtall_mean - 1.541 < EPSILON);
@@ -64,7 +114,15 @@ void test_sta_ops()
 	double ltall_mean = mean(ltall);
 	CU_ASSERT(ltall_mean - 1.541 < EPSILON);
 	//std::cout << "Promedio de altura : " << ltall_mean << "\n";
-		
+	
+	double vperson_mean = mean<Person,double>(vperson,[](const Person& p)->const double&{return p.tall;});
+	CU_ASSERT(vperson_mean - 1.541 < EPSILON);
+	//std::cout << "Promedio de altura : " << vperson_mean << "\n";
+			
+	double lperson_mean = mean<Person,double>(lperson,[](const Person& p)->const double&{return p.tall;});
+	CU_ASSERT(lperson_mean - 1.541 < EPSILON);
+	//std::cout << "List Promedio de altura : " << lperson_mean << "\n";
+	
 	double vtall_var = variation(vtall,vtall_mean);
 	CU_ASSERT(vtall_var - 0.205524 < 0.00001);
 	//std::cout << "Variacion de altura : " << vtall_var << "\n";
