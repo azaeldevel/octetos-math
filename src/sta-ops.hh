@@ -32,6 +32,18 @@ namespace oct::sta
 		m /= T(c.size());
 		return m;
 	}
+	template <typename D,typename T = D> T mean(const std::vector<D*>& c,const T& (*getter)(const D*))
+	{
+		T m = 0;
+
+		for(typename std::vector<D*>::const_iterator it = c.begin(); it != c.end(); it++)
+		{
+			m += getter(*it);
+		}
+
+		m /= T(c.size());
+		return m;
+	}
 	template <typename D,typename T = D> T mean(const std::list<D>& c)
 	{
 		T m = 0;
@@ -49,6 +61,18 @@ namespace oct::sta
 		T m = 0;
 
 		for(typename std::list<D>::const_iterator it = c.begin(); it != c.end(); it++)
+		{
+			m += getter(*it);
+		}
+
+		m /= T(c.size());
+		return m;
+	}
+	template <typename D,typename T = D> T mean(const std::list<D*>& c,const T& (*getter)(const D*))
+	{
+		T m = 0;
+
+		for(typename std::list<D*>::const_iterator it = c.begin(); it != c.end(); it++)
 		{
 			m += getter(*it);
 		}
@@ -128,22 +152,7 @@ namespace oct::sta
 
 
 	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>desviation
-	template <typename D,typename T = D> T desviation(const std::vector<D>& c,T mean)
-	{
-		return std::sqrt(variation(c,mean));
-	}
-	template <typename D,typename T = D> T desviation_sample(const std::vector<D>& c,T mean)
-	{
-		return std::sqrt(variation_sample(c,mean));
-	}
-	template <typename D,typename T = D> T desviation(const std::list<D>& c,T mean)
-	{
-		return std::sqrt(variation(c,mean));
-	}
-	template <typename D,typename T = D> T desviation_sample(const std::list<D>& c,T mean)
-	{
-		return std::sqrt(variation_sample(c,mean));
-	}
+	
 }
 
 #endif
