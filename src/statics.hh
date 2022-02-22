@@ -472,22 +472,42 @@ private:
 
 
 	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>sort
-	template <typename D,typename T = D> T sort_asc(D f, D s)
+	template <typename D,typename T = D> bool sort_comp_asc(D f, D s)
 	{
 		return f < s;
 	}
-	template <typename D,typename T = D> T sort_asc(D f, D s,T (*getter)(D))
+	template <typename D,typename T = D> bool sort_comp_asc(D f, D s,T (*getter)(D))
 	{
 		return getter(f) < getter(s);
 	}
-	template <typename D,typename T = D> T sort_desc(D f, D s)
+	template <typename D,typename T = D> bool sort_comp_desc(D f, D s)
 	{
 		return f > s;
 	}
-	template <typename D,typename T = D> T sort_desc(D f, D s,T (*getter)(D))
+	template <typename D,typename T = D> bool sort_comp_desc(D f, D s,T (*getter)(D))
 	{
 		return getter(f) > getter(s);
 	}
+
+
+	template <typename D,typename T = D> void sort(std::vector<D>& c,bool (*comp)(D,D))
+	{
+		std::sort(c.begin(),c.end(),comp);
+	}
+	template <typename D,typename T = D> void sort(std::vector<D>& c,bool (*comp)(D&,D&))
+	{
+		std::sort(c.begin(),c.end(),comp);
+	}
+
+	template <typename D,typename T = D> void sort(std::list<D>& c,bool (*comp)(D,D))
+	{
+		c.sort(comp);
+	}
+	template <typename D,typename T = D> void sort(std::list<D>& c,bool (*comp)(D&,D&))
+	{
+		c.sort(comp);
+	}
+
 }
 
 #endif

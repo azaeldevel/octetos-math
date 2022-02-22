@@ -145,9 +145,55 @@ void test_sta_ops()
 	vapples[1] = 4;
 	vapples[2] = 3;
 	vapples[3] = 5;
-	vapples[4] = 8;
-	
+	vapples[4] = 8;	
 	double vapples_mean = mean<int,double>(vapples);
 	//std::cout << "Promio de manzanas : " << vapples_mean << "\n";
 	CU_ASSERT(std::abs(vapples_mean - 4.2) < 0.00001);
+		
+	std::list<int> lapples;
+	lapples.push_back(1);
+	lapples.push_back(4);
+	lapples.push_back(3);
+	lapples.push_back(5);
+	lapples.push_back(8);	
+	double lapples_mean = mean<int,double>(lapples);
+	//std::cout << "Promedio de manzanas : " << lapples_mean << "\n";
+	CU_ASSERT(std::abs(lapples_mean - 4.2) < 0.00001);
+	
+	std::vector<double> vtall_asc = vtall;
+	sort<double>(vtall_asc,[](double f,double s){return f < s;});
+	/*for(double n : vtall_asc)
+	{
+		std::cout  << "Number : " << n << "\n";
+	}*/
+	CU_ASSERT(std::abs(vtall_asc.front() - 1.02) < 0.00001);
+	CU_ASSERT(std::abs(vtall_asc.back() - 1.96) < 0.00001);
+	
+	std::list<double> ltall_asc = ltall;
+	sort<double>(ltall_asc,[](double f,double s){return f < s;});
+	/*for(double n : ltall_asc)
+	{
+		std::cout  << "Number : " << n << "\n";
+	}*/
+	CU_ASSERT(std::abs(ltall_asc.front() - 1.02) < 0.00001);
+	CU_ASSERT(std::abs(ltall_asc.back() - 1.96) < 0.00001);
+	
+	
+	std::vector<Person> vperson2 = vperson;
+	sort<Person,double>(vperson2,[](Person& f,Person& s)->bool{return f.tall < s.tall;});
+	/*for(const Person& p : vperson2)
+	{
+		std::cout  << "vector Tall : " << p.tall << "\n";
+	}*/	
+	CU_ASSERT(std::abs(vperson2.front().tall - 1.02) < 0.00001);
+	CU_ASSERT(std::abs(vperson2.back().tall - 1.96) < 0.00001);
+	
+	std::list<Person> lperson2 = lperson;
+	sort<Person,double>(lperson2,[](Person& f,Person& s)->bool{return f.tall < s.tall;});
+	/*for(const Person& p : lperson2)
+	{
+		std::cout  << "Lista Tall : " << p.tall << "\n";
+	}*/
+	CU_ASSERT(std::abs(lperson2.front().tall - 1.02) < 0.00001);
+	CU_ASSERT(std::abs(lperson2.back().tall - 1.96) < 0.00001);
 }
