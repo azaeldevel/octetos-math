@@ -2,11 +2,11 @@
 #include <CUnit/Basic.h>
 
 #include <iostream>
-#include <sta-ops.hh>
+#include <statics.hh>
 #include <defines.hh>
 
 
-using namespace oct::sta;
+using namespace oct::math;
 
 struct Person
 {
@@ -140,5 +140,14 @@ void test_sta_ops()
 	//std::cout << "Promedio de altura : " << lperson_variation << "\n";
 	
 	
+	std::vector<int> vapples(5);
+	vapples[0] = 1;
+	vapples[1] = 4;
+	vapples[2] = 3;
+	vapples[3] = 5;
+	vapples[4] = 8;
 	
+	double vapples_mean = mean<int,double>(vapples);
+	//std::cout << "Promio de manzanas : " << vapples_mean << "\n";
+	CU_ASSERT(std::abs(vapples_mean - 4.2) < 0.00001);
 }
