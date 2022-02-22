@@ -2,9 +2,14 @@
 #define OCTETOS_MATH_STATICS_HH
 
 #include <list>
-#include <octetos/core/Exception.hh>
 #include<algorithm>
-
+#if defined(__linux__)
+    #include <octetos/core/Exception.hh>
+#elif (defined(_WIN32) || defined(_WIN64))
+    #include <Exception.hh>
+#else
+    #error "Pltaforma desconocida"
+#endif
 
 #include "core.hh"
 
@@ -23,7 +28,7 @@ template<typename T>
 class Dataset : public std::list<T>
 {
 public:
-	
+
 public:
 	Dataset()
 	{
@@ -33,7 +38,7 @@ public:
 	{
 		std::list<T>::push_back(e);
 	};
-	
+
 	unsigned int counter()const
 	{
 		return std::list<T>::size();
@@ -51,12 +56,12 @@ public:
 	bool getSorted()const
 	{
 		return sorted;
-	}	
+	}
 
 	T range() const
 	{
 		return max()-min();
-	}	
+	}
 	categorie categories()const
 	{
 		return round(1 + (3.3 * log10(counter())));
@@ -119,7 +124,7 @@ public:
 		T m = 0;
 		for(T t : *this)
 		{
-			 
+
 		}
 	}
 
@@ -151,7 +156,7 @@ public:
 	{
 		return sqrt(md());
 	}
-	
+
 private:
 	static bool cmpDesc(const T f, const T s)
 	{
@@ -233,7 +238,7 @@ public:
 			row.frecaless = f;
 		}
 	}
-	
+
 	void frecageater()
 	{
 		unsigned int f = 0;
@@ -243,7 +248,7 @@ public:
 				f += row.frec;
 				row.frecageater = f;
 			}
-		);		
+		);
 	}
 
 	void frecpaless()
@@ -254,7 +259,7 @@ public:
 			f += row.frecp;
 			row.frecpaless = f;
 		}
-	}	
+	}
 	void frecpageater()
 	{
 		double f = 0;
@@ -264,11 +269,11 @@ public:
 				f += row.frecp;
 				row.frecpagreater = f;
 			}
-		);		
+		);
 	}
 
 
-	
+
 private:
 	const Dataset<T>& data;
 };
@@ -429,7 +434,7 @@ private:
 
 		s /= T(c.size() - 1);
 		return s;
-	}	
+	}
 	template <typename D,typename T = D> T variation(std::list<D>& c,T mean)
 	{
 		T s = 0;
@@ -495,10 +500,10 @@ private:
 
 
 
-	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>median	
+	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>median
 	template <typename D,typename T = D> T median(std::vector<D>& c)
 	{
-		if(c.size() == 1) return c[0];		
+		if(c.size() == 1) return c[0];
 
 		unsigned int div = c.size() % 2;
 
@@ -518,7 +523,7 @@ private:
 	}
 	template <typename D,typename T = D> T median(std::vector<D>& c,T (*getter)(D&))
 	{
-		if(c.size() == 1) return getter(c[0]);		
+		if(c.size() == 1) return getter(c[0]);
 
 		unsigned int div = c.size() % 2;
 

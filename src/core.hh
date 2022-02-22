@@ -5,13 +5,18 @@
 #include <vector>
 #include <list>
 #include <string>
-#include <octetos/core/Exception.hh>
 #include <cmath>
 #include <map>
 #include <type_traits>
 #include <iostream>
 #include <memory>
-
+#if defined(__linux__)
+    #include <octetos/core/Exception.hh>
+#elif (defined(_WIN32) || defined(_WIN64))
+    #include <Exception.hh>
+#else
+    #error "Pltaforma desconocida"
+#endif
 
 #include "defines.hh"
 
@@ -35,21 +40,21 @@ namespace oct::math
 		Exception(const std::string& msg,const char* fn,int line);
 		Exception(const std::string& msg);
 	};
-	
+
 	/*template<class T>
 	class vector : public std::vector<T>
 	{
 	public:
-		
+
 	};*/
-	
+
 	template<class T>
-	class Measure 
+	class Measure
 	{
 	public:
 		virtual operator T() const = 0;
 	};
-	
+
 
 	template<class T>
 	class Set : public std::vector<T>
@@ -69,7 +74,7 @@ namespace oct::math
 				add(i);
 			};
 		};
-		
+
 		void add(T t)
 		{
 			return this->push_back(t);
@@ -78,7 +83,7 @@ namespace oct::math
 		Set<T> U(const Set<T>& obj)
 		{
 			Set<T> u(*this);//copia el actual
-			
+
 			for(T t : obj)
 			{
 				if(find(u.begin(),u.end(), t) == u.end())
@@ -119,7 +124,7 @@ namespace oct::math
 		virtual bool check(T) const = 0;
 		virtual bool check(std::vector<T>&) const {return true;};
 	};
-	
+
 	template<class T>
 	class Equation
 	{
@@ -136,10 +141,10 @@ namespace oct::math
 			for(Equation<T>* e : toDelete)
 			{
 				delete e;
-			}			
+			}
 		};
 
-		
+
 		//getter
 		Domain<T>& getDomain()const
 		{
@@ -147,8 +152,8 @@ namespace oct::math
 		}
 
 		/**
-		*\brief 
-		*\param p 
+		*\brief
+		*\param p
 		**/
 		virtual Equation<T>& D() = 0;
 		virtual T operator ()(T) = 0;
@@ -159,7 +164,7 @@ namespace oct::math
 			if(domain)return domain->check(t);
 			return true;
 		}
-		virtual bool check(std::vector<T>&) const 
+		virtual bool check(std::vector<T>&) const
 		{
 			return true;
 		};
@@ -171,7 +176,7 @@ namespace oct::math
 	private:
 		Domain<T>* domain;
 		std::list<Equation<T>*> toDelete;
-		
+
 	};
 
 	template<class T>
@@ -186,11 +191,11 @@ namespace oct::math
 		{
 		};
 		virtual ~Function()
-		{			
+		{
 		};
 	};
-	
-} 
+
+}
 
 
 
