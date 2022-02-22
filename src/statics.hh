@@ -472,24 +472,6 @@ private:
 
 
 	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>sort
-	template <typename D,typename T = D> bool sort_comp_asc(D f, D s)
-	{
-		return f < s;
-	}
-	template <typename D,typename T = D> bool sort_comp_asc(D f, D s,T (*getter)(D))
-	{
-		return getter(f) < getter(s);
-	}
-	template <typename D,typename T = D> bool sort_comp_desc(D f, D s)
-	{
-		return f > s;
-	}
-	template <typename D,typename T = D> bool sort_comp_desc(D f, D s,T (*getter)(D))
-	{
-		return getter(f) > getter(s);
-	}
-
-
 	template <typename D,typename T = D> void sort(std::vector<D>& c,bool (*comp)(D,D))
 	{
 		std::sort(c.begin(),c.end(),comp);
@@ -508,6 +490,52 @@ private:
 		c.sort(comp);
 	}
 
+
+
+
+
+
+	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>median	
+	template <typename D,typename T = D> T median(std::vector<D>& c)
+	{
+		if(c.size() == 1) return c[0];		
+
+		unsigned int div = c.size() % 2;
+
+		if(div == 0)
+		{
+			unsigned int indexB = c.size() / 2;
+			unsigned int indexE = indexB + 1;
+			T m = c[indexB] + c[indexE];
+			m /= T(2);
+			return m;
+		}
+		else
+		{
+			unsigned int index = (c.size() / 2) + 1;
+			return c[index];
+		}
+	}
+	template <typename D,typename T = D> T median(std::vector<D>& c,T (*getter)(D&))
+	{
+		if(c.size() == 1) return getter(c[0]);		
+
+		unsigned int div = c.size() % 2;
+
+		if(div == 0)
+		{
+			unsigned int indexB = c.size() / 2;
+			unsigned int indexE = indexB + 1;
+			T m = getter(c[indexB]) + getter(c[indexE]);
+			m /= T(2);
+			return m;
+		}
+		else
+		{
+			unsigned int index = (c.size() / 2) + 1;
+			return getter(c[index]);
+		}
+	}
 }
 
 #endif

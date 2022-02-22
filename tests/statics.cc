@@ -196,4 +196,12 @@ void test_sta_ops()
 	}*/
 	CU_ASSERT(std::abs(lperson2.front().tall - 1.02) < 0.00001);
 	CU_ASSERT(std::abs(lperson2.back().tall - 1.96) < 0.00001);
+	
+	double vtall_median = median(vtall_asc);
+	//std::cout << "Median de altura : " << vtall_median << "\n";
+	CU_ASSERT(std::abs(vtall_median - 1.71) < 0.00001);
+	
+	double vperson2_median = median<Person,double>(vperson2,[](Person& p)->double{return p.tall;});
+	//xstd::cout << "Median de altura : " << vperson2_median << "\n";
+	CU_ASSERT(std::abs(vperson2_median - 1.71) < 0.00001);
 }
