@@ -541,6 +541,51 @@ private:
 			return getter(c[index]);
 		}
 	}
+
+
+	template <typename D> struct mode_comp 
+	{		  
+		// Comparator function
+		bool operator()(const std::pair<D,unsigned int>& f,const std::pair<D,unsigned int>& s) const
+		{
+			return f.first < s.first;
+		}
+	};
+	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>mode
+	template <typename D,typename T = D> T mode(std::vector<D>& c)
+	{
+		std::map<D,unsigned int> list_ordered;
+		typename std::map<D,unsigned int>::iterator it;
+		T m = 0;
+		for(D d : c)
+		{
+			it = list_ordered.find(d);
+			if(it == list_ordered.end()) 
+			{
+				list_ordered.insert({d,1});
+			}
+			else
+			{
+				(*it).second++;
+			}
+		}
+		
+		/*for(const std::pair<D,unsigned int>& p : list_ordered)
+		{
+			std::cout << "(" << p.first << "," << p.second << ")\n";
+		}*/
+		//std::cout << "\n";
+		std::multimap<unsigned int,D,std::greater<D>> list_ordered2;
+		for(const std::pair<D,unsigned int>& p : list_ordered)
+		{
+			list_ordered2.insert({p.second,p.first});
+		}
+		/*for(const std::pair<unsigned int,D>& p : list_ordered2)
+		{
+			std::cout << "(" << p.first << "," << p.second << ")\n";
+		}*/
+		return (*list_ordered2.begin()).second;
+	}
 }
 
 #endif
