@@ -1,21 +1,22 @@
 #ifndef OCTETOS_MATH_STATICS_HH
 #define OCTETOS_MATH_STATICS_HH
 
-
+#include<list>
+#include<vector>
+#include<map>
 #include<algorithm>
 #if defined(__linux__)
-    
+
 #elif (defined(_WIN32) || defined(_WIN64))
-    
+
 #else
     #error "Pltaforma desconocida"
 #endif
 
-#include "core.hh"
 
 namespace oct::math
 {
-	
+
 	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>mean
 	template <typename D,template<typename> typename C,typename T = D> T mean(const C<D>& c)
 	{
@@ -53,7 +54,7 @@ namespace oct::math
 		m /= T(c.size());
 		return m;
 	}
-	
+
 
 
 
@@ -211,7 +212,7 @@ namespace oct::math
 		for(D d : c)
 		{
 			it = list_ordered.find(d);
-			if(it == list_ordered.end()) 
+			if(it == list_ordered.end())
 			{
 				list_ordered.insert({d,1});
 			}
@@ -220,7 +221,7 @@ namespace oct::math
 				(*it).second++;
 			}
 		}
-		
+
 		/*for(const std::pair<D,unsigned int>& p : list_ordered)
 		{
 			std::cout << "(" << p.first << "," << p.second << ")\n";
@@ -298,13 +299,13 @@ namespace oct::math
 		frecuency_table(T intereval,unsigned int class_counter) : by_interval(true)
 		{
 		}
-		
+
 		/**
 		*
 		*/
 		frecuency_table(unsigned int class_counter) : by_interval(false)
 		{
-			
+
 		}
 
 		void read(const C<D>& c)
@@ -312,12 +313,12 @@ namespace oct::math
 			T mn = min(c);
 			T mx = max(c);
 
-			
+
 		}
 
 	private:
 		bool by_interval;
-		
+
 	};
 }
 
