@@ -285,11 +285,11 @@ private:
 
 
 	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>mean
-	template <typename D,typename T = D> T mean(std::vector<D>& c)
+	template <typename D,typename C,typename T = D> T mean(const C& c)
 	{
 		T m = 0;
 
-		for(typename std::vector<D>::const_iterator it = c.begin(); it != c.end(); it++)
+		for(typename C::const_iterator it = c.begin(); it != c.end(); it++)
 		{
 			m += *it;
 		}
@@ -297,11 +297,11 @@ private:
 		m /= T(c.size());
 		return m;
 	}
-	template <typename D,typename T> T mean(std::vector<D>& c,T (*getter)(D&))
+	template <typename D,typename C,typename T = D> T mean(const C& c,T (*getter)(const D&))
 	{
 		T m = 0;
 
-		for(typename std::vector<D>::iterator it = c.begin(); it != c.end(); it++)
+		for(typename C::const_iterator it = c.begin(); it != c.end(); it++)
 		{
 			m += getter(*it);
 		}
@@ -309,11 +309,11 @@ private:
 		m /= T(c.size());
 		return m;
 	}
-	template <typename D,typename T> T mean(std::vector<D>& c,T (*getter)(D))
+	template <typename D,typename C,typename T = D> T mean(const C& c,T (*getter)(D))
 	{
 		T m = 0;
 
-		for(typename std::vector<D>::iterator it = c.begin(); it != c.end(); it++)
+		for(typename C::const_iterator it = c.begin(); it != c.end(); it++)
 		{
 			m += getter(*it);
 		}
@@ -321,77 +321,17 @@ private:
 		m /= T(c.size());
 		return m;
 	}
-	/*template <typename D,typename T> T mean(const std::vector<D*>& c,const T (*getter)(const D*))
-	{
-		T m = 0;
-
-		for(typename std::vector<D*>::const_iterator it = c.begin(); it != c.end(); it++)
-		{
-			m += getter(*it);
-		}
-
-		m /= T(c.size());
-		return m;
-	}*/
-	template <typename D,typename T = D> T mean(std::list<D>& c)
-	{
-		T m = 0;
-
-		for(typename std::list<D>::iterator it = c.begin(); it != c.end(); it++)
-		{
-			m += *it;
-		}
-
-		m /= T(c.size());
-		return m;
-	}
-	template <typename D,typename T> T mean(std::list<D>& c,T (*getter)(D&))
-	{
-		T m = 0;
-
-		for(typename std::list<D>::iterator it = c.begin(); it != c.end(); it++)
-		{
-			m += getter(*it);
-		}
-
-		m /= T(c.size());
-		return m;
-	}
-	template <typename D,typename T> T mean(std::list<D>& c,T (*getter)(D))
-	{
-		T m = 0;
-
-		for(typename std::list<D>::iterator it = c.begin(); it != c.end(); it++)
-		{
-			m += getter(*it);
-		}
-
-		m /= T(c.size());
-		return m;
-	}
-	/*template <typename D,typename T> T mean(const std::list<D*>& c,const T (*getter)(const D*))
-	{
-		T m = 0;
-
-		for(typename std::list<D*>::const_iterator it = c.begin(); it != c.end(); it++)
-		{
-			m += getter(*it);
-		}
-
-		m /= T(c.size());
-		return m;
-	}*/
-
+	
 
 
 
 
 	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>variation
-	template <typename D,typename T = D> T variation(std::vector<D>& c,T mean)
+	template <typename D,typename C,typename T = D> T variation(const C& c,T mean)
 	{
 		T s = 0;
 
-		for(typename std::vector<D>::iterator it = c.begin(); it != c.end(); it++)
+		for(typename C::const_iterator it = c.begin(); it != c.end(); it++)
 		{
 			s += std::pow(*it - mean,T(2));
 		}
@@ -399,11 +339,11 @@ private:
 		s /= T(c.size());
 		return s;
 	}
-	template <typename D,typename T = D> T variation(std::vector<D>& c,T mean,T (*getter)(D&))
+	template <typename D,typename C,typename T = D> T variation(C& c,T mean,T (*getter)(const D&))
 	{
 		T s = 0;
 
-		for(typename std::vector<D>::iterator it = c.begin(); it != c.end(); it++)
+		for(typename C::const_iterator it = c.begin(); it != c.end(); it++)
 		{
 			s += std::pow(getter(*it) - mean,T(2));
 		}
@@ -411,11 +351,11 @@ private:
 		s /= T(c.size());
 		return s;
 	}
-	template <typename D,typename T = D> T variation(std::vector<D>& c,T mean,T (*getter)(D))
+	template <typename D,typename C,typename T = D> T variation(C& c,T mean,T (*getter)(D))
 	{
 		T s = 0;
 
-		for(typename std::vector<D>::iterator it = c.begin(); it != c.end(); it++)
+		for(typename C::const_iterator it = c.begin(); it != c.end(); it++)
 		{
 			s += std::pow(getter(*it) - mean,T(2));
 		}
@@ -423,11 +363,11 @@ private:
 		s /= T(c.size());
 		return s;
 	}
-	template <typename D,typename T = D> T variation_sample(std::vector<D>& c,T mean)
+	template <typename D,typename C,typename T = D> T variation_sample(const C& c,T mean)
 	{
 		T s = 0;
 
-		for(typename std::vector<D>::iterator it = c.begin(); it != c.end(); it++)
+		for(typename C::const_iterator it = c.begin(); it != c.end(); it++)
 		{
 			s += std::pow(*it - mean,T(2));
 		}
@@ -435,40 +375,28 @@ private:
 		s /= T(c.size() - 1);
 		return s;
 	}
-	template <typename D,typename T = D> T variation(std::list<D>& c,T mean)
+	template <typename D,typename C,typename T = D> T variation_sample(C& c,T mean,T (*getter)(const D&))
 	{
 		T s = 0;
 
-		for(typename std::list<D>::iterator it = c.begin(); it != c.end(); it++)
-		{
-			s += std::pow(*it - mean,T(2));
-		}
-
-		s /= T(c.size());
-		return s;
-	}
-	template <typename D,typename T = D> T variation(std::list<D>& c,T mean,T (*getter)(D&))
-	{
-		T s = 0;
-
-		for(typename std::list<D>::iterator it = c.begin(); it != c.end(); it++)
+		for(typename C::const_iterator it = c.begin(); it != c.end(); it++)
 		{
 			s += std::pow(getter(*it) - mean,T(2));
 		}
 
-		s /= T(c.size());
+		s /= T(c.size() - 1);
 		return s;
 	}
-	template <typename D,typename T = D> T variation(std::list<D>& c,T mean,T (*getter)(D))
+	template <typename D,typename C,typename T = D> T variation_sample(C& c,T mean,T (*getter)(D))
 	{
 		T s = 0;
 
-		for(typename std::list<D>::iterator it = c.begin(); it != c.end(); it++)
+		for(typename C::const_iterator it = c.begin(); it != c.end(); it++)
 		{
 			s += std::pow(getter(*it) - mean,T(2));
 		}
 
-		s /= T(c.size());
+		s /= T(c.size() - 1);
 		return s;
 	}
 
@@ -501,7 +429,7 @@ private:
 
 
 	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>median
-	template <typename D,typename T = D> T median(std::vector<D>& c)
+	template <typename D,typename C,typename T = D> T median(const C& c)
 	{
 		if(c.size() == 1) return c[0];
 
@@ -521,7 +449,7 @@ private:
 			return c[index];
 		}
 	}
-	template <typename D,typename T = D> T median(std::vector<D>& c,T (*getter)(D&))
+	template <typename D,typename C,typename T = D> T median(C& c,T (*getter)(const D&))
 	{
 		if(c.size() == 1) return getter(c[0]);
 
@@ -543,16 +471,8 @@ private:
 	}
 
 
-	template <typename D> struct mode_comp 
-	{		  
-		// Comparator function
-		bool operator()(const std::pair<D,unsigned int>& f,const std::pair<D,unsigned int>& s) const
-		{
-			return f.first < s.first;
-		}
-	};
 	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>mode
-	template <typename D,typename T = D> T mode(std::vector<D>& c)
+	template <typename D,typename C,typename T = D> T mode(const C& c)
 	{
 		std::map<D,unsigned int> list_ordered;
 		typename std::map<D,unsigned int>::iterator it;
