@@ -226,4 +226,10 @@ void test_statics()
 	double vtall_max = max(vtall);
 	//std::cout << "Max Tall : " << vtall_max << "\n";
 	CU_ASSERT(std::abs(vtall_max - 1.96) < 0.00001);
+	
+	double vtall_min = min(vtall);
+	//std::cout << "Min Tall : " << vtall_min << "\n";
+	CU_ASSERT(std::abs(vtall_min - 1.02) < 0.00001);
+	
+	
 }
