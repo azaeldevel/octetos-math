@@ -16,7 +16,7 @@ struct Person
 	Person(double t): tall(t){}
 };
 
-void test_sta_ops()
+void test_statics()
 {
 	std::vector<double> vtall(20);
 	vtall[0] = 1.60;
@@ -107,11 +107,11 @@ void test_sta_ops()
 	lperson.push_back(Person(1.40));
 	CU_ASSERT(lperson.size() == 20);
 	//
-	double vtall_mean = mean<double,std::vector<double>,double>(vtall);
+	double vtall_mean = mean<double,std::vector<double>>(vtall);
 	CU_ASSERT(std::abs(vtall_mean - 1.541) < 0.00001);
 	//std::cout << "Promedio de altura : " << vtall_mean << "\n";
 	
-	double ltall_mean = mean<double,std::list<double>,double>(ltall);
+	double ltall_mean = mean<double,std::list<double>>(ltall);
 	CU_ASSERT(std::abs(ltall_mean - 1.541) < 0.00001);
 	//std::cout << "Promedio de altura : " << ltall_mean << "\n";
 	
@@ -212,9 +212,13 @@ void test_sta_ops()
 	//std::cout << "Median de altura : " << vperson2_median << "\n";
 	CU_ASSERT(std::abs(vperson2_median - 1.71) < 0.00001);
 	
-	double vtall_mode = mode<double,std::vector<double>,double>(vtall);
+	unsigned int mode_count = 0;
+	double vtall_mode = 0;
+	mode<double,std::vector<double>,double>(vtall,vtall_mode,mode_count);
 	//std::cout << "Moda de altura : " << vtall_mode << "\n";
 	CU_ASSERT(std::abs(vtall_mode - 1.13) < 0.00001);
+	CU_ASSERT(mode_count == 3);
+	//std::cout << "Modal : " << mode_count << "\n";
 	
 	const std::vector<double>& vtall_const = vtall;
 	double vtall_const_mean = mean<double,std::vector<double>,double>(vtall_const);
