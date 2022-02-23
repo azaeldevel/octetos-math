@@ -247,6 +247,20 @@ namespace oct::math
 		}*/
 		value = (*list_ordered2.begin()).second;
 	}
+
+
+	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>max
+	template <typename D,template<typename> typename C,typename T = D> T max(const C<D>& c)
+	{
+		T m = c.front();
+
+		for(typename C<D>::const_iterator it = c.begin(); it != c.end(); it++)
+		{
+			if(*it > m) m = *it;
+		}
+
+		return m;
+	}
 }
 
 #endif

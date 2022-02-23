@@ -222,4 +222,7 @@ void test_statics()
 	
 	const std::vector<double>& vtall_const = vtall;
 	double vtall_const_mean = mean<double,std::vector<double>,double>(vtall_const);
+	
+	double vtall_max = max(vtall);
+	std::cout << "Max Tall : " << vtall_max << "\n";
 }
