@@ -261,6 +261,64 @@ namespace oct::math
 
 		return m;
 	}
+
+
+
+
+
+
+	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>min
+	template <typename D,template<typename> typename C,typename T = D> T min(const C<D>& c)
+	{
+		T m = c.front();
+
+		for(typename C<D>::const_iterator it = c.begin(); it != c.end(); it++)
+		{
+			if(*it < m) m = *it;
+		}
+
+		return m;
+	}
+
+
+
+
+	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>frecuency_table
+	template <typename D,template<typename> typename C,typename T = D> struct class_data
+	{
+		T data;
+		unsigned int frecuency;
+	};
+	template <typename D,template<typename> typename C,typename T = D> class frecuency_table : protected std::list<class_data<D,C,T>>
+	{
+	public:
+		/**
+		*
+		*/
+		frecuency_table(T intereval,unsigned int class_counter) : by_interval(true)
+		{
+		}
+		
+		/**
+		*
+		*/
+		frecuency_table(unsigned int class_counter) : by_interval(false)
+		{
+			
+		}
+
+		void read(const C<D>& c)
+		{
+			T mn = min(c);
+			T mx = max(c);
+
+			
+		}
+
+	private:
+		bool by_interval;
+		
+	};
 }
 
 #endif
