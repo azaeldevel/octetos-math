@@ -107,19 +107,19 @@ void test_statics()
 	lperson.push_back(Person(1.40));
 	CU_ASSERT(lperson.size() == 20);
 	//
-	double vtall_mean = mean<double,std::vector<double>>(vtall);
+	double vtall_mean = mean(vtall);
 	CU_ASSERT(std::abs(vtall_mean - 1.541) < 0.00001);
 	//std::cout << "Promedio de altura : " << vtall_mean << "\n";
 	
-	double ltall_mean = mean<double,std::list<double>>(ltall);
+	double ltall_mean = mean(ltall);
 	CU_ASSERT(std::abs(ltall_mean - 1.541) < 0.00001);
 	//std::cout << "Promedio de altura : " << ltall_mean << "\n";
 	
-	double vperson_mean = mean<Person,std::vector<Person>,double>(vperson,[](const Person& p)->double{return p.tall;});
+	double vperson_mean = mean<Person,std::vector,double>(vperson,[](const Person& p)->double{return p.tall;});
 	CU_ASSERT(std::abs(vperson_mean - 1.541) < 0.00001);
 	//std::cout << "Promedio de altura : " << vperson_mean << "\n";
 			
-	double lperson_mean = mean<Person,std::list<Person>,double>(lperson,[](const Person& p)->double{return p.tall;});
+	double lperson_mean = mean<Person,std::list,double>(lperson,[](const Person& p)->double{return p.tall;});
 	CU_ASSERT(std::abs(lperson_mean - 1.541) < 0.00001);
 	//std::cout << "List Promedio de altura : " << lperson_mean << "\n";
 	
@@ -153,7 +153,7 @@ void test_statics()
 	vapples[2] = 3;
 	vapples[3] = 5;
 	vapples[4] = 8;	
-	double vapples_mean = mean<int,std::vector<int>,double>(vapples);
+	double vapples_mean = mean<int,std::vector,double>(vapples);
 	//std::cout << "Promio de manzanas : " << vapples_mean << "\n";
 	CU_ASSERT(std::abs(vapples_mean - 4.2) < 0.00001);
 		
@@ -163,7 +163,7 @@ void test_statics()
 	lapples.push_back(3);
 	lapples.push_back(5);
 	lapples.push_back(8);	
-	double lapples_mean = mean<int,std::list<int>,double>(lapples);
+	double lapples_mean = mean<int,std::list,double>(lapples);
 	//std::cout << "Promedio de manzanas : " << lapples_mean << "\n";
 	CU_ASSERT(std::abs(lapples_mean - 4.2) < 0.00001);
 	
@@ -221,7 +221,7 @@ void test_statics()
 	//std::cout << "Modal : " << mode_count << "\n";
 	
 	const std::vector<double>& vtall_const = vtall;
-	double vtall_const_mean = mean<double,std::vector<double>,double>(vtall_const);
+	double vtall_const_mean = mean(vtall_const);
 	
 	double vtall_max = max(vtall);
 	//std::cout << "Max Tall : " << vtall_max << "\n";

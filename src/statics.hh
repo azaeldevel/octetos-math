@@ -17,11 +17,11 @@ namespace oct::math
 {
 	
 	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>mean
-	template <typename D,typename C,typename T = D> T mean(const C& c)
+	template <typename D,template<typename> typename C,typename T = D> T mean(const C<D>& c)
 	{
 		T m = 0;
 
-		for(typename C::const_iterator it = c.begin(); it != c.end(); it++)
+		for(typename C<D>::const_iterator it = c.begin(); it != c.end(); it++)
 		{
 			m += *it;
 		}
@@ -29,11 +29,11 @@ namespace oct::math
 		m /= T(c.size());
 		return m;
 	}
-	template <typename D,typename C,typename T = D> T mean(const C& c,T (*getter)(const D&))
+	template <typename D,template<typename> typename C,typename T = D> T mean(const C<D>& c,T (*getter)(const D&))
 	{
 		T m = 0;
 
-		for(typename C::const_iterator it = c.begin(); it != c.end(); it++)
+		for(typename C<D>::const_iterator it = c.begin(); it != c.end(); it++)
 		{
 			m += getter(*it);
 		}
@@ -41,11 +41,11 @@ namespace oct::math
 		m /= T(c.size());
 		return m;
 	}
-	template <typename D,typename C,typename T = D> T mean(const C& c,T (*getter)(D))
+	template <typename D,template<typename> typename C,typename T = D> T mean(const C<D>& c,T (*getter)(D))
 	{
 		T m = 0;
 
-		for(typename C::const_iterator it = c.begin(); it != c.end(); it++)
+		for(typename C<D>::const_iterator it = c.begin(); it != c.end(); it++)
 		{
 			m += getter(*it);
 		}
