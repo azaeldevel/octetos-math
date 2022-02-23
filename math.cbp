@@ -31,7 +31,7 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="src/sta-ops.hh" />
+		<Unit filename="src/statics.hh" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>
