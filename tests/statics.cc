@@ -123,27 +123,27 @@ void test_statics()
 	CU_ASSERT(std::abs(lperson_mean - 1.541) < 0.00001);
 	//std::cout << "List Promedio de altura : " << lperson_mean << "\n";
 	
-	double vtall_var = variation<double,std::vector<double>,double>(vtall,vtall_mean);
+	double vtall_var = variation(vtall,vtall_mean);
 	CU_ASSERT(std::abs(vtall_var - 0.102259) < 0.00001);
 	//std::cout << "Variacion de altura : " << vtall_var << "\n";
 	
-	double vtall_varsample = variation_sample<double,std::vector<double>,double>(vtall,vtall_mean);
+	double vtall_varsample = variation_sample(vtall,vtall_mean);
 	CU_ASSERT(std::abs(vtall_varsample - 0.107641) < 0.00001);
 	//std::cout << "Variacion de altura : " << vtall_varsample << "\n";
 	
-	double ltall_var = variation<double,std::list<double>,double>(ltall,ltall_mean);
+	double ltall_var = variation(ltall,ltall_mean);
 	CU_ASSERT(std::abs(ltall_var - 0.102259) < 0.00001);
 	//std::cout << "Variacion de altura : " << vtall_var << "\n";
 		
-	double vperson_variation = variation<Person,std::vector<Person>,double>(vperson,vtall_mean,[](const Person& p)->double{return p.tall;});
+	double vperson_variation = variation<Person,std::vector,double>(vperson,vtall_mean,[](const Person& p)->double{return p.tall;});
 	CU_ASSERT(std::abs(vperson_variation - 0.102259) < 0.00001);
 	//std::cout << "Promedio de altura : " << vperson_variation << "\n";
 		
-	double lperson_variation = variation<Person,std::list<Person>,double>(lperson,ltall_mean,[](const Person& p)->double{return p.tall;});
+	double lperson_variation = variation<Person,std::list,double>(lperson,ltall_mean,[](const Person& p)->double{return p.tall;});
 	CU_ASSERT(std::abs(lperson_variation - 0.102259) < 0.00001);
 	//std::cout << "Promedio de altura : " << lperson_variation << "\n";
 	
-	double lperson_variation_sample = variation_sample<Person,std::list<Person>,double>(lperson,ltall_mean,[](const Person& p)->double{return p.tall;});
+	double lperson_variation_sample = variation_sample<Person,std::list,double>(lperson,ltall_mean,[](const Person& p)->double{return p.tall;});
 	CU_ASSERT(std::abs(lperson_variation_sample - 0.107641) < 0.00001);
 	//std::cout << "Promedio de altura : " << lperson_variation << "\n";
 	
@@ -204,17 +204,17 @@ void test_statics()
 	CU_ASSERT(std::abs(lperson2.front().tall - 1.02) < 0.00001);
 	CU_ASSERT(std::abs(lperson2.back().tall - 1.96) < 0.00001);
 	
-	double vtall_median = median<double,std::vector<double>,double>(vtall_asc);
+	double vtall_median = median(vtall_asc);
 	//std::cout << "Median de altura : " << vtall_median << "\n";
 	CU_ASSERT(std::abs(vtall_median - 1.71) < 0.00001);
 	
-	double vperson2_median = median<Person,std::vector<Person>,double>(vperson2,[](const Person& p)->double{return p.tall;});
+	double vperson2_median = median<Person,std::vector,double>(vperson2,[](const Person& p)->double{return p.tall;});
 	//std::cout << "Median de altura : " << vperson2_median << "\n";
 	CU_ASSERT(std::abs(vperson2_median - 1.71) < 0.00001);
 	
 	unsigned int mode_count = 0;
 	double vtall_mode = 0;
-	mode<double,std::vector<double>,double>(vtall,vtall_mode,mode_count);
+	mode(vtall,vtall_mode,mode_count);
 	//std::cout << "Moda de altura : " << vtall_mode << "\n";
 	CU_ASSERT(std::abs(vtall_mode - 1.13) < 0.00001);
 	CU_ASSERT(mode_count == 3);
@@ -224,5 +224,6 @@ void test_statics()
 	double vtall_const_mean = mean<double,std::vector<double>,double>(vtall_const);
 	
 	double vtall_max = max(vtall);
-	std::cout << "Max Tall : " << vtall_max << "\n";
+	//std::cout << "Max Tall : " << vtall_max << "\n";
+	CU_ASSERT(std::abs(vtall_max - 1.96) < 0.00001);
 }

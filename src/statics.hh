@@ -59,11 +59,11 @@ namespace oct::math
 
 
 	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>variation
-	template <typename D,typename C,typename T = D> T variation(const C& c,T mean)
+	template <typename D,template<typename> typename C,typename T = D> T variation(const C<D>& c,T mean)
 	{
 		T s = 0;
 
-		for(typename C::const_iterator it = c.begin(); it != c.end(); it++)
+		for(typename C<D>::const_iterator it = c.begin(); it != c.end(); it++)
 		{
 			s += std::pow(*it - mean,T(2));
 		}
@@ -71,11 +71,11 @@ namespace oct::math
 		s /= T(c.size());
 		return s;
 	}
-	template <typename D,typename C,typename T = D> T variation(C& c,T mean,T (*getter)(const D&))
+	template <typename D,template<typename> typename C,typename T = D> T variation(const C<D>& c,T mean,T (*getter)(const D&))
 	{
 		T s = 0;
 
-		for(typename C::const_iterator it = c.begin(); it != c.end(); it++)
+		for(typename C<D>::const_iterator it = c.begin(); it != c.end(); it++)
 		{
 			s += std::pow(getter(*it) - mean,T(2));
 		}
@@ -83,11 +83,11 @@ namespace oct::math
 		s /= T(c.size());
 		return s;
 	}
-	template <typename D,typename C,typename T = D> T variation(C& c,T mean,T (*getter)(D))
+	template <typename D,template<typename> typename C,typename T = D> T variation(const C<D>& c,T mean,T (*getter)(D))
 	{
 		T s = 0;
 
-		for(typename C::const_iterator it = c.begin(); it != c.end(); it++)
+		for(typename C<D>::const_iterator it = c.begin(); it != c.end(); it++)
 		{
 			s += std::pow(getter(*it) - mean,T(2));
 		}
@@ -95,11 +95,11 @@ namespace oct::math
 		s /= T(c.size());
 		return s;
 	}
-	template <typename D,typename C,typename T = D> T variation_sample(const C& c,T mean)
+	template <typename D,template<typename> typename C,typename T = D> T variation_sample(const C<D>& c,T mean)
 	{
 		T s = 0;
 
-		for(typename C::const_iterator it = c.begin(); it != c.end(); it++)
+		for(typename C<D>::const_iterator it = c.begin(); it != c.end(); it++)
 		{
 			s += std::pow(*it - mean,T(2));
 		}
@@ -107,11 +107,11 @@ namespace oct::math
 		s /= T(c.size() - 1);
 		return s;
 	}
-	template <typename D,typename C,typename T = D> T variation_sample(C& c,T mean,T (*getter)(const D&))
+	template <typename D,template<typename> typename C,typename T = D> T variation_sample(const C<D>& c,T mean,T (*getter)(const D&))
 	{
 		T s = 0;
 
-		for(typename C::const_iterator it = c.begin(); it != c.end(); it++)
+		for(typename C<D>::const_iterator it = c.begin(); it != c.end(); it++)
 		{
 			s += std::pow(getter(*it) - mean,T(2));
 		}
@@ -119,11 +119,11 @@ namespace oct::math
 		s /= T(c.size() - 1);
 		return s;
 	}
-	template <typename D,typename C,typename T = D> T variation_sample(C& c,T mean,T (*getter)(D))
+	template <typename D,template<typename> typename C,typename T = D> T variation_sample(C<D>& c,T mean,T (*getter)(const D&))
 	{
 		T s = 0;
 
-		for(typename C::const_iterator it = c.begin(); it != c.end(); it++)
+		for(typename C<D>::const_iterator it = c.begin(); it != c.end(); it++)
 		{
 			s += std::pow(getter(*it) - mean,T(2));
 		}
@@ -161,7 +161,7 @@ namespace oct::math
 
 
 	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>median
-	template <typename D,typename C,typename T = D> T median(const C& c)
+	template <typename D,template<typename> typename C,typename T = D> T median(const C<D>& c)
 	{
 		if(c.size() == 1) return c[0];
 
@@ -181,7 +181,7 @@ namespace oct::math
 			return c[index];
 		}
 	}
-	template <typename D,typename C,typename T = D> T median(C& c,T (*getter)(const D&))
+	template <typename D,template<typename> typename C,typename T = D> T median(const C<D>& c,T (*getter)(const D&))
 	{
 		if(c.size() == 1) return getter(c[0]);
 
@@ -204,7 +204,7 @@ namespace oct::math
 
 
 	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>mode
-	template <typename D,typename C,typename T = D> void mode(const C& c,T& value,unsigned int& modal)
+	template <typename D,template<typename> typename C,typename T = D> void mode(const C<D>& c,T& value,unsigned int& modal)
 	{
 		std::map<D,unsigned int> list_ordered;
 		typename std::map<D,unsigned int>::iterator it;
