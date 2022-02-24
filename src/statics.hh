@@ -291,7 +291,7 @@ namespace oct::math
         T middle;
 		unsigned int frecuency;
 	};
-	template <typename D,template<typename> typename C,typename T = D> class frecuency_table : public std::list<class_data<D,C,T>>
+	template <typename D,template<typename> typename C,typename T = D> class frecuency_table : private std::list<class_data<D,C,T>>
 	{
 	public:
 		/**
@@ -325,14 +325,23 @@ namespace oct::math
                 if(not data) this->push_back({d,d,1});
                 else data->frecuency++;
             }
+            this->mean = math::mean<D,C,T>(c);
 		}
 
-
+		const std::list<class_data<D,C,T>>& get_list()const
+		{
+		    return *this;
+        }
+        T get_mean()const
+        {
+		    return this->mean;
+        }
 	private:
 		bool by_interval;
 		const C<D>& container;
 		unsigned int modal;
 		T mode;
+		T mean;
 
 
         class_data<D,C,T>* find(T value)

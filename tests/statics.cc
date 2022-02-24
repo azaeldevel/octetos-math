@@ -232,9 +232,11 @@ void test_statics()
 	CU_ASSERT(std::abs(vtall_min - 1.02) < 0.00001);
 
     frecuency_table frecc(vtall);
-    /*for(auto d : frecc)
+    /*for(auto d : frecc.get_list())
     {
         std::cout << "Data : " << d.data << "," << d.frecuency << "\n";
     }*/
+    double frecc_mean = frecc.get_mean();
+	CU_ASSERT(std::abs(frecc_mean - 1.541) < 0.00001);
 
 }
