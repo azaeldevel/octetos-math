@@ -239,4 +239,9 @@ void test_statics()
     double frecc_mean = frecc.get_mean();
 	CU_ASSERT(std::abs(frecc_mean - 1.541) < 0.00001);
 
+	frecuency_table_range frecc_range(vtall,0.1);
+	for(auto d : frecc_range.get_list())
+    {
+        std::cout << d.min << "-" << d.max << " " << d.frecuency << "\n";
+    }
 }
