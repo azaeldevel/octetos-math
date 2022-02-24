@@ -231,17 +231,17 @@ void test_statics()
 	//std::cout << "Min Tall : " << vtall_min << "\n";
 	CU_ASSERT(std::abs(vtall_min - 1.02) < 0.00001);
 
-    frecuency_table frecc(vtall);
-    /*for(auto d : frecc.get_list())
+    frecuency_table_ungrouped frecc_ungrouped(vtall);
+    /*for(auto d : frecc_ungrouped.get_list())
     {
         std::cout << "Data : " << d.data << "," << d.frecuency << "\n";
     }*/
-    double frecc_mean = frecc.get_mean();
+    double frecc_mean = frecc_ungrouped.get_mean();
 	CU_ASSERT(std::abs(frecc_mean - 1.541) < 0.00001);
 
-	frecuency_table_range frecc_range(vtall,0.1);
-	for(auto d : frecc_range.get_list())
+	frecuency_table_grouped frecc_grouped(vtall,0.1,1.0);
+	/*for(auto d : frecc_grouped.get_list())
     {
         std::cout << d.min << "-" << d.max << " " << d.frecuency << "\n";
-    }
+    }*/
 }

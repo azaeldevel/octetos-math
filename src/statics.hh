@@ -285,12 +285,12 @@ namespace oct::math
 
 
 	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>frecuency_table
-	template <typename D,template<typename> typename C,typename T = D> struct class_data
+	template <typename D,template<typename> typename C,typename T = D> struct class_data_ungrouped
 	{
 		T data;
 		unsigned int frecuency;
 	};
-	template <typename D,template<typename> typename C,typename T = D> struct class_data_range
+	template <typename D,template<typename> typename C,typename T = D> struct class_data_grouped
 	{
 		T min;
 		T max;
@@ -315,15 +315,15 @@ namespace oct::math
 				
 		const C<D>& container;
 	};
-	template <typename D,template<typename> typename C,typename T = D> class frecuency_table : private std::list<class_data<D,C,T>>, public frecuency<D,C,T>
+	template <typename D,template<typename> typename C,typename T = D> class frecuency_table_ungrouped : private std::list<class_data_ungrouped<D,C,T>>, public frecuency<D,C,T>
 	{
 	public:
 		/**
 		*
 		*/
-		frecuency_table(const C<D>& c) : frecuency<D,C,T>(c)
+		frecuency_table_ungrouped(const C<D>& c) : frecuency<D,C,T>(c)
 		{
-            class_data<D,C,T>* data;
+            class_data_ungrouped<D,C,T>* data;
             for(const D& d : c)
             {
                 data = find(d);
@@ -333,16 +333,16 @@ namespace oct::math
             this->mean = math::mean<D,C,T>(c);
 		}
 
-		const std::list<class_data<D,C,T>>& get_list()const
+		const std::list<class_data_ungrouped<D,C,T>>& get_list()const
 		{
 		    return *this;
         }
 	private:
 
 
-        class_data<D,C,T>* find(T value)
+        class_data_ungrouped<D,C,T>* find(T value)
         {
-            for(class_data<D,C,T>& d : *this)
+            for(class_data_ungrouped<D,C,T>& d : *this)
             {
                 if(d.data == value) return &d;
             }
@@ -351,27 +351,26 @@ namespace oct::math
         }
 	};
 
-	template <typename D,template<typename> typename C,typename T = D> class frecuency_table_range : public std::list<class_data_range<D,C,T>>, public frecuency<D,C,T>
+	template <typename D,template<typename> typename C,typename T = D> class frecuency_table_grouped : public std::list<class_data_grouped<D,C,T>>, public frecuency<D,C,T>
 	{
 	public:
 		/**
 		*
 		*/
-		frecuency_table_range(const C<D>& c,T intereval) : frecuency<D,C,T>(c)
+		frecuency_table_grouped(const C<D>& c,T amplitude,T begin) : frecuency<D,C,T>(c)
 		{
-			T mn = std::round(min(c));
+			T mn = begin;
 			T mx = max(c);
 			T current;
-            class_data_range<D,C,T>* data;
+            class_data_grouped<D,C,T>* data;
 
 			T range = mx - mn;
-            unsigned int count_class = range / intereval;
+            unsigned int count_class = range / amplitude;
             count_class++;
-            T inter_m = intereval/ T(2);
             for(unsigned int i = 0; i < count_class; i++)
             {
-				current = T(i) * intereval + mn;
-				this->push_back({current,current + intereval,0});
+				current = T(i) * amplitude + mn;
+				this->push_back({current,current + amplitude,0});
             }
 			for(const D& d : c)
 			{
@@ -381,14 +380,14 @@ namespace oct::math
 			}
 		}
 
-		const std::list<class_data_range<D,C,T>>& get_list()const
+		const std::list<class_data_grouped<D,C,T>>& get_list()const
 		{
 		    return *this;
         }
 	private:
-		class_data_range<D,C,T>* find(T value)
+		class_data_grouped<D,C,T>* find(T value)
         {
-            for(class_data_range<D,C,T>& d : *this)
+            for(class_data_grouped<D,C,T>& d : *this)
             {
                 if(d.min >= value and value < d.max ) return &d;
             }
