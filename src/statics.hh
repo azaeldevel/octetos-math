@@ -290,36 +290,59 @@ namespace oct::math
 		T data;
 		unsigned int frecuency;
 	};
-	template <typename D,template<typename> typename C,typename T = D> class frecuency_table : protected std::list<class_data<D,C,T>>
+	template <typename D,template<typename> typename C,typename T = D> class frecuency_table : public std::list<class_data<D,C,T>>
 	{
 	public:
 		/**
 		*
 		*/
-		frecuency_table(T intereval,unsigned int class_counter) : by_interval(true)
+		frecuency_table(const C<D>& c,T intereval) : by_interval(true), container(c)
 		{
+			T mn = min(c);
+			T mx = max(c);
+
+			T range = mx - mn;
+            unsigned int count_class = T(range) / intereval;
+            count_class++;
+            T inter_m = intereval/ T(2);
+
+            for(unsigned int i = 0; i < count_class; i++)
+            {
+                push_back(T(i) + mn + inter_m);
+            }
 		}
 
 		/**
 		*
 		*/
-		frecuency_table(unsigned int class_counter) : by_interval(false)
+		frecuency_table(const C<D>& c) : container(c)
 		{
-
+            class_data<D,C,T>* data;
+            for(const D& d : c)
+            {
+                data = find(d);
+                if(not data) this->push_back({d,1});
+                else data->frecuency++;
+            }
 		}
 
-		void read(const C<D>& c)
-		{
-			T mn = min(c);
-			T mx = max(c);
-
-
-		}
 
 	private:
 		bool by_interval;
+		const C<D>& container;
 
+
+        class_data<D,C,T>* find(T value)
+        {
+            for(class_data<D,C,T>& d : *this)
+            {
+                if(d.data == value) return &d;
+            }
+
+            return NULL;
+        }
 	};
+
 }
 
 #endif
