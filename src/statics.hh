@@ -288,6 +288,7 @@ namespace oct::math
 	template <typename D,template<typename> typename C,typename T = D> struct class_data
 	{
 		T data;
+        T middle;
 		unsigned int frecuency;
 	};
 	template <typename D,template<typename> typename C,typename T = D> class frecuency_table : public std::list<class_data<D,C,T>>
@@ -321,7 +322,7 @@ namespace oct::math
             for(const D& d : c)
             {
                 data = find(d);
-                if(not data) this->push_back({d,1});
+                if(not data) this->push_back({d,d,1});
                 else data->frecuency++;
             }
 		}
@@ -330,6 +331,8 @@ namespace oct::math
 	private:
 		bool by_interval;
 		const C<D>& container;
+		unsigned int modal;
+		T mode;
 
 
         class_data<D,C,T>* find(T value)
