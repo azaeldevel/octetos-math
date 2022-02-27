@@ -2,13 +2,13 @@
 1645654981 source:c:\users\azael\documents\develop\octetos\math\tests\main.cc
 	<CUnit/Basic.h>
 
-1645667493 source:c:\users\azael\documents\develop\octetos\math\tests\statics.cc
+1645667779 source:c:\users\azael\documents\develop\octetos\math\tests\statics.cc
 	<CUnit/Basic.h>
 	<iostream>
 	<statics.hh>
 	<defines.hh>
 
-1645667645 c:\users\azael\documents\develop\octetos\math\src\statics.hh
+1645667688 c:\users\azael\documents\develop\octetos\math\src\statics.hh
 	<list>
 	<vector>
 	<map>
