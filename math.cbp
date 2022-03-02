@@ -27,11 +27,32 @@
 					<Add option="-s" />
 				</Linker>
 			</Target>
+			<Target title="tests-v0-dbg">
+				<Option output="bin/Debug/tests-v0-dbg" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="msys2_x86_64_gcc" />
+				<Compiler>
+					<Add directory="src" />
+				</Compiler>
+				<Linker>
+					<Add option="`pkg-config cunit --libs`" />
+				</Linker>
+			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="src/statics.hh" />
+		<Unit filename="src/statics.hh">
+			<Option target="Debug" />
+			<Option target="Release" />
+		</Unit>
+		<Unit filename="tests/main.cc">
+			<Option target="tests-v0-dbg" />
+		</Unit>
+		<Unit filename="tests/statics.cc">
+			<Option target="tests-v0-dbg" />
+		</Unit>
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>
