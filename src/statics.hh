@@ -285,70 +285,111 @@ namespace oct::math
 
 
 	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>frecuency_table
-	template <typename D,template<typename> typename C,typename T = D> struct class_data
+	template <typename D,template<typename> typename C,typename T = D> struct class_data_ungrouped
 	{
 		T data;
-        T middle;
 		unsigned int frecuency;
 	};
-	template <typename D,template<typename> typename C,typename T = D> class frecuency_table : private std::list<class_data<D,C,T>>
+	template <typename D,template<typename> typename C,typename T = D> struct class_data_grouped
+	{
+		T min;
+		T max;
+		unsigned int frecuency;
+	};
+	template <typename D,template<typename> typename C,typename T = D> class frecuency
+	{
+	public:
+		frecuency(const C<D>& c) : container(c)
+		{
+
+		}
+        T get_mean()const
+        {
+		    return this->mean;
+        }
+
+	protected:		
+		T mean;
+		unsigned int modal;
+		T mode;
+				
+		const C<D>& container;
+	};
+	template <typename D,template<typename> typename C,typename T = D> class frecuency_table_ungrouped : private std::list<class_data_ungrouped<D,C,T>>, public frecuency<D,C,T>
 	{
 	public:
 		/**
 		*
 		*/
-		frecuency_table(const C<D>& c,T intereval) : by_interval(true), container(c)
+		frecuency_table_ungrouped(const C<D>& c) : frecuency<D,C,T>(c)
 		{
-			T mn = min(c);
-			T mx = max(c);
-
-			T range = mx - mn;
-            unsigned int count_class = T(range) / intereval;
-            count_class++;
-            T inter_m = intereval/ T(2);
-
-            for(unsigned int i = 0; i < count_class; i++)
-            {
-                push_back(T(i) + mn + inter_m);
-            }
-		}
-
-		/**
-		*
-		*/
-		frecuency_table(const C<D>& c) : container(c)
-		{
-            class_data<D,C,T>* data;
+            class_data_ungrouped<D,C,T>* data;
             for(const D& d : c)
             {
                 data = find(d);
-                if(not data) this->push_back({d,d,1});
+                if(not data) this->push_back({d,1});
                 else data->frecuency++;
             }
             this->mean = math::mean<D,C,T>(c);
 		}
 
-		const std::list<class_data<D,C,T>>& get_list()const
+		const std::list<class_data_ungrouped<D,C,T>>& get_list()const
 		{
 		    return *this;
         }
-        T get_mean()const
-        {
-		    return this->mean;
-        }
 	private:
-		bool by_interval;
-		const C<D>& container;
-		unsigned int modal;
-		T mode;
-		T mean;
 
 
-        class_data<D,C,T>* find(T value)
+        class_data_ungrouped<D,C,T>* find(T value)
         {
-            for(class_data<D,C,T>& d : *this)
+            for(class_data_ungrouped<D,C,T>& d : *this)
             {
                 if(d.data == value) return &d;
+            }
+
+            return NULL;
+        }
+	};
+
+	template <typename D,template<typename> typename C,typename T = D> class frecuency_table_grouped : public std::list<class_data_grouped<D,C,T>>, public frecuency<D,C,T>
+	{
+	public:
+		/**
+		*
+		*/
+		frecuency_table_grouped(const C<D>& c,T amplitude,T begin) : frecuency<D,C,T>(c)
+		{
+			T mn = begin;
+			T mx = max(c);
+			T current;
+            class_data_grouped<D,C,T>* data;
+
+			T range = mx - mn;
+            unsigned int count_class = range / amplitude;
+            count_class++;
+            for(unsigned int i = 0; i < count_class; i++)
+            {
+				current = T(i) * amplitude + mn;
+				this->push_back({current,current + amplitude,0});
+            }
+			for(const D& d : c)
+			{
+				data = find(d);
+                if(data) data->frecuency++;
+				else data = NULL;
+			}
+		}
+
+		const std::list<class_data_grouped<D,C,T>>& get_list()const
+		{
+		    return *this;
+        }
+	private:
+		class_data_grouped<D,C,T>* find(T value)
+        {
+            for(class_data_grouped<D,C,T>& d : *this)
+            {
+                if(d.min >= value and value < d.max ) return &d;
             }
 
             return NULL;
