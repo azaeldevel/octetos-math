@@ -245,11 +245,11 @@ void test_statics()
         std::cout << d.min << "-" << d.max << " " << d.frecuency << "\n";
     }*/
     
-    /*double actual_mean = vtall[0];
+    double actual_mean = vtall[0];
     for(unsigned int i = 1; i < vtall.size(); i++)
     {
     	actual_mean = ((double(i) * actual_mean) + vtall[i]) / double(i + 1);
     }
     std::cout << "Promedio de altura : " << vtall_mean << "\n";
-    std::cout << "Promedio de altura actual: " << actual_mean << "\n";*/
+    std::cout << "Promedio de altura actual: " << actual_mean << "\n";
 }
