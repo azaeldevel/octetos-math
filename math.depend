@@ -1,20 +1,20 @@
 # depslib dependency file v1.0
-1645654981 source:c:\users\azael\documents\develop\octetos\math\tests\main.cc
+1645658581 source:c:\users\azael\documents\develop\octetos\math\tests\main.cc
 	<CUnit/Basic.h>
 
-1645667779 source:c:\users\azael\documents\develop\octetos\math\tests\statics.cc
+1649967573 source:c:\users\azael\documents\develop\octetos\math\tests\statics.cc
 	<CUnit/Basic.h>
 	<iostream>
 	<statics.hh>
 	<defines.hh>
 
-1645667688 c:\users\azael\documents\develop\octetos\math\src\statics.hh
+1646211231 c:\users\azael\documents\develop\octetos\math\src\statics.hh
 	<list>
 	<vector>
 	<map>
 	<algorithm>
 
-1645571244 c:\users\azael\documents\develop\octetos\math\src\defines.hh
+1645574844 c:\users\azael\documents\develop\octetos\math\src\defines.hh
 	<octetos/core/defines.hh>
 	<defines.hh>
 
