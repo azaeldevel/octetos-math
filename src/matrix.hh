@@ -41,7 +41,7 @@ public:
 	Matrix()
 	{
 	}
-
+	
 	Matrix(unsigned short lines,unsigned short columns)
 	{
 		std::vector<Row<T>>::resize(lines);
@@ -50,7 +50,6 @@ public:
 			v.resize(columns);
 		}
 	}
-
 	Matrix(unsigned short number)
 	{
 		std::vector<Row<T>>::resize(number);
@@ -59,8 +58,8 @@ public:
 			v.resize(number);
 		}
 	}
-
-	Matrix<T> operator +(const Matrix<T>& o)
+	
+	Matrix<T> operator + (const Matrix<T>& o)
 	{
 		if(columns() != o.columns()) throw octetos::core::Exception("Dimensiones de las amtrices no compatibles",__FILE__,__LINE__);
 		if(rows() != o.rows()) throw octetos::core::Exception("Dimensiones de las amtrices no compatibles",__FILE__,__LINE__);
@@ -76,7 +75,7 @@ public:
 
 		return mat;
 	}
-	Matrix<T> operator -(const Matrix<T>& o)
+	Matrix<T> operator - (const Matrix<T>& o)
 	{
 		if(columns() != o.columns()) throw octetos::core::Exception("Dimensiones de las amtrices no compatibles",__FILE__,__LINE__);
 		if(rows() != o.rows()) throw octetos::core::Exception("Dimensiones de las amtrices no compatibles",__FILE__,__LINE__);
@@ -182,13 +181,14 @@ public:
 	bool isDiagonal() const
 	{
 		if(not isSquared()) return false;
+		
 		for(unsigned short i = 0; i < Matrix<T>::size() ; i++)
 		{
 			for(unsigned short j = 0; j < Matrix<T>::at(i).size() ; j++)
 			{
 				if(i != j)
 				{
-					if(Matrix<T>::at(i).at(j) != 0)
+					if(Matrix<T>::at(i).at(j) != 0.0)
 					{
 						return false;
 					}
