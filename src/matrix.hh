@@ -171,7 +171,7 @@ public:
 		{
 			for(unsigned short j = 0; j < Matrix<T>::at(i).size() ; j++)
 			{
-				if( Matrix<T>::at(i).size() != n) return false;
+				if( Matrix<T>::at(i).size() != n ) return false;
 			}
 		}
 

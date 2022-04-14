@@ -1,271 +1,401 @@
 #ifndef OCTETOS_MATH_STATICS_HH
 #define OCTETOS_MATH_STATICS_HH
 
-#include <list>
-#include <octetos/core/Exception.hh>
+#include<list>
+#include<vector>
+#include<map>
 #include<algorithm>
+#if defined(__linux__)
 
+#elif (defined(_WIN32) || defined(_WIN64))
 
-#include "core.hh"
+#else
+    #error "Pltaforma desconocida"
+#endif
+
 
 namespace oct::math
 {
 
-typedef unsigned int categorie;
+	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>mean
+	template <typename D,template<typename> typename C,typename T = D> T mean(const C<D>& c)
+	{
+		T m = 0;
 
-template<typename T>
-class Dataset : public std::list<T>
-{
-public:
-	
-public:
-	Dataset()
-	{
-		sorted = true;
-	};
-	void add(T e)
-	{
-		std::list<T>::push_back(e);
-	};
-	
-	unsigned int counter()const
-	{
-		return std::list<T>::size();
-	}
-	T max() const
-	{
-		if(not sorted) throw octetos::core::Exception("El conjunto de datos no esta ordenado");
-		return *std::list<T>::begin();
-	}
-	T min() const
-	{
-		if(not sorted) throw octetos::core::Exception("El conjunto de datos no esta ordenado");
-		return *(--std::list<T>::end());
-	}
-	bool getSorted()const
-	{
-		return sorted;
-	}	
-
-	T range() const
-	{
-		return max()-min();
-	}	
-	categorie categories()const
-	{
-		return round(1 + (3.3 * log10(counter())));
-	}
-	unsigned int amplitudeClass()const
-	{
-		return range()/categories();
-	}
-
-	void sort()
-	{
-		std::list<T>::sort(cmpDesc);
-		sorted = true;
-	};
-
-
-	double mean() const
-	{
-		double m = 0;
-		for(T t : *this)
+		for(typename C<D>::const_iterator it = c.begin(); it != c.end(); it++)
 		{
-			m += double(t);
+			m += *it;
 		}
-		m /= double(counter());
 
+		m /= T(c.size());
 		return m;
 	}
-	T median() const
+	template <typename D,template<typename> typename C,typename T = D> T mean(const C<D>& c,T (*getter)(const D&))
 	{
-		if(not sorted) throw octetos::core::Exception("El conjunto de datos no esta ordenado");
+		T m = 0;
 
-		bool par = (counter() % 2) == 0;
-
-		if(par)
+		for(typename C<D>::const_iterator it = c.begin(); it != c.end(); it++)
 		{
-			unsigned int m = counter()/2;
-			auto it1 = std::list<T>::begin();
-			std::advance(it1,m);
-			auto it2 = std::list<T>::begin();
-			std::advance(it2,m + 1);
+			m += getter(*it);
+		}
 
-			return (*it1 + *it2)/2.0;
+		m /= T(c.size());
+		return m;
+	}
+	template <typename D,template<typename> typename C,typename T = D> T mean(const C<D>& c,T (*getter)(D))
+	{
+		T m = 0;
+
+		for(typename C<D>::const_iterator it = c.begin(); it != c.end(); it++)
+		{
+			m += getter(*it);
+		}
+
+		m /= T(c.size());
+		return m;
+	}
+
+
+
+
+
+	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>variation
+	template <typename D,template<typename> typename C,typename T = D> T variation(const C<D>& c,T mean)
+	{
+		T s = 0;
+
+		for(typename C<D>::const_iterator it = c.begin(); it != c.end(); it++)
+		{
+			s += std::pow(*it - mean,T(2));
+		}
+
+		s /= T(c.size());
+		return s;
+	}
+	template <typename D,template<typename> typename C,typename T = D> T variation(const C<D>& c,T mean,T (*getter)(const D&))
+	{
+		T s = 0;
+
+		for(typename C<D>::const_iterator it = c.begin(); it != c.end(); it++)
+		{
+			s += std::pow(getter(*it) - mean,T(2));
+		}
+
+		s /= T(c.size());
+		return s;
+	}
+	template <typename D,template<typename> typename C,typename T = D> T variation(const C<D>& c,T mean,T (*getter)(D))
+	{
+		T s = 0;
+
+		for(typename C<D>::const_iterator it = c.begin(); it != c.end(); it++)
+		{
+			s += std::pow(getter(*it) - mean,T(2));
+		}
+
+		s /= T(c.size());
+		return s;
+	}
+	template <typename D,template<typename> typename C,typename T = D> T variation_sample(const C<D>& c,T mean)
+	{
+		T s = 0;
+
+		for(typename C<D>::const_iterator it = c.begin(); it != c.end(); it++)
+		{
+			s += std::pow(*it - mean,T(2));
+		}
+
+		s /= T(c.size() - 1);
+		return s;
+	}
+	template <typename D,template<typename> typename C,typename T = D> T variation_sample(const C<D>& c,T mean,T (*getter)(const D&))
+	{
+		T s = 0;
+
+		for(typename C<D>::const_iterator it = c.begin(); it != c.end(); it++)
+		{
+			s += std::pow(getter(*it) - mean,T(2));
+		}
+
+		s /= T(c.size() - 1);
+		return s;
+	}
+	template <typename D,template<typename> typename C,typename T = D> T variation_sample(C<D>& c,T mean,T (*getter)(const D&))
+	{
+		T s = 0;
+
+		for(typename C<D>::const_iterator it = c.begin(); it != c.end(); it++)
+		{
+			s += std::pow(getter(*it) - mean,T(2));
+		}
+
+		s /= T(c.size() - 1);
+		return s;
+	}
+
+
+
+
+
+	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>sort
+	template <typename D,typename T = D> void sort(std::vector<D>& c,bool (*comp)(D,D))
+	{
+		std::sort(c.begin(),c.end(),comp);
+	}
+	template <typename D,typename T = D> void sort(std::vector<D>& c,bool (*comp)(D&,D&))
+	{
+		std::sort(c.begin(),c.end(),comp);
+	}
+
+	template <typename D,typename T = D> void sort(std::list<D>& c,bool (*comp)(D,D))
+	{
+		c.sort(comp);
+	}
+	template <typename D,typename T = D> void sort(std::list<D>& c,bool (*comp)(D&,D&))
+	{
+		c.sort(comp);
+	}
+
+
+
+
+
+
+	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>median
+	template <typename D,template<typename> typename C,typename T = D> T median(const C<D>& c)
+	{
+		if(c.size() == 1) return c[0];
+
+		unsigned int div = c.size() % 2;
+
+		if(div == 0)
+		{
+			unsigned int indexB = c.size() / 2;
+			unsigned int indexE = indexB + 1;
+			T m = c[indexB] + c[indexE];
+			m /= T(2);
+			return m;
 		}
 		else
 		{
-			auto it = std::list<T>::begin();
-			std::advance(it,(counter()+1)/2);
-			return *it;
+			unsigned int index = (c.size() / 2) + 1;
+			return c[index];
+		}
+	}
+	template <typename D,template<typename> typename C,typename T = D> T median(const C<D>& c,T (*getter)(const D&))
+	{
+		if(c.size() == 1) return getter(c[0]);
+
+		unsigned int div = c.size() % 2;
+
+		if(div == 0)
+		{
+			unsigned int indexB = c.size() / 2;
+			unsigned int indexE = indexB + 1;
+			T m = getter(c[indexB]) + getter(c[indexE]);
+			m /= T(2);
+			return m;
+		}
+		else
+		{
+			unsigned int index = (c.size() / 2) + 1;
+			return getter(c[index]);
 		}
 	}
 
-	T mode() const
+
+	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>mode
+	template <typename D,template<typename> typename C,typename T = D> void mode(const C<D>& c,T& value,unsigned int& modal)
 	{
-		struct Frec
+		std::map<D,unsigned int> list_ordered;
+		typename std::map<D,unsigned int>::iterator it;
+		for(D d : c)
 		{
-			T data;
-			unsigned int frec;
-		};
-		std::list<Frec> frecList;
-		T m = 0;
-		for(T t : *this)
-		{
-			 
-		}
-	}
-
-	double md() const
-	{
-		double d = 0, m = mean();
-
-		for(T t : *this)
-		{
-			d += std::abs(double(t) - m);
-		}
-		d /= double(counter());
-
-		return d;
-	}
-
-	double variance(bool population) const
-	{
-		double d = 0, m = mean();
-
-		for(T t : *this)
-		{
-			d += pow(double(t) - m,2.0);
-		}
-		return population ? d / double(counter()) : d / double(counter() - 1.0);
-	}
-
-	double sd() const
-	{
-		return sqrt(md());
-	}
-	
-private:
-	static bool cmpDesc(const T f, const T s)
-	{
-		return f > s;
-	}
-
-private:
-	bool sorted;
-};
-
-
-template<typename T>
-struct Frecuency
-{
-	T min;
-	T max;
-	unsigned int frec;
-	double frecr;
-	double frecp;
-	unsigned int frecaless;
-	unsigned int frecageater;
-	float frecpaless;
-	float frecpagreater;
-
-	T markClass()const
-	{
-		return (max - min) / 2;
-	}
-};
-
-template<typename T>
-class FrecuencyTable : public std::list<Frecuency<T>>
-{
-public:
-	FrecuencyTable(const Dataset<T>& dt) : data(dt)
-	{
-		categorie next = data.min();
-		//for(categorie cat = 1 ; cat <= data.categories(); cat++)
-		while(next < data.max())
-		{
-			Frecuency<T> row;
-			row.min = next;
-			row.max = next + data.amplitudeClass();
-			row.frec = 0;
-			row.frecr = 0;
-			row.frecp = 0;
-			row.frecaless = 0;
-			row.frecageater = 0;
-			for(T d : data)
+			it = list_ordered.find(d);
+			if(it == list_ordered.end())
 			{
-				if(d >= row.min and d < row.max) row.frec++;
+				list_ordered.insert({d,1});
 			}
-			row.frecr = row.frec / data.counter();
-			std::list<Frecuency<T>>::push_back(row);
-			next += data.amplitudeClass();
+			else
+			{
+				(*it).second++;
+			}
 		}
+
+		/*for(const std::pair<D,unsigned int>& p : list_ordered)
+		{
+			std::cout << "(" << p.first << "," << p.second << ")\n";
+		}*/
+		//std::cout << "\n";
+		std::multimap<unsigned int,D,std::greater<D>> list_ordered2;
+		for(const std::pair<D,unsigned int>& p : list_ordered)
+		{
+			list_ordered2.insert({p.second,p.first});
+		}
+		unsigned int m1 = (*list_ordered2.begin()).first;
+		modal = 0;
+		if(m1 == 1)
+		{
+			value = (*list_ordered2.begin()).second;
+		}
+		for(const std::pair<unsigned int,D>& p : list_ordered2)
+		{
+			if(m1 == p.first) modal++;
+		}
+		/*for(const std::pair<unsigned int,D>& p : list_ordered2)
+		{
+			std::cout << "(" << p.first << "," << p.second << ")\n";
+		}*/
+		value = (*list_ordered2.begin()).second;
+	}
+
+
+	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>max
+	template <typename D,template<typename> typename C,typename T = D> T max(const C<D>& c)
+	{
+		T m = c.front();
+
+		for(typename C<D>::const_iterator it = c.begin(); it != c.end(); it++)
+		{
+			if(*it > m) m = *it;
+		}
+
+		return m;
+	}
+
+
+
+
+
+
+	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>min
+	template <typename D,template<typename> typename C,typename T = D> T min(const C<D>& c)
+	{
+		T m = c.front();
+
+		for(typename C<D>::const_iterator it = c.begin(); it != c.end(); it++)
+		{
+			if(*it < m) m = *it;
+		}
+
+		return m;
+	}
+
+
+
+
+	//>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>frecuency_table
+	template <typename D,template<typename> typename C,typename T = D> struct class_data_ungrouped
+	{
+		T data;
+		unsigned int frecuency;
+	};
+	template <typename D,template<typename> typename C,typename T = D> struct class_data_grouped
+	{
+		T min;
+		T max;
+		unsigned int frecuency;
+	};
+	template <typename D,template<typename> typename C,typename T = D> class frecuency
+	{
+	public:
+		frecuency(const C<D>& c) : container(c)
+		{
+
+		}
+        T get_mean()const
+        {
+		    return this->mean;
+        }
+
+	protected:		
+		T mean;
+		unsigned int modal;
+		T mode;
+				
+		const C<D>& container;
+	};
+	template <typename D,template<typename> typename C,typename T = D> class frecuency_table_ungrouped : private std::list<class_data_ungrouped<D,C,T>>, public frecuency<D,C,T>
+	{
+	public:
+		/**
+		*
+		*/
+		frecuency_table_ungrouped(const C<D>& c) : frecuency<D,C,T>(c)
+		{
+            class_data_ungrouped<D,C,T>* data;
+            for(const D& d : c)
+            {
+                data = find(d);
+                if(not data) this->push_back({d,1});
+                else data->frecuency++;
+            }
+            this->mean = math::mean<D,C,T>(c);
+		}
+
+		const std::list<class_data_ungrouped<D,C,T>>& get_list()const
+		{
+		    return *this;
+        }
+	private:
+
+
+        class_data_ungrouped<D,C,T>* find(T value)
+        {
+            for(class_data_ungrouped<D,C,T>& d : *this)
+            {
+                if(d.data == value) return &d;
+            }
+
+            return NULL;
+        }
 	};
 
-	void frecr()
+	template <typename D,template<typename> typename C,typename T = D> class frecuency_table_grouped : public std::list<class_data_grouped<D,C,T>>, public frecuency<D,C,T>
 	{
-		for(Frecuency<T>& row : *this)
+	public:
+		/**
+		*
+		*/
+		frecuency_table_grouped(const C<D>& c,T amplitude,T begin) : frecuency<D,C,T>(c)
 		{
-			row.frecr = double(row.frec) / double(data.counter());
-		}
-	}
-	void frecp()
-	{
-		for(Frecuency<T>& row : *this)
-		{
-			row.frecp = (100.0 * double(row.frec)) / double(data.counter());
-		}
-	}
-	void frecaless()
-	{
-		unsigned int f = 0;
-		for(Frecuency<T>& row : *this)
-		{
-			f += row.frec;
-			row.frecaless = f;
-		}
-	}
-	
-	void frecageater()
-	{
-		unsigned int f = 0;
-		std::for_each(std::list<Frecuency<T>>::rbegin(),std::list<Frecuency<T>>::rend(),
-           	[&f](Frecuency<T>& row)
+			T mn = begin;
+			T mx = max(c);
+			T current;
+            class_data_grouped<D,C,T>* data;
+
+			T range = mx - mn;
+            unsigned int count_class = range / amplitude;
+            count_class++;
+            for(unsigned int i = 0; i < count_class; i++)
+            {
+				current = T(i) * amplitude + mn;
+				this->push_back({current,current + amplitude,0});
+            }
+			for(const D& d : c)
 			{
-				f += row.frec;
-				row.frecageater = f;
+				data = find(d);
+                if(data) data->frecuency++;
+				else data = NULL;
 			}
-		);		
-	}
-
-	void frecpaless()
-	{
-		double f = 0;
-		for(Frecuency<T>& row : *this)
-		{
-			f += row.frecp;
-			row.frecpaless = f;
 		}
-	}	
-	void frecpageater()
-	{
-		double f = 0;
-		std::for_each(std::list<Frecuency<T>>::rbegin(),std::list<Frecuency<T>>::rend(),
-           	[&f](Frecuency<T>& row)
-			{
-				f += row.frecp;
-				row.frecpagreater = f;
-			}
-		);		
-	}
 
+		const std::list<class_data_grouped<D,C,T>>& get_list()const
+		{
+		    return *this;
+        }
+	private:
+		class_data_grouped<D,C,T>* find(T value)
+        {
+            for(class_data_grouped<D,C,T>& d : *this)
+            {
+                if(d.min >= value and value < d.max ) return &d;
+            }
 
-	
-private:
-	const Dataset<T>& data;
-};
+            return NULL;
+        }
+	};
+
 }
 
 #endif
